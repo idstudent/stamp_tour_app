@@ -10,7 +10,11 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import android.location.Location
 import android.widget.Button
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -20,12 +24,19 @@ class MainActivity : AppCompatActivity() {
     private val targetLatitude = 37.2735894
     private val targetLongitude = 127.0147916
 
+    private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        lifecycleScope.launch {
+            locationTourListViewModel.getLocationTourList(targetLongitude, targetLatitude, 25)
+                .collect {
+                    Log.e("ljy", "결과 $it")
+                }
+        }
         val checkButton = findViewById<Button>(R.id.btnCheck)
         checkButton.setOnClickListener {
             if (checkLocationPermission()) {
