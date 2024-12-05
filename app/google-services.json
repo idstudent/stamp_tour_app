@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "84295424976",
+    "project_id": "stamptourapp-436e1",
+    "storage_bucket": "stamptourapp-436e1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84295424976:android:a64cbe259a46741d4cf7d5",
+        "android_client_info": {
+          "package_name": "com.ljystamp.stamp_tour_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaHdKyQkDxbUkWYQl3yISGeF8KZE-Nof4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

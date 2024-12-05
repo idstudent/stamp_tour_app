@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -65,4 +66,10 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("com.github.skydoves:sandwich:2.0.5")
     implementation("com.github.skydoves:sandwich-retrofit:2.0.5")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    // Firebase Authentication (로그인/회원가입에 필요)
+    implementation("com.google.firebase:firebase-auth-ktx")
+    // Firebase Firestore (데이터 저장에 필요)
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }
