@@ -1,8 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Stamp_tour_app" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="bottomNavigationStyle">@style/CustomBottomNavigationView</item>
+        <item name="android:statusBarColor">#000000</item>
+    </style>
+
+    <style name="TextViewStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="CustomBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.BottomNav</item>
+    </style>
+
+    <style name="ThemeOverlay.BottomNav" parent="">
+        <item name="colorSecondaryContainer">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Stamp_tour_app" parent="Base.Theme.Stamp_tour_app" />
