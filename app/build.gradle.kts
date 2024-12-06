@@ -74,4 +74,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     // Firebase Firestore (데이터 저장에 필요)
     implementation("com.google.firebase:firebase-firestore-ktx")
+
+    implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
 }

@@ -17,7 +17,7 @@ interface ApiService {
         @Query("MobileOS") os: String = "json",
         @Query("MobileApp") mobileOs: String = "AND",
         @Query("_type") type: String = "json",
-        @Query("arrange") arrange: String = "A",
+        @Query("arrange") arrange: String = "Q",
         @Query("mapX") longitude: Double,
         @Query("mapY") latitude: Double,
         @Query("radius") radiusInt: Int = 10000,

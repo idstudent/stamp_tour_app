@@ -78,7 +78,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 //
 //                        if (distanceInMeters <= 10) {
 //                            Toast.makeText(this@MainActivity,
-//                                "성공 위도: ${location.latitude}, 경도: ${location.longitude} (${String.format("%.2f", distanceInMeters)}m)",
+//                                "성공 위도: ${location.latitude}, 경도: ${location.lon gitude} (${String.format("%.2f", distanceInMeters)}m)",
 //                                Toast.LENGTH_SHORT).show()
 //                            Log.d("Location", "위도: ${location.latitude}, 경도: ${location.longitude} 스탬프 찍기 성공 - 거리: ${distanceInMeters}m")
 //                        } else {
