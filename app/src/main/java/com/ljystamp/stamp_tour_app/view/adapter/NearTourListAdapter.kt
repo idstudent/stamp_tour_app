@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
+import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
-class NearTourListAdapter : ListAdapter<TourMapper, NearTourListViewHolder>(
+class NearTourListAdapter(
+    private val viewModel: LocationTourListViewModel  // ViewModel 주입
+) : ListAdapter<TourMapper, NearTourListViewHolder>(
     object: DiffUtil.ItemCallback<TourMapper>() {
         override fun areItemsTheSame(oldItem: TourMapper, newItem: TourMapper): Boolean {
             return oldItem == newItem
@@ -20,17 +23,14 @@ class NearTourListAdapter : ListAdapter<TourMapper, NearTourListViewHolder>(
         }
     }
 ) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearTourListViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearTourListViewHolder {
         return NearTourListViewHolder(
-            ItemNearTourBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemNearTourBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            viewModel
         )
     }
 
     override fun onBindViewHolder(holder: NearTourListViewHolder, position: Int) {
-
-        val item = getItem(position)
-
-        holder.onBind(item)
+        holder.onBind(getItem(position))
     }
 }

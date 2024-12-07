@@ -1,35 +1,59 @@
 package com.ljystamp.stamp_tour_app.view.adapter
 
-import android.util.Log
+import android.content.Intent
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
+import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.view.LoginActivity
+import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class NearTourListViewHolder(
-    private val binding : ItemNearTourBinding
-) : RecyclerView.ViewHolder(binding.root){
+    private val binding: ItemNearTourBinding,
+    private val viewModel: LocationTourListViewModel  // ViewModel 주입 필요
+) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.run {
-//            root.setOnSingleClickListener {
-//                item?.let {
-//                    val intent = Intent(binding.root.context, BookDetailActivity::class.java)
-//                    intent.putExtra("isbn", it.isbn)
-//                    if(it.categoryId == "200") {
-//                        intent.putExtra("searchType", "foreign")
-//                    }
-//                    this.root.context.startActivity(intent)
-//                }
-//            }
+            btnAdd.setOnSingleClickListener { view ->
+                // ListAdapter에서는 getItem(position)으로 현재 아이템을 가져올 수 있음
+                val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
+                    (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
+                        (adapter as? NearTourListAdapter)?.currentList?.get(position)
+                    }
+                }
+
+                currentItem?.let { item ->
+                    viewModel.checkIfLocationSaved(item.contentid) { isSaved ->
+                        if (isSaved) {
+                            btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
+                        } else {
+                            btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_ff8c00)
+                            viewModel.saveTourLocation(item) { success, message ->
+                                Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
+                                if (success) {
+                                    btnAdd.isEnabled = false
+                                    btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
+                                }else {
+                                    val intent = Intent(binding.root.context, LoginActivity::class.java)
+                                    binding.root.context.startActivity(intent)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
-    fun onBind(item : TourMapper) {
-        Log.e("ljy", "아이템뭐냐 $item")
+    fun onBind(item: TourMapper) {
         binding.run {
             Glide.with(binding.root.context)
                 .load(item.firstimage)
@@ -38,6 +62,16 @@ class NearTourListViewHolder(
 
             tvPlace.text = item.title
             tvAddr.text = item.addr1
+
+
+            viewModel.checkIfLocationSaved(item.contentid) { isSaved ->
+                btnAdd.isEnabled = !isSaved
+                btnAdd.background = if (isSaved) {
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
+                } else {
+                    ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_ff8c00)
+                }
+            }
         }
     }
 }

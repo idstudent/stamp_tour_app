@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
@@ -27,39 +28,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
-    private var hasLocationPermission = false
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
-    private val nearTourListAdapter = NearTourListAdapter()
+    private lateinit var nearTourListAdapter: NearTourListAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        binding.run {
-            rvNearTourList.layoutManager = GridLayoutManager(activity, 2)
-            rvNearTourList.adapter = nearTourListAdapter
+        if (savedInstanceState == null) {
+            nearTourListAdapter = NearTourListAdapter(locationTourListViewModel)
+
+            binding.run {
+                rvNearTourList.layoutManager = LinearLayoutManager(activity)
+                rvNearTourList.adapter = nearTourListAdapter
+            }
+            checkLocationPermission()
         }
 
-        checkLocationPermission()
+        return view
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (hasLocationPermission) {
-            getCurrentLocation()
-        }
-    }
 
     private fun checkLocationPermission() {
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
-                    hasLocationPermission = true
                     getCurrentLocation()
                 }
 
                 override fun onPermissionDenied(deniedPermissions: List<String>) {
-                    hasLocationPermission = false
                     Toast.makeText(
                         requireContext(),
                         "위치 권한이 거부되었습니다.",
