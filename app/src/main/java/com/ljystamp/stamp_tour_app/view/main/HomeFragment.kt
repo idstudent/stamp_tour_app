@@ -11,17 +11,21 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
 import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
+import com.ljystamp.stamp_tour_app.view.adapter.SavedLocationsAdapter
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+// HomeFragment.kt
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
@@ -30,6 +34,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     private lateinit var nearTourListAdapter: NearTourListAdapter
+    private lateinit var savedLocationsAdapter: SavedLocationsAdapter
+    private var isLocationPermissionGranted = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,27 +45,63 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         if (savedInstanceState == null) {
-            nearTourListAdapter = NearTourListAdapter(locationTourListViewModel)
-
-            binding.run {
-                rvNearTourList.layoutManager = LinearLayoutManager(activity)
-                rvNearTourList.adapter = nearTourListAdapter
-            }
+            setupAdapters()
+            observeSavedLocations()
             checkLocationPermission()
         }
 
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isLocationPermissionGranted) {
+            getCurrentLocation()
+        }
+    }
+
+    private fun setupAdapters() {
+        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel)
+        savedLocationsAdapter = SavedLocationsAdapter()
+
+        binding.run {
+            rvNearTourList.layoutManager = LinearLayoutManager(activity)
+            rvNearTourList.adapter = nearTourListAdapter
+
+            rvStamp.apply {
+                adapter = savedLocationsAdapter
+                orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                offscreenPageLimit = 1
+            }
+        }
+    }
+
+    private fun observeSavedLocations() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            locationTourListViewModel.savedLocations.collect { locations ->
+                savedLocationsAdapter.submitList(locations.take(5))
+
+                if (locations.isNotEmpty()) {
+                    binding.rvStamp.visibility = View.VISIBLE
+                    binding.clNullTodayStamp.visibility = View.INVISIBLE
+                } else {
+                    binding.rvStamp.visibility = View.INVISIBLE
+                    binding.clNullTodayStamp.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
 
     private fun checkLocationPermission() {
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
+                    isLocationPermissionGranted = true
                     getCurrentLocation()
                 }
 
                 override fun onPermissionDenied(deniedPermissions: List<String>) {
+                    isLocationPermissionGranted = false
                     Toast.makeText(
                         requireContext(),
                         "위치 권한이 거부되었습니다.",
@@ -80,8 +122,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.let {
-                        val latitude = it.latitude   // 위도
-                        val longitude = it.longitude // 경도
+                        val latitude = it.latitude
+                        val longitude = it.longitude
 
                         Log.e("ljy", "위도: $latitude, 경도: $longitude")
 
@@ -90,20 +132,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                 longitude,
                                 latitude,
                                 12
-                            )
-                                .collect { tourList ->
-                                    if(tourList.isNotEmpty()) {
-                                        binding.rvNearTourList.visibility = View.VISIBLE
-                                        binding.clNullNearPlace.visibility = View.GONE
-                                        nearTourListAdapter.submitList(tourList.take(4))
-                                    }else {
-                                        binding.rvNearTourList.visibility = View.GONE
-                                        binding.clNullNearPlace.visibility = View.VISIBLE
-                                    }
-
+                            ).collect { tourList ->
+                                if(tourList.isNotEmpty()) {
+                                    binding.rvNearTourList.visibility = View.VISIBLE
+                                    binding.clNullNearPlace.visibility = View.GONE
+                                    nearTourListAdapter.submitList(tourList.take(4))
+                                } else {
+                                    binding.rvNearTourList.visibility = View.GONE
+                                    binding.clNullNearPlace.visibility = View.VISIBLE
                                 }
+                            }
                         }
-                    }?: run {
+                    } ?: run {
                         Toast.makeText(
                             requireContext(),
                             "위치 정보를 가져올 수 없습니다.",

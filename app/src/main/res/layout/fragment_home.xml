@@ -25,7 +25,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/noto_extra_bold"
-                android:text="오늘의 스탬프"
+                android:text="진행 중인 스탬프"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,9 +45,10 @@
                 android:id="@+id/cl_null_today_stamp"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:visibility="invisible"
                 android:background="@drawable/radius_12_2a2a2a"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +93,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:visibility="invisible"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stamp_title" />

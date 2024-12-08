@@ -17,13 +17,12 @@ import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class NearTourListViewHolder(
     private val binding: ItemNearTourBinding,
-    private val viewModel: LocationTourListViewModel  // ViewModel 주입 필요
+    private val viewModel: LocationTourListViewModel
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.run {
             btnAdd.setOnSingleClickListener { view ->
-                // ListAdapter에서는 getItem(position)으로 현재 아이템을 가져올 수 있음
                 val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
                     (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
                         (adapter as? NearTourListAdapter)?.currentList?.get(position)
