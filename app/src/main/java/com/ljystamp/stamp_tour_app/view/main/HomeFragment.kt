@@ -99,6 +99,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 if (locations.isNotEmpty()) {
                     binding.rvStamp.visibility = View.VISIBLE
                     binding.clNullTodayStamp.visibility = View.INVISIBLE
+                    binding.wormDotsIndicator.attachTo(binding.rvStamp)
                 } else {
                     binding.rvStamp.visibility = View.INVISIBLE
                     binding.clNullTodayStamp.visibility = View.VISIBLE

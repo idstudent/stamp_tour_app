@@ -77,4 +77,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
 
     implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
+
+    implementation("com.tbuonomo:dotsindicator:5.1.0")
 }

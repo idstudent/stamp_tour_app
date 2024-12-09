@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
-// LocationTourListViewModel.kt
-// LocationTourListViewModel.kt
 @HiltViewModel
 class LocationTourListViewModel @Inject constructor(
     private val locationTourListRepository: LocationTourListRepository
