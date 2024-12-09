@@ -29,7 +29,6 @@ import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-// HomeFragment.kt
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
@@ -54,7 +53,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             observeSavedLocations()
             checkLocationPermission()
         }
-
         return view
     }
 
@@ -70,6 +68,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
     override fun onResume() {
         super.onResume()
+
         if (isLocationPermissionGranted) {
             getCurrentLocation()
         }
@@ -99,10 +98,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 if (locations.isNotEmpty()) {
                     binding.rvStamp.visibility = View.VISIBLE
                     binding.clNullTodayStamp.visibility = View.INVISIBLE
+                    binding.wormDotsIndicator.visibility = View.VISIBLE
                     binding.wormDotsIndicator.attachTo(binding.rvStamp)
                 } else {
                     binding.rvStamp.visibility = View.INVISIBLE
                     binding.clNullTodayStamp.visibility = View.VISIBLE
+                    binding.wormDotsIndicator.visibility = View.GONE
                 }
             }
         }

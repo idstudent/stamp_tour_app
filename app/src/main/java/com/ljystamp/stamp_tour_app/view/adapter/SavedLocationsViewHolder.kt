@@ -22,7 +22,7 @@ class SavedLocationsViewHolder(
 
             tvTitle.text = item.title
             tvAddr.text = item.address
-            if(item.isStamped) {
+            if(item.isVisited) {
                 btnComplete.isEnabled = false
                 btnComplete.background = ContextCompat.getDrawable(root.context, R.drawable.radius_12_2a2a2a)
             }else {

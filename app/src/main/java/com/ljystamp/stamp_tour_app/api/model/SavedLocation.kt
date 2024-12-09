@@ -7,6 +7,6 @@ data class SavedLocation(
     val image: String = "",
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
-    val isStamped: Boolean = false,
+    val isVisited: Boolean = false,
     val savedAt: com.google.firebase.Timestamp? = null
 )

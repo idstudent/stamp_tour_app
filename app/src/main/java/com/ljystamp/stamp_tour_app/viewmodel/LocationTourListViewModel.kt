@@ -1,6 +1,8 @@
 package com.ljystamp.stamp_tour_app.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -9,6 +11,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.repository.LocationTourListRepository
+import com.ljystamp.stamp_tour_app.util.SaveResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +32,6 @@ class LocationTourListViewModel @Inject constructor(
     private var snapshotListener: ListenerRegistration? = null
 
     init {
-        // 먼저 로그인 상태 체크
         auth.currentUser?.let {
             startObservingSavedLocations()
         }
@@ -57,7 +59,7 @@ class LocationTourListViewModel @Inject constructor(
                             image = document.getString("image") ?: "",
                             latitude = (document.get("latitude") as? Number)?.toDouble() ?: 0.0,
                             longitude = (document.get("longitude") as? Number)?.toDouble() ?: 0.0,
-                            isStamped = document.getBoolean("isStamped") ?: false,
+                            isVisited = document.getBoolean("isVisited") ?: false,
                             savedAt = document.getTimestamp("savedAt")
                         )
                     } ?: emptyList()
@@ -74,43 +76,57 @@ class LocationTourListViewModel @Inject constructor(
             .catch { it.printStackTrace() }
     }
 
-    fun saveTourLocation(tour: TourMapper, onComplete: (Boolean, String?) -> Unit) {
+    fun saveTourLocation(tour: TourMapper, onComplete: (SaveResult) -> Unit) {
         val userId = auth.currentUser?.uid ?: run {
-            onComplete(false, "로그인이 필요합니다")
+            onComplete(SaveResult.LoginRequired("로그인이 필요해요"))
             return
         }
 
-        val savedLocation = hashMapOf(
-            "userId" to userId,
-            "contentId" to tour.contentid,
-            "title" to tour.title,
-            "address" to tour.addr1,
-            "image" to tour.firstimage,
-            "latitude" to tour.mapy,
-            "longitude" to tour.mapx,
-            "isStamped" to false,
-            "savedAt" to FieldValue.serverTimestamp()
-        )
-
+        // 현재 저장된 장소 수 확인
         db.collection("saved_locations")
-            .document("${userId}_${tour.contentid}")
-            .set(savedLocation)
-            .addOnSuccessListener {
-                onComplete(true, "장소가 저장되었습니다")
-                _savedLocations.value = _savedLocations.value + SavedLocation(
-                    contentId = tour.contentid,
-                    title = tour.title,
-                    address = tour.addr1,
-                    image = tour.firstimage,
-                    latitude = tour.mapy,
-                    longitude = tour.mapx,
-                    isStamped = false,
-                    savedAt = null
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.size() >= 30) {
+                    onComplete(SaveResult.MaxLimitReached("최대 30개까지 저장 가능해요"))
+                    return@addOnSuccessListener
+                }
+
+                val savedLocation = hashMapOf(
+                    "userId" to userId,
+                    "contentId" to tour.contentid,
+                    "title" to tour.title,
+                    "address" to tour.addr1,
+                    "image" to tour.firstimage,
+                    "latitude" to tour.mapy,
+                    "longitude" to tour.mapx,
+                    "isStamped" to false,
+                    "savedAt" to FieldValue.serverTimestamp()
                 )
+
+                db.collection("saved_locations")
+                    .document("${userId}_${tour.contentid}")
+                    .set(savedLocation)
+                    .addOnSuccessListener {
+                        onComplete(SaveResult.Success("장소가 저장 되었어요"))
+                        _savedLocations.value = _savedLocations.value + SavedLocation(
+                            contentId = tour.contentid,
+                            title = tour.title,
+                            address = tour.addr1,
+                            image = tour.firstimage,
+                            latitude = tour.mapy,
+                            longitude = tour.mapx,
+                            isVisited = false,
+                            savedAt = null
+                        )
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firebase", "Error saving location", e)
+                        onComplete(SaveResult.Failure("저장에 실패했어요"))
+                    }
             }
-            .addOnFailureListener { e ->
-                Log.e("Firebase", "Error saving location", e)
-                onComplete(false, "저장에 실패했습니다: ${e.message}")
+            .addOnFailureListener {
+                onComplete(SaveResult.Failure("오류가 발생했어요"))
             }
     }
 
@@ -133,6 +149,7 @@ class LocationTourListViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+
         snapshotListener?.remove()
     }
 }

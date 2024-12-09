@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
+import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.LoginActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
@@ -35,14 +36,24 @@ class NearTourListViewHolder(
                             btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
                         } else {
                             btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_ff8c00)
-                            viewModel.saveTourLocation(item) { success, message ->
-                                Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
-                                if (success) {
-                                    btnAdd.isEnabled = false
-                                    btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
-                                }else {
-                                    val intent = Intent(binding.root.context, LoginActivity::class.java)
-                                    binding.root.context.startActivity(intent)
+                            viewModel.saveTourLocation(item) { result ->
+                                when(result) {
+                                    is SaveResult.Success -> {
+                                        btnAdd.isEnabled = false
+                                        btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
+                                        Toast.makeText(view.context, result.message, Toast.LENGTH_SHORT).show()
+                                    }
+                                    is SaveResult.Failure -> {
+                                        Toast.makeText(view.context, result.message, Toast.LENGTH_SHORT).show()
+                                    }
+                                    is SaveResult.MaxLimitReached -> {
+                                        Toast.makeText(view.context, result.message, Toast.LENGTH_SHORT).show()
+                                    }
+                                    is SaveResult.LoginRequired -> {
+                                        Toast.makeText(view.context, result.message, Toast.LENGTH_SHORT).show()
+                                        val intent = Intent(binding.root.context, LoginActivity::class.java)
+                                        binding.root.context.startActivity(intent)
+                                    }
                                 }
                             }
                         }

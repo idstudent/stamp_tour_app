@@ -10,7 +10,7 @@ import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class NearTourListAdapter(
-    private val viewModel: LocationTourListViewModel  // ViewModel 주입
+    private val viewModel: LocationTourListViewModel
 ) : ListAdapter<TourMapper, NearTourListViewHolder>(
     object: DiffUtil.ItemCallback<TourMapper>() {
         override fun areItemsTheSame(oldItem: TourMapper, newItem: TourMapper): Boolean {
