@@ -1,6 +1,7 @@
 package com.ljystamp.stamp_tour_app.view.main
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,26 +9,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
-import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
-import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.ljystamp.stamp_tour_app.R
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
+import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.view.BaseFragment
+import com.ljystamp.stamp_tour_app.view.LoginActivity
 import com.ljystamp.stamp_tour_app.view.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
 import com.ljystamp.stamp_tour_app.view.adapter.SavedLocationsAdapter
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -36,10 +38,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
-    private lateinit var nearTourListAdapter: NearTourListAdapter
+
+    private val nearTourListAdapter by lazy {
+        NearTourListAdapter(
+            locationTourListViewModel,
+            ::handleLoginRequest
+        )
+    }
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
     private var isLocationPermissionGranted = false
-    private var nearPlaceList = ArrayList<TourMapper>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +82,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupAdapters() {
-        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel)
         savedLocationsAdapter = SavedLocationsAdapter()
 
         binding.run {
@@ -160,7 +166,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                         }else {
                                             tvNearPlaceMore.visibility = View.GONE
                                         }
-                                        nearPlaceList.addAll(tourList)
+
                                         nearTourListAdapter.submitList(tourList.take(4))
                                     } else {
                                         rvNearTourList.visibility = View.GONE
@@ -193,7 +199,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             ).show()
         }
     }
+    private fun handleLoginRequest() {
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        activityResultLauncher.launch(intent)
+    }
 
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            locationTourListViewModel.startObservingSavedLocations()
+            getCurrentLocation()
+        }
+    }
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?

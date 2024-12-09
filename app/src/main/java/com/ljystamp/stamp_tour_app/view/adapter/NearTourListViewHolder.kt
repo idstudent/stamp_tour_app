@@ -18,7 +18,8 @@ import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class NearTourListViewHolder(
     private val binding: ItemNearTourBinding,
-    private val viewModel: LocationTourListViewModel
+    private val viewModel: LocationTourListViewModel,
+    private val onLoginRequired: (() -> Unit)? = null
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
@@ -51,8 +52,7 @@ class NearTourListViewHolder(
                                     }
                                     is SaveResult.LoginRequired -> {
                                         Toast.makeText(view.context, result.message, Toast.LENGTH_SHORT).show()
-                                        val intent = Intent(binding.root.context, LoginActivity::class.java)
-                                        binding.root.context.startActivity(intent)
+                                        onLoginRequired?.let { it() }
                                     }
                                 }
                             }

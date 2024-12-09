@@ -37,7 +37,7 @@ class LocationTourListViewModel @Inject constructor(
         }
     }
 
-    private fun startObservingSavedLocations() {
+    fun startObservingSavedLocations() {
         val userId = auth.currentUser?.uid ?: return
 
         snapshotListener?.remove()
