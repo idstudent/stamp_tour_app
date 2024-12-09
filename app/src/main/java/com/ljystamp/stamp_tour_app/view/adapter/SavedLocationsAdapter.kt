@@ -15,7 +15,7 @@ import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ItemTodayStampBinding
 
-class SavedLocationsAdapter: ListAdapter<SavedLocation, SavedLocationsAdapter.ViewHolder>(
+class SavedLocationsAdapter: ListAdapter<SavedLocation, SavedLocationsViewHolder>(
     object: DiffUtil.ItemCallback<SavedLocation>() {
         override fun areItemsTheSame(oldItem: SavedLocation, newItem: SavedLocation): Boolean {
             return oldItem == newItem
@@ -27,37 +27,14 @@ class SavedLocationsAdapter: ListAdapter<SavedLocation, SavedLocationsAdapter.Vi
         }
     }
 ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedLocationsViewHolder {
         val binding = ItemTodayStampBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ViewHolder(binding)
+        return SavedLocationsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SavedLocationsViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    class ViewHolder(
-        private val binding: ItemTodayStampBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SavedLocation) {
-            binding.run {
-                Glide.with(root.context)
-                    .load(item.image)
-                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(12)))
-                    .into(ivPlace)
-                    
-                tvTitle.text = item.title
-                tvAddr.text = item.address
-                if(item.isStamped) {
-                    btnComplete.isEnabled = false
-                    btnComplete.background = ContextCompat.getDrawable(root.context, R.drawable.radius_12_2a2a2a)
-                }else {
-                    btnComplete.isEnabled = true
-                    btnComplete.background = ContextCompat.getDrawable(root.context, R.drawable.radius_12_ff8c00)
-                }
-            }
-        }
     }
 }

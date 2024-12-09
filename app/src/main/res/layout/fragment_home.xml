@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_today_stamp_more"
+                android:id="@+id/tv_near_place_more"
                 style="@style/FontSize14White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -276,7 +276,7 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_food" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_my_near_place_more"
+                android:id="@+id/tv_my_place_more"
                 style="@style/FontSize14White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

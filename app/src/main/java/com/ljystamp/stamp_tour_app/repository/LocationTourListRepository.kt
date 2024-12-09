@@ -15,12 +15,13 @@ import kotlinx.coroutines.flow.flow
 class LocationTourListRepository(
     private val apiService: ApiService
 ) {
-    fun getLocationTourList(longitude: Double, latitude: Double, contentTypeId: Int): Flow<List<TourMapper>> {
+    fun getLocationTourList(longitude: Double, latitude: Double, pageNo: Int, contentTypeId: Int): Flow<List<TourMapper>> {
         val tourList = ArrayList<TourMapper>()
         return flow {
            apiService.getLocationTourList(
                longitude = longitude,
                latitude = latitude,
+               pageNo = pageNo,
                contentTypeId = contentTypeId
            ).onSuccess {
                tourList.addAll(this.body.toTourMapperList())

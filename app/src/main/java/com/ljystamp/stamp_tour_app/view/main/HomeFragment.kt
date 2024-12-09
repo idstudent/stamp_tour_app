@@ -1,6 +1,7 @@
 package com.ljystamp.stamp_tour_app.view.main
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,9 @@ import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.ljystamp.stamp_tour_app.R
+import com.ljystamp.stamp_tour_app.api.model.TourMapper
+import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.view.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
 import com.ljystamp.stamp_tour_app.view.adapter.SavedLocationsAdapter
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
@@ -36,6 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var nearTourListAdapter: NearTourListAdapter
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
     private var isLocationPermissionGranted = false
+    private var nearPlaceList = ArrayList<TourMapper>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +58,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.run {
+            tvNearPlaceMore.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
         if (isLocationPermissionGranted) {
@@ -131,15 +146,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             locationTourListViewModel.getLocationTourList(
                                 longitude,
                                 latitude,
+                                1,
                                 12
                             ).collect { tourList ->
-                                if(tourList.isNotEmpty()) {
-                                    binding.rvNearTourList.visibility = View.VISIBLE
-                                    binding.clNullNearPlace.visibility = View.GONE
-                                    nearTourListAdapter.submitList(tourList.take(4))
-                                } else {
-                                    binding.rvNearTourList.visibility = View.GONE
-                                    binding.clNullNearPlace.visibility = View.VISIBLE
+                                binding.run {
+                                    if(tourList.isNotEmpty()) {
+                                        rvNearTourList.visibility = View.VISIBLE
+                                        clNullNearPlace.visibility = View.GONE
+                                        if(tourList.size > 4) {
+                                            tvNearPlaceMore.visibility = View.VISIBLE
+                                        }else {
+                                            tvNearPlaceMore.visibility = View.GONE
+                                        }
+                                        nearPlaceList.addAll(tourList)
+                                        nearTourListAdapter.submitList(tourList.take(4))
+                                    } else {
+                                        rvNearTourList.visibility = View.GONE
+                                        clNullNearPlace.visibility = View.VISIBLE
+                                        tvNearPlaceMore.visibility = View.GONE
+                                    }
                                 }
                             }
                         }

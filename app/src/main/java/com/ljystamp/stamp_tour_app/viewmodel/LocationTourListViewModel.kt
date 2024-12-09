@@ -71,8 +71,8 @@ class LocationTourListViewModel @Inject constructor(
             }
     }
 
-    fun getLocationTourList(longitude: Double, latitude: Double, contentTypeId: Int): Flow<List<TourMapper>> {
-        return locationTourListRepository.getLocationTourList(longitude, latitude, contentTypeId)
+    fun getLocationTourList(longitude: Double, latitude: Double, pageNo: Int, contentTypeId: Int): Flow<List<TourMapper>> {
+        return locationTourListRepository.getLocationTourList(longitude, latitude, pageNo, contentTypeId)
             .catch { it.printStackTrace() }
     }
 

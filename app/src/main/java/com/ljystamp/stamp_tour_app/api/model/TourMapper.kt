@@ -1,5 +1,9 @@
 package com.ljystamp.stamp_tour_app.api.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class TourMapper(
     val numOfRows: Int,
     val pageNo: Int,
@@ -26,7 +30,7 @@ data class TourMapper(
     val sigungucode: String,
     val tel: String,
     val title: String
-)
+) : Parcelable
 
 fun TourismResponse.toTourMapperList(): List<TourMapper> {
     return this.response.body.let { body ->
