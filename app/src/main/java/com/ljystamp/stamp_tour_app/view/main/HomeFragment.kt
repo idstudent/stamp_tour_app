@@ -207,6 +207,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             locationTourListViewModel.startObservingSavedLocations()
+            nearTourListAdapter.notifyDataSetChanged()
             getCurrentLocation()
         }
     }
