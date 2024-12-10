@@ -27,7 +27,8 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
 
             lifecycleScope.launch {
                 locationTourListViewModel.savedLocations.collect { locations ->
-                    myTourListAdapter?.submitList(locations)
+                    val notVisitedLocations = locations.filter { !it.isVisited }
+                    myTourListAdapter?.submitList(notVisitedLocations)
                 }
             }
         }

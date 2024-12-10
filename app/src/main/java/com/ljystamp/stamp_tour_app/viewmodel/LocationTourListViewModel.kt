@@ -147,6 +147,33 @@ class LocationTourListViewModel @Inject constructor(
             }
     }
 
+    fun updateVisitStatus(contentId: Int, onComplete: (Boolean, String?) -> Unit) {
+        val userId = auth.currentUser?.uid ?: run {
+            onComplete(false, "로그인이 필요합니다")
+            return
+        }
+
+        db.collection("saved_locations")
+            .document("${userId}_${contentId}")
+            .update("isVisited", true,
+                "visitedAt", FieldValue.serverTimestamp())
+            .addOnSuccessListener {
+                // 로컬 상태도 업데이트
+                val updatedLocations = _savedLocations.value.map { location ->
+                    if (location.contentId == contentId) {
+                        location.copy(isVisited = true)
+                    } else {
+                        location
+                    }
+                }
+                _savedLocations.value = updatedLocations
+                onComplete(true, "스탬프를 찍었어요!")
+            }
+            .addOnFailureListener { e ->
+                onComplete(false, "스탬프 찍기에 실패했어요")
+            }
+    }
+
     override fun onCleared() {
         super.onCleared()
 
