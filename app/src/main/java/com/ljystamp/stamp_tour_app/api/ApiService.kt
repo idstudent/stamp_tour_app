@@ -1,5 +1,6 @@
 package com.ljystamp.stamp_tour_app.api
 
+import com.ljystamp.stamp_tour_app.api.model.TourDetailResponse
 import com.ljystamp.stamp_tour_app.api.model.TourismResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
@@ -8,21 +9,33 @@ import retrofit2.http.Query
 interface ApiService {
     companion object {
         val BASE_URL = "https://apis.data.go.kr/B551011/KorService1/"
+        val API_KEY = "qsfXiCfrr3NiyDSpe22tTnxtkMG3SPGz/j25Hxc5YHq9BvUpDPeT225KSHs6+VaaAxrMZnkNpYgVJ2g9BLfNsA=="
     }
 
     @GET("locationBasedList1")
     suspend fun getLocationTourList(
         @Query("numOfRows") pageResultCount: Int = 20,
         @Query("pageNo") pageNo: Int = 1,
-        @Query("MobileOS") os: String = "json",
-        @Query("MobileApp") mobileOs: String = "AND",
+        @Query("MobileOS") os: String = "AND",
+        @Query("MobileApp") mobileOs: String = "TEST",
         @Query("_type") type: String = "json",
         @Query("arrange") arrange: String = "Q",
         @Query("mapX") longitude: Double,
         @Query("mapY") latitude: Double,
         @Query("radius") radiusInt: Int = 10000,
         @Query("contentTypeId") contentTypeId: Int,
-        @Query("serviceKey") serviceKey: String = "qsfXiCfrr3NiyDSpe22tTnxtkMG3SPGz/j25Hxc5YHq9BvUpDPeT225KSHs6+VaaAxrMZnkNpYgVJ2g9BLfNsA=="
-    ) : ApiResponse<TourismResponse>
+        @Query("serviceKey") serviceKey: String = API_KEY
+    ): ApiResponse<TourismResponse>
 
+    @GET("detailIntro1")
+    suspend fun getTourDetail(
+        @Query("MobileOS") os: String = "AND",
+        @Query("MobileApp") mobileOs: String = "TEST",
+        @Query("_type") type: String = "json",
+        @Query("contentId") contentId: Int,
+        @Query("contentTypeId") contentTypeId: Int,
+        @Query("numOfRows") pageResultCount: Int = 20,
+        @Query("pageNo") pageNo: Int = 1,
+        @Query("serviceKey") serviceKey: String = API_KEY
+    ): ApiResponse<TourDetailResponse>
 }

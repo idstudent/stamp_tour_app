@@ -16,13 +16,24 @@ import com.ljystamp.stamp_tour_app.view.MyTourDetailActivity
 class SavedLocationsViewHolder(
     private val binding: ItemTodayStampBinding
 ) : RecyclerView.ViewHolder(binding.root) {
+    private var item: SavedLocation? = null
+
     init {
         binding.root.setOnSingleClickListener {
-            val intent = Intent(binding.root.context, MyTourDetailActivity::class.java)
-            binding.root.context.startActivity(intent)
+            item?.let {
+                val intent = Intent(binding.root.context, MyTourDetailActivity::class.java)
+                intent.putExtra("title", it.title)
+                intent.putExtra("addr", it.address)
+                intent.putExtra("url", it.image)
+                intent.putExtra("contentId", it.contentId)
+                intent.putExtra("contentTypeId", it.contentTypeId)
+                binding.root.context.startActivity(intent)
+            }
         }
     }
     fun bind(item: SavedLocation) {
+        this.item = item
+
         binding.run {
             Glide.with(root.context)
                 .load(item.image)

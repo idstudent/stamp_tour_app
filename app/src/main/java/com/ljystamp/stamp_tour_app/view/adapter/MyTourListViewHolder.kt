@@ -19,12 +19,20 @@ class MyTourListViewHolder(
     private val binding: ItemMyTourBinding,
     private val viewModel: LocationTourListViewModel
 ) : RecyclerView.ViewHolder(binding.root) {
+    private var item: SavedLocation? = null
 
     init {
         binding.run {
             binding.root.setOnSingleClickListener {
-                val intent = Intent(binding.root.context, MyTourDetailActivity::class.java)
-                binding.root.context.startActivity(intent)
+                item?.let {
+                    val intent = Intent(binding.root.context, MyTourDetailActivity::class.java)
+                    intent.putExtra("title", it.title)
+                    intent.putExtra("addr", it.address)
+                    intent.putExtra("url", it.image)
+                    intent.putExtra("contentId", it.contentId)
+                    intent.putExtra("contentTypeId", it.contentTypeId)
+                    binding.root.context.startActivity(intent)
+                }
             }
             btnComplete.setOnSingleClickListener {
                 val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
@@ -51,6 +59,8 @@ class MyTourListViewHolder(
     }
 
     fun onBind(item: SavedLocation) {
+        this.item = item
+
         binding.run {
             Glide.with(binding.root.context)
                 .load(item.image)

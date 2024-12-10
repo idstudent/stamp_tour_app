@@ -8,7 +8,6 @@ data class TourMapper(
     val numOfRows: Int,
     val pageNo: Int,
     val totalCount: Int,
-
     val addr1: String,
     val addr2: String,
     val areacode: String,

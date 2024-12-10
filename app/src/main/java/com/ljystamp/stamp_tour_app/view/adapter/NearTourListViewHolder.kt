@@ -9,10 +9,12 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ljystamp.stamp_tour_app.R
+import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
 import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.view.MyTourDetailActivity
 import com.ljystamp.stamp_tour_app.view.TourDetailActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
@@ -21,12 +23,19 @@ class NearTourListViewHolder(
     private val viewModel: LocationTourListViewModel,
     private val onLoginRequired: (() -> Unit)? = null
 ) : RecyclerView.ViewHolder(binding.root) {
-
+    private var item: TourMapper? = null
     init {
         binding.run {
             binding.root.setOnSingleClickListener {
-                val intent = Intent(binding.root.context, TourDetailActivity::class.java)
-                binding.root.context.startActivity(intent)
+                item?.let {
+                    val intent = Intent(binding.root.context, TourDetailActivity::class.java)
+                    intent.putExtra("title", it.title)
+                    intent.putExtra("addr", it.addr1)
+                    intent.putExtra("url", it.firstimage)
+                    intent.putExtra("contentId", it.contentid)
+                    intent.putExtra("contentTypeId", it.contenttypeid)
+                    binding.root.context.startActivity(intent)
+                }
             }
 
             btnAdd.setOnSingleClickListener { view ->
@@ -69,6 +78,8 @@ class NearTourListViewHolder(
     }
 
     fun onBind(item: TourMapper) {
+        this.item = item
+
         binding.run {
             Glide.with(binding.root.context)
                 .load(item.firstimage)

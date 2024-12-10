@@ -54,6 +54,7 @@ class LocationTourListViewModel @Inject constructor(
                     val locations = snapshot?.documents?.mapNotNull { document ->
                         SavedLocation(
                             contentId = (document.get("contentId") as? Number)?.toInt() ?: 0,
+                            contentTypeId = (document.get("contentTypeId") as? Number)?.toInt() ?: 0,
                             title = document.getString("title") ?: "",
                             address = document.getString("address") ?: "",
                             image = document.getString("image") ?: "",
@@ -95,6 +96,7 @@ class LocationTourListViewModel @Inject constructor(
                 val savedLocation = hashMapOf(
                     "userId" to userId,
                     "contentId" to tour.contentid,
+                    "contentTypeId" to tour.contenttypeid,
                     "title" to tour.title,
                     "address" to tour.addr1,
                     "image" to tour.firstimage,
@@ -111,6 +113,7 @@ class LocationTourListViewModel @Inject constructor(
                         onComplete(SaveResult.Success("장소가 저장 되었어요"))
                         _savedLocations.value = _savedLocations.value + SavedLocation(
                             contentId = tour.contentid,
+                            contentTypeId = tour.contenttypeid,
                             title = tour.title,
                             address = tour.addr1,
                             image = tour.firstimage,
