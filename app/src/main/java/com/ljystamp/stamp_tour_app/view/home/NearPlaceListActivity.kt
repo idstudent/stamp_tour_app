@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.view
+package com.ljystamp.stamp_tour_app.view.home
 
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +10,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ActivityNearPlaceListBinding
+import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint

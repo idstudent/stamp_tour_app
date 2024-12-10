@@ -18,14 +18,14 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.ljystamp.stamp_tour_app.view.LoginActivity
-import com.ljystamp.stamp_tour_app.view.NearPlaceListActivity
+import com.ljystamp.stamp_tour_app.view.home.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
 import com.ljystamp.stamp_tour_app.view.adapter.SavedLocationsAdapter
+import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -69,6 +69,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.run {
             tvNearPlaceMore.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                startActivity(intent)
+            }
+
+            tvMyPlaceMore.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), MyTourListActivity::class.java)
                 startActivity(intent)
             }
         }
