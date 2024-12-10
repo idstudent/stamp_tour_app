@@ -28,6 +28,7 @@ import com.ljystamp.stamp_tour_app.view.adapter.SavedLocationsAdapter
 import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
@@ -38,6 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
+    private var locationJob: Job? = null
 
     private val nearTourListAdapter by lazy {
         NearTourListAdapter(
@@ -78,12 +80,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
-
         if (isLocationPermissionGranted) {
             getCurrentLocation()
         }
+    }
+
+    override fun onDestroyView() {
+        locationJob?.cancel()
+        super.onDestroyView()
     }
 
     private fun setupAdapters() {
@@ -104,17 +111,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun observeSavedLocations() {
         viewLifecycleOwner.lifecycleScope.launch {
             locationTourListViewModel.savedLocations.collect { locations ->
-                savedLocationsAdapter.submitList(locations.take(5))
+                binding.run {
+                    savedLocationsAdapter.submitList(locations.take(5))
 
-                if (locations.isNotEmpty()) {
-                    binding.rvStamp.visibility = View.VISIBLE
-                    binding.clNullTodayStamp.visibility = View.INVISIBLE
-                    binding.wormDotsIndicator.visibility = View.VISIBLE
-                    binding.wormDotsIndicator.attachTo(binding.rvStamp)
-                } else {
-                    binding.rvStamp.visibility = View.INVISIBLE
-                    binding.clNullTodayStamp.visibility = View.VISIBLE
-                    binding.wormDotsIndicator.visibility = View.GONE
+                    if (locations.isNotEmpty()) {
+                        rvStamp.visibility = View.VISIBLE
+                        clNullTodayStamp.visibility = View.INVISIBLE
+                        wormDotsIndicator.visibility = View.VISIBLE
+                        wormDotsIndicator.attachTo(rvStamp)
+                    } else {
+                        rvStamp.visibility = View.INVISIBLE
+                        clNullTodayStamp.visibility = View.VISIBLE
+                        wormDotsIndicator.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -146,6 +155,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getCurrentLocation() {
+        locationJob?.cancel()
+
         try {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
@@ -155,7 +166,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                         Log.e("ljy", "위도: $latitude, 경도: $longitude")
 
-                        lifecycleScope.launch {
+                        locationJob = viewLifecycleOwner.lifecycleScope.launch {
                             locationTourListViewModel.getLocationTourList(
                                 longitude,
                                 latitude,
@@ -168,10 +179,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                         clNullNearPlace.visibility = View.GONE
                                         if(tourList.size > 4) {
                                             tvNearPlaceMore.visibility = View.VISIBLE
-                                        }else {
+                                        } else {
                                             tvNearPlaceMore.visibility = View.GONE
                                         }
-
                                         nearTourListAdapter.submitList(tourList.take(4))
                                     } else {
                                         rvNearTourList.visibility = View.GONE
@@ -204,6 +214,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             ).show()
         }
     }
+
     private fun handleLoginRequest() {
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         activityResultLauncher.launch(intent)
@@ -216,6 +227,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             getCurrentLocation()
         }
     }
+
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
