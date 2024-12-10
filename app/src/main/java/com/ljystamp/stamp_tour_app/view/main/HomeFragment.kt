@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -89,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupAdapters() {
-        savedLocationsAdapter = SavedLocationsAdapter()
+        savedLocationsAdapter = SavedLocationsAdapter(locationTourListViewModel)
 
         binding.run {
             rvNearTourList.layoutManager = LinearLayoutManager(activity)
@@ -108,14 +109,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 locationTourListViewModel.savedLocations.collect { locations ->
                     binding.run {
-                        savedLocationsAdapter.submitList(locations.take(5))
+                        val notVisitedLocations = locations.filter { !it.isVisited }
+                        savedLocationsAdapter.submitList(notVisitedLocations.take(5))
 
-                        if (locations.isNotEmpty()) {
+                        if (notVisitedLocations.isNotEmpty()) {
                             rvStamp.visibility = View.VISIBLE
                             clNullTodayStamp.visibility = View.INVISIBLE
                             wormDotsIndicator.visibility = View.VISIBLE
                             wormDotsIndicator.attachTo(rvStamp)
                         } else {
+                            tvMyPlaceMore.isVisible = notVisitedLocations.size >= 5
+
                             rvStamp.visibility = View.INVISIBLE
                             clNullTodayStamp.visibility = View.VISIBLE
                             wormDotsIndicator.visibility = View.GONE

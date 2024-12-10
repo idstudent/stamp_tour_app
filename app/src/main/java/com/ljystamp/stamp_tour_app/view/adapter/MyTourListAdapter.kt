@@ -10,7 +10,7 @@ import com.ljystamp.stamp_tour_app.databinding.ItemMyTourBinding
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class MyTourListAdapter(
-    private val viewModel: LocationTourListViewModel,
+    private val viewModel: LocationTourListViewModel
 ) : ListAdapter<SavedLocation, MyTourListViewHolder>(
     object: DiffUtil.ItemCallback<SavedLocation>() {
         override fun areItemsTheSame(oldItem: SavedLocation, newItem: SavedLocation): Boolean {

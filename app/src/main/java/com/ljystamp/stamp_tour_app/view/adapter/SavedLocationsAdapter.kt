@@ -14,8 +14,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ItemTodayStampBinding
+import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
-class SavedLocationsAdapter: ListAdapter<SavedLocation, SavedLocationsViewHolder>(
+class SavedLocationsAdapter(
+    private val viewModel: LocationTourListViewModel
+): ListAdapter<SavedLocation, SavedLocationsViewHolder>(
     object: DiffUtil.ItemCallback<SavedLocation>() {
         override fun areItemsTheSame(oldItem: SavedLocation, newItem: SavedLocation): Boolean {
             return oldItem == newItem
@@ -31,7 +34,7 @@ class SavedLocationsAdapter: ListAdapter<SavedLocation, SavedLocationsViewHolder
         val binding = ItemTodayStampBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SavedLocationsViewHolder(binding)
+        return SavedLocationsViewHolder(binding,viewModel)
     }
 
     override fun onBindViewHolder(holder: SavedLocationsViewHolder, position: Int) {
