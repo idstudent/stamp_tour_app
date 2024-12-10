@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.view
+package com.ljystamp.stamp_tour_app.view.user
 
 import android.os.Bundle
 import android.util.Patterns
@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.ljystamp.stamp_tour_app.databinding.ActivitySignUpBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.viewmodel.SignUpViewModel
 
 

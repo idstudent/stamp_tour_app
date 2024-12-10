@@ -2,7 +2,9 @@ package com.ljystamp.stamp_tour_app.view.home
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyTourListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity
@@ -26,9 +28,11 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
             rvMyTour.adapter = myTourListAdapter
 
             lifecycleScope.launch {
-                locationTourListViewModel.savedLocations.collect { locations ->
-                    val notVisitedLocations = locations.filter { !it.isVisited }
-                    myTourListAdapter?.submitList(notVisitedLocations)
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    locationTourListViewModel.savedLocations.collect { locations ->
+                        val notVisitedLocations = locations.filter { !it.isVisited }
+                        myTourListAdapter?.submitList(notVisitedLocations)
+                    }
                 }
             }
         }

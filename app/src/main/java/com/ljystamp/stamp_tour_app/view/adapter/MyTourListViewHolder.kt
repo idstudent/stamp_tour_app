@@ -1,5 +1,6 @@
 package com.ljystamp.stamp_tour_app.view.adapter
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ItemMyTourBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.LoginActivity
+import com.ljystamp.stamp_tour_app.view.MyTourDetailActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class MyTourListViewHolder(
@@ -21,6 +22,10 @@ class MyTourListViewHolder(
 
     init {
         binding.run {
+            binding.root.setOnSingleClickListener {
+                val intent = Intent(binding.root.context, MyTourDetailActivity::class.java)
+                binding.root.context.startActivity(intent)
+            }
             btnComplete.setOnSingleClickListener {
                 val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
                     (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->

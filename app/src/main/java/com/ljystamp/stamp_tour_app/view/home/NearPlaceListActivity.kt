@@ -3,7 +3,9 @@ package com.ljystamp.stamp_tour_app.view.home
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -70,25 +72,26 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
                         val longitude = it.longitude
 
                         lifecycleScope.launch {
-                            try {
-                                locationTourListViewModel.getLocationTourList(
-                                    longitude,
-                                    latitude,
-                                    page,
-                                    12
-                                ).collect { newTourList ->
-                                    if (page == 1) {
-                                        currentTourList.clear()
+                            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                try {
+                                    locationTourListViewModel.getLocationTourList(
+                                        longitude,
+                                        latitude,
+                                        page,
+                                        12
+                                    ).collect { newTourList ->
+                                        if (page == 1) {
+                                            currentTourList.clear()
+                                        }
+                                        if (newTourList.isEmpty()) {
+                                            return@collect
+                                        }
+                                        currentTourList.addAll(newTourList)
+                                        nearTourListAdapter.submitList(currentTourList.toList())
                                     }
-                                    if (newTourList.isEmpty()) {
-                                        // 더 이상 데이터가 없음
-                                        return@collect
-                                    }
-                                    currentTourList.addAll(newTourList)
-                                    nearTourListAdapter.submitList(currentTourList.toList())
+                                } finally {
+                                    isLoading = false
                                 }
-                            } finally {
-                                isLoading = false
                             }
                         }
                     } ?: run {

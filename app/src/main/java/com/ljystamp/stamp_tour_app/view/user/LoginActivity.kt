@@ -1,12 +1,11 @@
-package com.ljystamp.stamp_tour_app.view
+package com.ljystamp.stamp_tour_app.view.user
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.databinding.ActivityLoginBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LoginViewModel
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>() {

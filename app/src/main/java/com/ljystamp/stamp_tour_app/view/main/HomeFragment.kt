@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -21,14 +23,13 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
-import com.ljystamp.stamp_tour_app.view.LoginActivity
+import com.ljystamp.stamp_tour_app.view.user.LoginActivity
 import com.ljystamp.stamp_tour_app.view.home.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
 import com.ljystamp.stamp_tour_app.view.adapter.SavedLocationsAdapter
 import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
@@ -39,7 +40,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
-    private var locationJob: Job? = null
 
     private val nearTourListAdapter by lazy {
         NearTourListAdapter(
@@ -88,11 +88,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    override fun onDestroyView() {
-        locationJob?.cancel()
-        super.onDestroyView()
-    }
-
     private fun setupAdapters() {
         savedLocationsAdapter = SavedLocationsAdapter()
 
@@ -110,19 +105,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun observeSavedLocations() {
         viewLifecycleOwner.lifecycleScope.launch {
-            locationTourListViewModel.savedLocations.collect { locations ->
-                binding.run {
-                    savedLocationsAdapter.submitList(locations.take(5))
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                locationTourListViewModel.savedLocations.collect { locations ->
+                    binding.run {
+                        savedLocationsAdapter.submitList(locations.take(5))
 
-                    if (locations.isNotEmpty()) {
-                        rvStamp.visibility = View.VISIBLE
-                        clNullTodayStamp.visibility = View.INVISIBLE
-                        wormDotsIndicator.visibility = View.VISIBLE
-                        wormDotsIndicator.attachTo(rvStamp)
-                    } else {
-                        rvStamp.visibility = View.INVISIBLE
-                        clNullTodayStamp.visibility = View.VISIBLE
-                        wormDotsIndicator.visibility = View.GONE
+                        if (locations.isNotEmpty()) {
+                            rvStamp.visibility = View.VISIBLE
+                            clNullTodayStamp.visibility = View.INVISIBLE
+                            wormDotsIndicator.visibility = View.VISIBLE
+                            wormDotsIndicator.attachTo(rvStamp)
+                        } else {
+                            rvStamp.visibility = View.INVISIBLE
+                            clNullTodayStamp.visibility = View.VISIBLE
+                            wormDotsIndicator.visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -155,8 +152,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getCurrentLocation() {
-        locationJob?.cancel()
-
         try {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
@@ -165,8 +160,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         val longitude = it.longitude
 
                         Log.e("ljy", "위도: $latitude, 경도: $longitude")
+                        viewLifecycleOwner.lifecycleScope.launch {
 
-                        locationJob = viewLifecycleOwner.lifecycleScope.launch {
                             locationTourListViewModel.getLocationTourList(
                                 longitude,
                                 latitude,

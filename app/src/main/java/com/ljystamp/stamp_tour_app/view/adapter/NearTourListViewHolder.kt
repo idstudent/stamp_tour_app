@@ -13,7 +13,7 @@ import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
 import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.LoginActivity
+import com.ljystamp.stamp_tour_app.view.TourDetailActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class NearTourListViewHolder(
@@ -24,6 +24,11 @@ class NearTourListViewHolder(
 
     init {
         binding.run {
+            binding.root.setOnSingleClickListener {
+                val intent = Intent(binding.root.context, TourDetailActivity::class.java)
+                binding.root.context.startActivity(intent)
+            }
+
             btnAdd.setOnSingleClickListener { view ->
                 val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
                     (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
