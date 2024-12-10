@@ -1,7 +1,10 @@
 package com.ljystamp.stamp_tour_app.view.home
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +17,7 @@ import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ActivityNearPlaceListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
+import com.ljystamp.stamp_tour_app.view.user.LoginActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,7 +37,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel)
+        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel, ::handleLoginRequest)
 
         search()
 
@@ -108,7 +112,18 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
             Toast.makeText(this, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun handleLoginRequest() {
+        val intent = Intent(this, LoginActivity::class.java)
+        activityResultLauncher.launch(intent)
+    }
 
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            locationTourListViewModel.startObservingSavedLocations()
+            nearTourListAdapter.notifyDataSetChanged()
+            search()
+        }
+    }
     override fun getViewBinding(): ActivityNearPlaceListBinding {
         return ActivityNearPlaceListBinding.inflate(layoutInflater)
     }
