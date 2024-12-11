@@ -29,11 +29,7 @@ class NearTourListViewHolder(
             binding.root.setOnSingleClickListener {
                 item?.let {
                     val intent = Intent(binding.root.context, TourDetailActivity::class.java)
-                    intent.putExtra("title", it.title)
-                    intent.putExtra("addr", it.addr1)
-                    intent.putExtra("url", it.firstimage)
-                    intent.putExtra("contentId", it.contentid)
-                    intent.putExtra("contentTypeId", it.contenttypeid)
+                    intent.putExtra("info",  item)
                     binding.root.context.startActivity(intent)
                 }
             }

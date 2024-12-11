@@ -25,7 +25,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>() {
 
             loginViewModel.signIn(email, password) { success, message ->
                 if (success) {
-                    setResult(RESULT_OK)
                     finish()
                 } else {
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

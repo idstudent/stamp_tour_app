@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.databinding.FragmentHomeBinding
@@ -41,6 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
+    private val auth = FirebaseAuth.getInstance()
 
     private val nearTourListAdapter by lazy {
         NearTourListAdapter(
@@ -86,6 +88,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onResume()
         if (isLocationPermissionGranted) {
             getCurrentLocation()
+        }
+
+        val userId = auth.currentUser?.uid
+        userId?.let {
+            locationTourListViewModel.startObservingSavedLocations()
+            nearTourListAdapter.notifyDataSetChanged()
         }
     }
 
@@ -216,15 +224,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun handleLoginRequest() {
         val intent = Intent(requireActivity(), LoginActivity::class.java)
-        activityResultLauncher.launch(intent)
-    }
-
-    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            locationTourListViewModel.startObservingSavedLocations()
-            nearTourListAdapter.notifyDataSetChanged()
-            getCurrentLocation()
-        }
+        startActivity(intent)
     }
 
     override fun inflateBinding(
