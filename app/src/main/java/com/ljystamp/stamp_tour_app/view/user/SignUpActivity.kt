@@ -7,11 +7,11 @@ import androidx.activity.viewModels
 import com.ljystamp.stamp_tour_app.databinding.ActivitySignUpBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseActivity
-import com.ljystamp.stamp_tour_app.viewmodel.SignUpViewModel
+import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
 
 
 class SignUpActivity: BaseActivity<ActivitySignUpBinding>() {
-    private val signUpViewModel: SignUpViewModel by viewModels()
+    private val signUpViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

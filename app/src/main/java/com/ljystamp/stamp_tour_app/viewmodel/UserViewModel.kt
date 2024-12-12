@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SignUpViewModel : ViewModel() {
+class UserViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
@@ -36,7 +36,16 @@ class SignUpViewModel : ViewModel() {
                 onComplete(false, "회원가입 중 오류가 발생했습니다: ${e.message}")
             }
     }
+    fun logout(onComplete: (Boolean) -> Unit) {
+        try {
+            auth.signOut()
 
+            onComplete(true)
+        } catch (e: Exception) {
+            Log.e("ljy", "Logout failed", e)
+            onComplete(false)
+        }
+    }
     private fun createAccount(email: String, password: String, nickname: String, onComplete: (Boolean, String?) -> Unit) {
         Log.e("SignUpViewModel", "Creating account for email: $email")
 

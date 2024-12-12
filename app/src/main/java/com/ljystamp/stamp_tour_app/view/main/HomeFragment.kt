@@ -147,7 +147,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                         if (notVisitedLocations.isNotEmpty()) {
                             tvMyPlaceMore.isVisible = locations.size >= 5
-                            
+
                             rvStamp.visibility = View.VISIBLE
                             clNullTodayStamp.visibility = View.INVISIBLE
                             wormDotsIndicator.visibility = View.VISIBLE
