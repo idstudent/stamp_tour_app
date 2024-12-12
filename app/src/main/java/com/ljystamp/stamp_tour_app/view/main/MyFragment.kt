@@ -19,15 +19,16 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnLogout.setOnSingleClickListener {
-            userViewModel.logout { success ->
-                if(success) {
-                    Toast.makeText(requireActivity(), "로그아웃 성공", Toast.LENGTH_SHORT).show()
-                }else {
-                    Toast.makeText(requireActivity(), "로그아웃 실패", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        binding.activityProgress.progress = 10
+//        binding.btnLogout.setOnSingleClickListener {
+//            userViewModel.logout { success ->
+//                if(success) {
+//                    Toast.makeText(requireActivity(), "로그아웃 성공", Toast.LENGTH_SHORT).show()
+//                }else {
+//                    Toast.makeText(requireActivity(), "로그아웃 실패", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
     }
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyBinding {
