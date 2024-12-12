@@ -34,6 +34,8 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     private val currentTourList = mutableListOf<TourMapper>()
     private var isLoading = false
 
+    private var contentTypeId: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,6 +69,9 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     private fun search() {
         if (isLoading) return
 
+        val intent = intent
+        contentTypeId = intent.getIntExtra("typeId", -1)
+
         isLoading = true
         try {
             fusedLocationClient.lastLocation
@@ -78,20 +83,32 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
                         lifecycleScope.launch {
                             repeatOnLifecycle(Lifecycle.State.STARTED) {
                                 try {
-                                    locationTourListViewModel.getLocationTourList(
-                                        longitude,
-                                        latitude,
-                                        page,
-                                        12
-                                    ).collect { newTourList ->
-                                        if (page == 1) {
-                                            currentTourList.clear()
+                                    contentTypeId?.let { typeId ->
+                                        binding.run {
+                                            when(contentTypeId) {
+                                                12 -> tvTitle.text = "내 근처 여행지"
+                                                14 -> tvTitle.text = "내 근처 문화 시설"
+                                                15 -> tvTitle.text = "내 근처 축제"
+                                                28 -> tvTitle.text = "내 근처 액티비티"
+                                                39 -> tvTitle.text = "내 근처 식당"
+                                            }
                                         }
-                                        if (newTourList.isEmpty()) {
-                                            return@collect
+
+                                        locationTourListViewModel.getLocationTourList(
+                                            longitude,
+                                            latitude,
+                                            page,
+                                            typeId
+                                        ).collect { newTourList ->
+                                            if (page == 1) {
+                                                currentTourList.clear()
+                                            }
+                                            if (newTourList.isEmpty()) {
+                                                return@collect
+                                            }
+                                            currentTourList.addAll(newTourList)
+                                            nearTourListAdapter.submitList(currentTourList.toList())
                                         }
-                                        currentTourList.addAll(newTourList)
-                                        nearTourListAdapter.submitList(currentTourList.toList())
                                     }
                                 } finally {
                                     isLoading = false

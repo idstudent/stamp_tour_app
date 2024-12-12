@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -53,30 +55,153 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid).collect { detailInfo ->
                         binding.run {
-                            Glide.with(binding.root.context)
-                                .load(it.firstimage)
-                                .into(ivThumb)
+                            if(detailInfo.isNotEmpty()) {
+                                detailInfo[0].run {
+                                    Glide.with(binding.root.context)
+                                        .load(it.firstimage)
+                                        .into(ivThumb)
 
-                            tvTitle.text = it.title
-                            tvAddr.text = it.addr1
+                                    tvTitle.text = it.title
+                                    tvAddr.text = it.addr1
 
-                            detailInfo[0].run {
-                                tvOpenDate.isVisible = this.openDate != ""
-                                tvOpenDate.text = "개장일: ${this.openDate}".removeHtmlTags()
+                                    when(it.contenttypeid) {
+                                        12 -> {
+                                            gpTourPlace.visibility = View.VISIBLE
+                                            gpCulture.visibility = View.GONE
+                                            gpEvent.visibility = View.GONE
+                                            gpActivity.visibility = View.GONE
+                                            gpFood.visibility = View.GONE
 
-                                tvRestDate.isVisible = this.restDate != ""
-                                tvRestDate.text = "휴무일: ${this.restDate}".removeHtmlTags()
+                                            tvVisible(tvOpenDate, this.openDate)
+                                            tvOpenDate.text = "개장일: ${this.openDate}".removeHtmlTags()
 
-                                tvUseTime.isVisible = this.useTime != ""
-                                tvUseTime.text = "이용 가능 시간: ${this.useTime}".removeHtmlTags()
+                                            tvVisible(tvRestDate, this.restDate)
+                                            tvRestDate.text = "휴무일: ${this.restDate ?: ""}".removeHtmlTags()
+
+                                            tvVisible(tvUseTime, this.useTime)
+                                            tvUseTime.text = "이용 가능 시간: ${this.useTime ?: ""}".removeHtmlTags()
+                                        }
+
+                                        14 -> {
+                                            gpTourPlace.visibility = View.GONE
+                                            gpCulture.visibility = View.VISIBLE
+                                            gpEvent.visibility = View.GONE
+                                            gpActivity.visibility = View.GONE
+                                            gpFood.visibility = View.GONE
+
+                                            tvVisible(tvCultureRestDate, this.cultureRestDate)
+                                            tvCultureRestDate.text = "휴무일: ${this.cultureRestDate}".removeHtmlTags()
+
+                                            tvVisible(tvCultureUseDate, this.cultureUseTime)
+                                            tvCultureUseDate.text = "이용 가능 시간: ${this.cultureUseTime}".removeHtmlTags()
+
+                                            tvVisible(tvCulturePrice, this.culturePrice)
+                                            tvCulturePrice.text = "이용 요금: ${this.culturePrice}".removeHtmlTags()
+
+                                            tvVisible(tvCultureParking, this.cultureParking)
+                                            tvCultureParking.text = "주차: ${this.cultureParking}".removeHtmlTags()
+
+                                            tvVisible(tvCultureParkingPrice, this.cultureParkingFee)
+                                            tvCultureParkingPrice.text = "주차 요금: ${this.cultureParkingFee}".removeHtmlTags()
+
+                                            tvVisible(tvCultureInfo, this.cultureInfoCenter)
+                                            tvCultureInfo.text = "문의: ${this.cultureInfoCenter}".removeHtmlTags()
+                                        }
+
+                                        15 -> {
+                                            gpTourPlace.visibility = View.GONE
+                                            gpCulture.visibility = View.GONE
+                                            gpEvent.visibility = View.VISIBLE
+                                            gpActivity.visibility = View.GONE
+                                            gpFood.visibility = View.GONE
+
+                                            tvVisible(tvEventStartDate, this.eventStartDate)
+                                            tvEventStartDate.text = "행사 시작일: ${this.eventStartDate}".removeHtmlTags()
+
+                                            tvVisible(tvEventEndDate, this.eventEndDate)
+                                            tvEventEndDate.text = "행사 종료일: ${this.eventEndDate}".removeHtmlTags()
+
+                                            tvVisible(tvEventPlayTime, this.eventPlayTime)
+                                            tvEventPlayTime.text = "행사 시간: ${this.eventPlayTime}".removeHtmlTags()
+
+                                            tvVisible(tvEventPlace, this.eventPlace)
+                                            tvEventPlace.text = "장소: ${this.eventPlace}".removeHtmlTags()
+
+                                            tvVisible(tvEventPrice, this.eventUsePrice)
+                                            tvEventPrice.text = "이용 금액: ${this.eventUsePrice}".removeHtmlTags()
+
+                                            tvVisible(tvEventSponsor, this.eventSponsor)
+                                            tvEventSponsor.text = "주최자: ${this.eventSponsor}".removeHtmlTags()
+
+                                            tvVisible(tvEventSponsorInfo, this.eventSponsorTel)
+                                            tvEventSponsorInfo.text = "주최자 문의: ${this.eventSponsorTel}".removeHtmlTags()
+                                        }
+
+                                        28 -> {
+                                            gpTourPlace.visibility = View.GONE
+                                            gpCulture.visibility = View.GONE
+                                            gpEvent.visibility = View.GONE
+                                            gpActivity.visibility = View.VISIBLE
+                                            gpFood.visibility = View.GONE
+
+                                            tvVisible(tvActivityEndDate, this.activityRestDate)
+                                            tvActivityEndDate.text = "휴무일: ${this.activityRestDate}".removeHtmlTags()
+
+                                            tvVisible(tvActivityPlayTime, this.activityUseTime)
+                                            tvActivityPlayTime.text = "이용 가능 시간: ${this.activityUseTime}".removeHtmlTags()
+
+                                            tvVisible(tvActivityAge, this.activityPossibleAge)
+                                            tvActivityAge.text = "이용 가능 연령: ${this.activityPossibleAge}".removeHtmlTags()
+
+                                            tvVisible(tvActivityParking, this.activityParking)
+                                            tvActivityParking.text = "주차 및 요금: ${this.activityParking}".removeHtmlTags()
+
+                                            tvVisible(tvActivityReservation, this.activityReservation)
+                                            tvActivityReservation.text = "예약 안내: ${this.activityReservation}".removeHtmlTags()
+
+                                            tvVisible(tvActivityInfo, this.activityInfoCenter)
+                                            tvActivityInfo.text = "문의: ${this.activityInfoCenter}".removeHtmlTags()
+                                        }
+
+                                        39 -> {
+                                            gpTourPlace.visibility = View.GONE
+                                            gpCulture.visibility = View.GONE
+                                            gpEvent.visibility = View.GONE
+                                            gpActivity.visibility = View.GONE
+                                            gpFood.visibility = View.VISIBLE
+
+                                            tvVisible(tvFoodRestDate, this.foodRestTime)
+                                            tvFoodRestDate.text = "휴무일: ${this.foodRestTime}".removeHtmlTags()
+
+                                            tvVisible(tvFoodOpenDate, this.foodOpenTime)
+                                            tvFoodOpenDate.text = "영업 시간: ${this.foodOpenTime}".removeHtmlTags()
+
+                                            tvVisible(tvFoodFirstMenu, this.foodFirstMenu)
+                                            tvFoodFirstMenu.text = "대표 메뉴: ${this.foodFirstMenu}".removeHtmlTags()
+
+                                            tvVisible(tvFoodTreatMenu, this.foodTreatMenu)
+                                            tvFoodTreatMenu.text = "메뉴: ${this.foodTreatMenu}".removeHtmlTags()
+
+                                            tvVisible(tvFoodTakeOut, this.foodTakeOut)
+                                            tvFoodTakeOut.text = "포장: ${this.foodTakeOut}".removeHtmlTags()
+
+                                            tvVisible(tvFoodInfo, this.foodInfoCenter)
+                                            tvFoodInfo.text = "문의: ${this.foodInfoCenter}".removeHtmlTags()
+                                        }
+                                    }
+                                }
+
+                                isSavedCheck()
                             }
-
-                            isSavedCheck()
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun tvVisible(textView: AppCompatTextView, data: String?) {
+        textView.isVisible = data != "" && data != null
     }
 
     private fun initListener() {

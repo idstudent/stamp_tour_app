@@ -74,11 +74,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.run {
             tvNearPlaceMore.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 12)
                 startActivity(intent)
             }
 
             tvMyPlaceMore.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), MyTourListActivity::class.java)
+                startActivity(intent)
+            }
+
+            clCulture.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 14)
+                startActivity(intent)
+            }
+
+            clFestival.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 15)
+                startActivity(intent)
+            }
+
+            clActivity.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 28)
+                startActivity(intent)
+            }
+
+            clFood.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 39)
                 startActivity(intent)
             }
         }
@@ -121,13 +146,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         savedLocationsAdapter.submitList(notVisitedLocations.take(5))
 
                         if (notVisitedLocations.isNotEmpty()) {
+                            tvMyPlaceMore.isVisible = locations.size >= 5
+                            
                             rvStamp.visibility = View.VISIBLE
                             clNullTodayStamp.visibility = View.INVISIBLE
                             wormDotsIndicator.visibility = View.VISIBLE
                             wormDotsIndicator.attachTo(rvStamp)
                         } else {
-                            tvMyPlaceMore.isVisible = notVisitedLocations.size >= 5
-
                             rvStamp.visibility = View.INVISIBLE
                             clNullTodayStamp.visibility = View.VISIBLE
                             wormDotsIndicator.visibility = View.GONE
