@@ -1,16 +1,24 @@
 package com.ljystamp.stamp_tour_app.view.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
+import com.ljystamp.stamp_tour_app.view.user.model.CategoryLevel
+import com.ljystamp.stamp_tour_app.view.user.model.LevelInfo
 import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyFragment: BaseFragment<FragmentMyBinding>() {
@@ -19,7 +27,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.activityProgress.progress = 10
+        initView()
 //        binding.btnLogout.setOnSingleClickListener {
 //            userViewModel.logout { success ->
 //                if(success) {
@@ -30,6 +38,95 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
 //            }
 //        }
     }
+
+    private fun initView() {
+        userViewModel.getUserProfileAndSavedLocations()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // 프로필 수집
+                launch {
+                    userViewModel.userProfile.collectLatest { profile ->
+                        profile?.let {
+                            binding.tvNickName.text = it["nickname"] as? String
+                        }
+                    }
+                }
+
+                // 관광 리스트 수집
+                launch {
+                    userViewModel.tourPlaceList.collectLatest { list ->
+                        val visitedCount = list.count { it.isVisited }
+                        val levelInfo = calculateLevel(visitedCount, CategoryLevel.TOUR)
+
+                        binding.apply {
+                            tvTourLevelName.text = levelInfo.level
+                            tvNowTourCount.text = levelInfo.currentCount.toString()
+                            tvTourTotalCount.text = "/ ${levelInfo.targetCount}"
+                            tourProgress.progress = levelInfo.progress
+                            tvTourLevelSubTitle.text = CategoryLevel.TOUR.subTitleFormat.format(
+                                if (levelInfo.level == CategoryLevel.TOUR.beginnerLevel) 5
+                                else if(levelInfo.level == CategoryLevel.TOUR.intermediateLevel) 30
+                                else 100
+                            )
+                        }
+                    }
+                }
+
+                // 문화 리스트 수집
+                launch {
+                    userViewModel.cultureList.collectLatest { list ->
+                        Log.e("ljy", "문화 $list")
+                    }
+                }
+
+                // 축제 리스트 수집
+                launch {
+                    userViewModel.eventList.collectLatest { list ->
+                        Log.e("ljy", "축제 $list")
+                    }
+                }
+
+                // 액티비티 리스트 수집
+                launch {
+                    userViewModel.activityList.collectLatest { list ->
+                        Log.e("ljy", "액티비티 $list")
+                    }
+                }
+
+                // 음식 리스트 수집
+                launch {
+                    userViewModel.foodList.collectLatest { list ->
+                        Log.e("ljy", "음식 $list")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun calculateLevel(visitedCount: Int, category: CategoryLevel): LevelInfo {
+        return when {
+            visitedCount < 5 -> LevelInfo(
+                level = category.beginnerLevel,
+                currentCount = visitedCount,
+                targetCount = 5,
+                progress = (visitedCount * 100) / 5
+            )
+            visitedCount < 30 -> LevelInfo(  // < 를 <= 로 변경
+                level = category.intermediateLevel,
+                currentCount = visitedCount,
+                targetCount = 30,
+                progress = (visitedCount * 100) / 30
+            )
+            else -> LevelInfo(
+                level = category.advancedLevel,
+                currentCount = visitedCount,
+                targetCount = 50,
+                progress = (visitedCount * 100) / 50  // 실제 진행률 계산
+            )
+        }
+    }
+
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyBinding {
         return FragmentMyBinding.inflate(layoutInflater)
