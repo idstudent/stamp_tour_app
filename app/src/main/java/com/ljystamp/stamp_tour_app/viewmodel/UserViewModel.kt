@@ -2,6 +2,7 @@ package com.ljystamp.stamp_tour_app.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -83,6 +84,7 @@ class UserViewModel: ViewModel() {
                         .set(user)
                         .addOnSuccessListener {
                             Log.e("SignUpViewModel", "User data saved successfully")
+                            auth.signOut()
                             onComplete(true, null)
                         }
                         .addOnFailureListener { e ->
@@ -139,5 +141,60 @@ class UserViewModel: ViewModel() {
                         _foodList.value = savedLocations.filter { it.contentTypeId == 39 }
                     }
             }
+    }
+
+    fun deleteAccount(password: String, onComplete: (Boolean, String?) -> Unit) {
+        val user = auth.currentUser ?: run {
+            onComplete(false, "로그인된 사용자가 없습니다")
+            return
+        }
+
+        // 재인증 필요 (보안을 위해 Firebase에서 요구)
+        val credential = EmailAuthProvider.getCredential(user.email!!, password)
+
+        user.reauthenticate(credential).addOnCompleteListener { reAuthTask ->
+            if (reAuthTask.isSuccessful) {
+                // 1. 저장된 위치 정보 삭제
+                db.collection("saved_locations")
+                    .whereEqualTo("userId", user.uid)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        // 배치 작업으로 문서들 삭제
+                        val batch = db.batch()
+                        documents.forEach { doc ->
+                            batch.delete(doc.reference)
+                        }
+
+                        batch.commit().addOnCompleteListener { batchTask ->
+                            if (batchTask.isSuccessful) {
+                                // 2. 사용자 정보 삭제
+                                db.collection("users")
+                                    .document(user.uid)
+                                    .delete()
+                                    .addOnSuccessListener {
+                                        // 3. Firebase Authentication 계정 삭제
+                                        user.delete()
+                                            .addOnSuccessListener {
+                                                onComplete(true, null)
+                                            }
+                                            .addOnFailureListener { e ->
+                                                onComplete(false, "계정 삭제 실패: ${e.message}")
+                                            }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        onComplete(false, "사용자 정보 삭제 실패: ${e.message}")
+                                    }
+                            } else {
+                                onComplete(false, "저장된 위치 정보 삭제 실패")
+                            }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        onComplete(false, "데이터 조회 실패: ${e.message}")
+                    }
+            } else {
+                onComplete(false, "비밀번호가 일치하지 않습니다")
+            }
+        }
     }
 }

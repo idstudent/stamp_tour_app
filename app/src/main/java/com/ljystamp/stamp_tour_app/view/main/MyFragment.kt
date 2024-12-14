@@ -1,18 +1,23 @@
 package com.ljystamp.stamp_tour_app.view.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
+import com.ljystamp.stamp_tour_app.view.user.SignUpActivity
 import com.ljystamp.stamp_tour_app.view.user.model.CategoryLevel
 import com.ljystamp.stamp_tour_app.view.user.model.LevelInfo
 import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
@@ -28,6 +33,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        initListener()
 //        binding.btnLogout.setOnSingleClickListener {
 //            userViewModel.logout { success ->
 //                if(success) {
@@ -109,6 +115,38 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 }
             }
         }
+    }
+
+    private fun initListener() {
+        binding.ivSetting.setOnSingleClickListener {
+            showDeleteAccountDialog()
+        }
+    }
+    private fun showDeleteAccountDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_delete_account, null)
+        val etPassword = dialogView.findViewById<EditText>(R.id.etPassword)
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("회원 탈퇴")
+            .setView(dialogView)
+            .setMessage("정말 탈퇴하시겠습니까? 모든 데이터가 삭제되며 복구할 수 없습니다.")
+            .setPositiveButton("탈퇴") { dialog, _ ->
+                val password = etPassword.text.toString()
+                if (password.isEmpty()) {
+                    Toast.makeText(requireContext(), "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                userViewModel.deleteAccount(password) { success, message ->
+                    if (success) {
+                        Toast.makeText(requireContext(), "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     private fun calculateLevel(visitedCount: Int, category: CategoryLevel): LevelInfo {
