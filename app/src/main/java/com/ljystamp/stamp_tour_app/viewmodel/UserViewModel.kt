@@ -16,6 +16,9 @@ class UserViewModel: ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
+    private val _allList = MutableStateFlow<List<SavedLocation>>(emptyList())
+    val allList = _allList.asStateFlow()
+
     private val _tourPlaceList = MutableStateFlow<List<SavedLocation>>(emptyList())
     val tourPlaceList = _tourPlaceList.asStateFlow()
 
@@ -128,6 +131,7 @@ class UserViewModel: ViewModel() {
                         }
 
                         // 카테고리별로 분류
+                        _allList.value = savedLocations
                         _tourPlaceList.value = savedLocations.filter { it.contentTypeId == 12 }
                         _cultureList.value = savedLocations.filter { it.contentTypeId == 14 }
                         _eventList.value = savedLocations.filter { it.contentTypeId == 15 }

@@ -53,6 +53,13 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                     }
                 }
 
+                launch {
+                    userViewModel.allList.collectLatest {
+                        Log.e("ljy", "alllist ${it.size}")
+                        binding.tvCompleteCount.text = it.filter { it.isVisited }.size.toString()
+                        binding.tvNotCompleteCount.text = it.filter { !it.isVisited }.size.toString()
+                    }
+                }
                 // 관광 리스트 수집
                 launch {
                     userViewModel.tourPlaceList.collectLatest { list ->
