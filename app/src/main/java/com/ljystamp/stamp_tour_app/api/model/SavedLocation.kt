@@ -1,5 +1,9 @@
 package com.ljystamp.stamp_tour_app.api.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class SavedLocation(
     val contentId: Int = 0,
     val contentTypeId: Int = 0,
@@ -10,4 +14,4 @@ data class SavedLocation(
     val longitude: Double = 0.0,
     val isVisited: Boolean = false,
     val savedAt: com.google.firebase.Timestamp? = null
-)
+): Parcelable

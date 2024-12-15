@@ -14,9 +14,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ljystamp.stamp_tour_app.R
+import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
+import com.ljystamp.stamp_tour_app.view.my.MyCompleteListActivity
+import com.ljystamp.stamp_tour_app.view.my.MyPlanListActivity
 import com.ljystamp.stamp_tour_app.view.user.SignUpActivity
 import com.ljystamp.stamp_tour_app.view.user.model.CategoryLevel
 import com.ljystamp.stamp_tour_app.view.user.model.LevelInfo
@@ -29,6 +32,11 @@ import kotlinx.coroutines.launch
 class MyFragment: BaseFragment<FragmentMyBinding>() {
     private val userViewModel: UserViewModel by viewModels()
 
+    private var saveTourList = ArrayList<SavedLocation>()
+    private var saveCultureList = ArrayList<SavedLocation>()
+    private var saveEventList = ArrayList<SavedLocation>()
+    private var saveActivityList = ArrayList<SavedLocation>()
+    private var saveFoodList = ArrayList<SavedLocation>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,6 +80,8 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                         val visitedCount = list.count { it.isVisited }
                         val levelInfo = calculateLevel(visitedCount, CategoryLevel.TOUR)
 
+                        saveTourList.addAll(list)
+
                         binding.apply {
                             tvTourLevelName.text = levelInfo.level
                             tvNowTourCount.text = levelInfo.currentCount.toString()
@@ -89,6 +99,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 // 문화 리스트 수집
                 launch {
                     userViewModel.cultureList.collectLatest { list ->
+                        saveCultureList.addAll(list.filter { it.isVisited })
                         Log.e("ljy", "문화 $list")
                     }
                 }
@@ -96,6 +107,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 // 축제 리스트 수집
                 launch {
                     userViewModel.eventList.collectLatest { list ->
+                        saveEventList.addAll(list.filter { it.isVisited })
                         Log.e("ljy", "축제 $list")
                     }
                 }
@@ -103,6 +115,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 // 액티비티 리스트 수집
                 launch {
                     userViewModel.activityList.collectLatest { list ->
+                        saveActivityList.addAll(list.filter { it.isVisited })
                         Log.e("ljy", "액티비티 $list")
                     }
                 }
@@ -110,6 +123,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 // 음식 리스트 수집
                 launch {
                     userViewModel.foodList.collectLatest { list ->
+                        saveFoodList.addAll(list.filter { it.isVisited })
                         Log.e("ljy", "음식 $list")
                     }
                 }
@@ -118,9 +132,25 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
     }
 
     private fun initListener() {
-        binding.ivSetting.setOnSingleClickListener {
-            showDeleteAccountDialog()
+        binding.run {
+            ivSetting.setOnSingleClickListener {
+                showDeleteAccountDialog()
+            }
+            llComplete.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), MyCompleteListActivity::class.java)
+                intent.putExtra("list", saveTourList)
+                startActivity(intent)
+            }
+            llNotComplete.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), MyPlanListActivity::class.java)
+                intent.putExtra("list", saveTourList)
+                startActivity(intent)
+            }
+            llNotComplete.setOnSingleClickListener {
+
+            }
         }
+
     }
     private fun showDeleteAccountDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_delete_account, null)
