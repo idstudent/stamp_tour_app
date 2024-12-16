@@ -18,9 +18,8 @@ import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
+import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.view.my.MyCompleteListActivity
-import com.ljystamp.stamp_tour_app.view.my.MyPlanListActivity
-import com.ljystamp.stamp_tour_app.view.user.SignUpActivity
 import com.ljystamp.stamp_tour_app.view.user.model.CategoryLevel
 import com.ljystamp.stamp_tour_app.view.user.model.LevelInfo
 import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
@@ -80,11 +79,11 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                         val visitedCount = list.count { it.isVisited }
                         val levelInfo = calculateLevel(visitedCount, CategoryLevel.TOUR)
 
-                        saveTourList.addAll(list)
+                        saveTourList = ArrayList(list)
 
                         binding.apply {
                             tvTourLevelName.text = levelInfo.level
-                            tvNowTourCount.text = levelInfo.currentCount.toString()
+                            tvTourCount.text = levelInfo.currentCount.toString()
                             tvTourTotalCount.text = "/ ${levelInfo.targetCount}"
                             tourProgress.progress = levelInfo.progress
                             tvTourLevelSubTitle.text = CategoryLevel.TOUR.subTitleFormat.format(
@@ -99,32 +98,88 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 // 문화 리스트 수집
                 launch {
                     userViewModel.cultureList.collectLatest { list ->
-                        saveCultureList.addAll(list.filter { it.isVisited })
-                        Log.e("ljy", "문화 $list")
+                        val visitedCount = list.count { it.isVisited }
+                        val levelInfo = calculateLevel(visitedCount, CategoryLevel.CULTURE)
+
+                        saveCultureList = ArrayList(list)
+
+                        binding.apply {
+                            tvCultureLevelName.text = levelInfo.level
+                            tvCultureCount.text = levelInfo.currentCount.toString()
+                            tvCultureTotalCount.text = "/ ${levelInfo.targetCount}"
+                            cultureProgress.progress = levelInfo.progress
+                            tvCultureLevelSubTitle.text = CategoryLevel.CULTURE.subTitleFormat.format(
+                                if (levelInfo.level == CategoryLevel.CULTURE.beginnerLevel) 5
+                                else if(levelInfo.level == CategoryLevel.CULTURE.intermediateLevel) 30
+                                else 100
+                            )
+                        }
                     }
                 }
 
                 // 축제 리스트 수집
                 launch {
                     userViewModel.eventList.collectLatest { list ->
-                        saveEventList.addAll(list.filter { it.isVisited })
-                        Log.e("ljy", "축제 $list")
+                        val visitedCount = list.count { it.isVisited }
+                        val levelInfo = calculateLevel(visitedCount, CategoryLevel.EVENT)
+
+                        saveEventList = ArrayList(list)
+
+                        binding.apply {
+                            tvEventLevelName.text = levelInfo.level
+                            tvEventCount.text = levelInfo.currentCount.toString()
+                            tvEventTotalCount.text = "/ ${levelInfo.targetCount}"
+                            eventProgress.progress = levelInfo.progress
+                            tvEventLevelSubTitle.text = CategoryLevel.EVENT.subTitleFormat.format(
+                                if (levelInfo.level == CategoryLevel.EVENT.beginnerLevel) 5
+                                else if(levelInfo.level == CategoryLevel.EVENT.intermediateLevel) 30
+                                else 100
+                            )
+                        }
                     }
                 }
 
                 // 액티비티 리스트 수집
                 launch {
                     userViewModel.activityList.collectLatest { list ->
-                        saveActivityList.addAll(list.filter { it.isVisited })
-                        Log.e("ljy", "액티비티 $list")
+                        val visitedCount = list.count { it.isVisited }
+                        val levelInfo = calculateLevel(visitedCount, CategoryLevel.ACTIVITY)
+
+                        saveActivityList = ArrayList(list)
+
+                        binding.apply {
+                            tvActivityLevelName.text = levelInfo.level
+                            tvActivityCount.text = levelInfo.currentCount.toString()
+                            tvActivityTotalCount.text = "/ ${levelInfo.targetCount}"
+                            activityProgress.progress = levelInfo.progress
+                            tvActivityLevelSubTitle.text = CategoryLevel.ACTIVITY.subTitleFormat.format(
+                                if (levelInfo.level == CategoryLevel.ACTIVITY.beginnerLevel) 5
+                                else if(levelInfo.level == CategoryLevel.ACTIVITY.intermediateLevel) 30
+                                else 100
+                            )
+                        }
                     }
                 }
 
                 // 음식 리스트 수집
                 launch {
                     userViewModel.foodList.collectLatest { list ->
-                        saveFoodList.addAll(list.filter { it.isVisited })
-                        Log.e("ljy", "음식 $list")
+                        val visitedCount = list.count { it.isVisited }
+                        val levelInfo = calculateLevel(visitedCount, CategoryLevel.FOOD)
+
+                        saveFoodList = ArrayList(list)
+
+                        binding.apply {
+                            tvFoodLevelName.text = levelInfo.level
+                            tvFoodCount.text = levelInfo.currentCount.toString()
+                            tvFoodTotalCount.text = "/ ${levelInfo.targetCount}"
+                            foodProgress.progress = levelInfo.progress
+                            tvFoodLevelSubTitle.text = CategoryLevel.FOOD.subTitleFormat.format(
+                                if (levelInfo.level == CategoryLevel.FOOD.beginnerLevel) 5
+                                else if(levelInfo.level == CategoryLevel.FOOD.intermediateLevel) 30
+                                else 100
+                            )
+                        }
                     }
                 }
             }
@@ -142,12 +197,9 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 startActivity(intent)
             }
             llNotComplete.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), MyPlanListActivity::class.java)
+                val intent = Intent(requireActivity(), MyTourListActivity::class.java)
                 intent.putExtra("list", saveTourList)
                 startActivity(intent)
-            }
-            llNotComplete.setOnSingleClickListener {
-
             }
         }
 

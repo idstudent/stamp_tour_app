@@ -269,7 +269,7 @@
                     app:layout_constraintStart_toStartOf="@id/tv_tour_level_sub_title"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_now_tour_count"
+                    android:id="@+id/tv_tour_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 "
@@ -354,7 +354,7 @@
                     app:layout_constraintStart_toStartOf="@id/tv_culture_level_sub_title"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_now_culture_count"
+                    android:id="@+id/tv_culture_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 "
@@ -372,8 +372,8 @@
                     style="@style/FontSize16White"
                     android:fontFamily="@font/noto_regular"
                     app:layout_constraintEnd_toEndOf="@id/culture_progress"
-                    app:layout_constraintTop_toTopOf="@id/tv_now_culture_count"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_now_culture_count"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_culture_count"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_culture_count"/>
 
                 <ProgressBar
                     android:id="@+id/culture_progress"
