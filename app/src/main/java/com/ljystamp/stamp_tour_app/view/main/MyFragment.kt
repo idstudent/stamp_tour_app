@@ -68,7 +68,6 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
 
                 launch {
                     userViewModel.allList.collectLatest {
-                        Log.e("ljy", "alllist ${it.size}")
                         binding.tvCompleteCount.text = it.filter { it.isVisited }.size.toString()
                         binding.tvNotCompleteCount.text = it.filter { !it.isVisited }.size.toString()
                     }
@@ -120,6 +119,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 // 축제 리스트 수집
                 launch {
                     userViewModel.eventList.collectLatest { list ->
+                        Log.e("ljy", "test ${list.filter { it.isVisited }}")
                         val visitedCount = list.count { it.isVisited }
                         val levelInfo = calculateLevel(visitedCount, CategoryLevel.EVENT)
 
@@ -193,12 +193,16 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
             }
             llComplete.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), MyCompleteListActivity::class.java)
-                intent.putExtra("list", saveTourList)
+                intent.putExtra("tourList", saveTourList)
+                intent.putExtra("cultureList", saveCultureList)
+                intent.putExtra("eventList", saveEventList)
+                intent.putExtra("activityList", saveActivityList)
+                intent.putExtra("foodList", saveFoodList)
                 startActivity(intent)
             }
             llNotComplete.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), MyTourListActivity::class.java)
-                intent.putExtra("list", saveTourList)
+                intent.putExtra("tourList", saveTourList)
                 startActivity(intent)
             }
         }
