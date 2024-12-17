@@ -19,6 +19,7 @@ import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
+import com.ljystamp.stamp_tour_app.view.my.MyCertificationActivity
 import com.ljystamp.stamp_tour_app.view.my.MyCompleteListActivity
 import com.ljystamp.stamp_tour_app.view.user.model.CategoryLevel
 import com.ljystamp.stamp_tour_app.view.user.model.LevelInfo
@@ -52,9 +53,12 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
 //        }
     }
 
-    private fun initView() {
+    override fun onResume() {
+        super.onResume()
+        
         userViewModel.getUserProfileAndSavedLocations()
-
+    }
+    private fun initView() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // 프로필 수집
@@ -86,8 +90,9 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                             tvTourTotalCount.text = "/ ${levelInfo.targetCount}"
                             tourProgress.progress = levelInfo.progress
                             tvTourLevelSubTitle.text = CategoryLevel.TOUR.subTitleFormat.format(
-                                if (levelInfo.level == CategoryLevel.TOUR.beginnerLevel) 5
+                                if (levelInfo.level == CategoryLevel.TOUR.beginnerLevel) 10
                                 else if(levelInfo.level == CategoryLevel.TOUR.intermediateLevel) 30
+                                else if (levelInfo.level == CategoryLevel.TOUR.intermediateLevel) 50
                                 else 100
                             )
                         }
@@ -108,8 +113,9 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                             tvCultureTotalCount.text = "/ ${levelInfo.targetCount}"
                             cultureProgress.progress = levelInfo.progress
                             tvCultureLevelSubTitle.text = CategoryLevel.CULTURE.subTitleFormat.format(
-                                if (levelInfo.level == CategoryLevel.CULTURE.beginnerLevel) 5
+                                if (levelInfo.level == CategoryLevel.CULTURE.beginnerLevel) 10
                                 else if(levelInfo.level == CategoryLevel.CULTURE.intermediateLevel) 30
+                                else if (levelInfo.level == CategoryLevel.CULTURE.intermediateLevel) 50
                                 else 100
                             )
                         }
@@ -133,6 +139,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                             tvEventLevelSubTitle.text = CategoryLevel.EVENT.subTitleFormat.format(
                                 if (levelInfo.level == CategoryLevel.EVENT.beginnerLevel) 5
                                 else if(levelInfo.level == CategoryLevel.EVENT.intermediateLevel) 30
+                                else if (levelInfo.level == CategoryLevel.EVENT.intermediateLevel) 50
                                 else 100
                             )
                         }
@@ -153,8 +160,9 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                             tvActivityTotalCount.text = "/ ${levelInfo.targetCount}"
                             activityProgress.progress = levelInfo.progress
                             tvActivityLevelSubTitle.text = CategoryLevel.ACTIVITY.subTitleFormat.format(
-                                if (levelInfo.level == CategoryLevel.ACTIVITY.beginnerLevel) 5
+                                if (levelInfo.level == CategoryLevel.ACTIVITY.beginnerLevel) 10
                                 else if(levelInfo.level == CategoryLevel.ACTIVITY.intermediateLevel) 30
+                                else if (levelInfo.level == CategoryLevel.ACTIVITY.intermediateLevel) 50
                                 else 100
                             )
                         }
@@ -175,11 +183,18 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                             tvFoodTotalCount.text = "/ ${levelInfo.targetCount}"
                             foodProgress.progress = levelInfo.progress
                             tvFoodLevelSubTitle.text = CategoryLevel.FOOD.subTitleFormat.format(
-                                if (levelInfo.level == CategoryLevel.FOOD.beginnerLevel) 5
+                                if (levelInfo.level == CategoryLevel.FOOD.beginnerLevel) 10
                                 else if(levelInfo.level == CategoryLevel.FOOD.intermediateLevel) 30
+                                else if (levelInfo.level == CategoryLevel.FOOD.intermediateLevel) 50
                                 else 100
                             )
                         }
+                    }
+                }
+
+                launch {
+                    userViewModel.certificationCount.collectLatest { count ->
+                        binding.tvCertificationCount.text = count.toString()
                     }
                 }
             }
@@ -191,6 +206,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
             ivSetting.setOnSingleClickListener {
                 showDeleteAccountDialog()
             }
+
             llComplete.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), MyCompleteListActivity::class.java)
                 intent.putExtra("tourList", saveTourList)
@@ -200,9 +216,20 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 intent.putExtra("foodList", saveFoodList)
                 startActivity(intent)
             }
+
             llNotComplete.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), MyTourListActivity::class.java)
                 intent.putExtra("tourList", saveTourList)
+                startActivity(intent)
+            }
+
+            llCertification.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), MyCertificationActivity::class.java)
+                intent.putExtra("tourList", saveTourList)
+                intent.putExtra("cultureList", saveCultureList)
+                intent.putExtra("eventList", saveEventList)
+                intent.putExtra("activityList", saveActivityList)
+                intent.putExtra("foodList", saveFoodList)
                 startActivity(intent)
             }
         }
@@ -243,7 +270,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 targetCount = 5,
                 progress = (visitedCount * 100) / 5
             )
-            visitedCount < 30 -> LevelInfo(  // < 를 <= 로 변경
+            visitedCount < 30 -> LevelInfo(
                 level = category.intermediateLevel,
                 currentCount = visitedCount,
                 targetCount = 30,
@@ -253,7 +280,7 @@ class MyFragment: BaseFragment<FragmentMyBinding>() {
                 level = category.advancedLevel,
                 currentCount = visitedCount,
                 targetCount = 50,
-                progress = (visitedCount * 100) / 50  // 실제 진행률 계산
+                progress = (visitedCount * 100) / 50
             )
         }
     }

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".view.my.MyCertificationActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                style="@style/FontSize20White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/noto_extra_bold"
+                android:text="획득한 뱃지"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_complete_tour_title"
+                style="@style/FontSize16White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/noto_extra_bold"
+                android:text="여행지"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fl_tour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:alignItems="flex_start"
+                app:flexWrap="wrap"
+                app:justifyContent="space_between"
+                app:layout_constraintTop_toBottomOf="@id/tv_complete_tour_title">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_tour_badge_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_tour_badge_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_tour_badge_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_tour_badge_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_complete_culture_title"
+                style="@style/FontSize16White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/noto_extra_bold"
+                android:text="문화"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/fl_tour" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fl_culture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:alignItems="flex_start"
+                app:flexWrap="wrap"
+                app:justifyContent="space_between"
+                app:layout_constraintTop_toBottomOf="@id/tv_complete_culture_title">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_culture_badge_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_culture_badge_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_culture_badge_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_culture_badge_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_complete_event_title"
+                style="@style/FontSize16White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/noto_extra_bold"
+                android:text="축제"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/fl_culture" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fl_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:alignItems="flex_start"
+                app:flexWrap="wrap"
+                app:justifyContent="space_between"
+                app:layout_constraintTop_toBottomOf="@id/tv_complete_event_title">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_event_badge_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_event_badge_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_event_badge_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_event_badge_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_complete_activity_title"
+                style="@style/FontSize16White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/noto_extra_bold"
+                android:text="액티비티"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/fl_event" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fl_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:alignItems="flex_start"
+                app:flexWrap="wrap"
+                app:justifyContent="space_between"
+                app:layout_constraintTop_toBottomOf="@id/tv_complete_activity_title">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_activity_badge_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_activity_badge_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_activity_badge_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_activity_badge_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_complete_food_title"
+                style="@style/FontSize16White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/noto_extra_bold"
+                android:text="음식"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/fl_activity" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fl_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:alignItems="flex_start"
+                app:flexWrap="wrap"
+                app:justifyContent="space_between"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_complete_food_title">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_food_badge_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_food_badge_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_food_badge_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_food_badge_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/test_img_1" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/FontSize16White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초보자" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.flexbox.FlexboxLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

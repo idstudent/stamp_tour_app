@@ -38,6 +38,9 @@ class UserViewModel: ViewModel() {
     private val _userProfile = MutableStateFlow<Map<String, Any>?>(null)
     val userProfile = _userProfile.asStateFlow()
 
+    private val _certificationCount = MutableStateFlow(0)
+    val certificationCount = _certificationCount.asStateFlow()
+
     fun signUp(email: String, password: String, nickname: String, onComplete: (Boolean, String?) -> Unit) {
         db.collection("users")
             .whereEqualTo("nickname", nickname)
@@ -139,8 +142,27 @@ class UserViewModel: ViewModel() {
                         _eventList.value = savedLocations.filter { it.contentTypeId == 15 }
                         _activityList.value = savedLocations.filter { it.contentTypeId == 28 }
                         _foodList.value = savedLocations.filter { it.contentTypeId == 39 }
+
+                        // 뱃지 카운트 계산
+                        val tourBadges = calculateBadgeCount(_tourPlaceList.value.count { it.isVisited })
+                        val cultureBadges = calculateBadgeCount(_cultureList.value.count { it.isVisited })
+                        val eventBadges = calculateBadgeCount(_eventList.value.count { it.isVisited })
+                        val activityBadges = calculateBadgeCount(_activityList.value.count { it.isVisited })
+                        val foodBadges = calculateBadgeCount(_foodList.value.count { it.isVisited })
+
+                        _certificationCount.value = tourBadges + cultureBadges + eventBadges + activityBadges + foodBadges
+
                     }
             }
+    }
+    private fun calculateBadgeCount(visitedCount: Int): Int {
+        return when {
+            visitedCount >= 100 -> 4
+            visitedCount >= 50 -> 3
+            visitedCount >= 30 -> 2
+            visitedCount >= 10 -> 1
+            else -> 0
+        }
     }
 
     fun deleteAccount(password: String, onComplete: (Boolean, String?) -> Unit) {

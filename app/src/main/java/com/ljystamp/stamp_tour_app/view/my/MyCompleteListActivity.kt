@@ -43,8 +43,6 @@ class MyCompleteListActivity: BaseActivity<ActivityMyCompleteListBinding>() {
             intent.getParcelableArrayListExtra("eventList")
         } ?: arrayListOf()
 
-        Log.e("ljy", "뭐야 이벤트 $completeEventList")
-
         val completeActivityList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
             intent.getParcelableArrayListExtra("activityList", SavedLocation::class.java)
         } else {
