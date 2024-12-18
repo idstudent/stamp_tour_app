@@ -34,12 +34,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 //
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 //
-//        lifecycleScope.launch {
-//            locationTourListViewModel.getLocationTourList(targetLongitude, targetLatitude, 25)
-//                .collect {
-//                    Log.e("ljy", "결과 $it")
-//                }
-//        }
 //        val checkButton = findViewById<Button>(R.id.btnCheck)
 //        checkButton.setOnClickListener {
 //            if (checkLocationPermission()) {

@@ -13,10 +13,10 @@ import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
 import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.TourDetailActivity
+import com.ljystamp.stamp_tour_app.view.search.SearchTourDetailActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
-class NearTourListViewHolder(
+class SearchListViewHolder(
     private val binding: ItemNearTourBinding,
     private val viewModel: LocationTourListViewModel,
     private val onLoginRequired: (() -> Unit)? = null
@@ -26,7 +26,7 @@ class NearTourListViewHolder(
         binding.run {
             binding.root.setOnSingleClickListener {
                 item?.let {
-                    val intent = Intent(binding.root.context, TourDetailActivity::class.java)
+                    val intent = Intent(binding.root.context, SearchTourDetailActivity::class.java)
                     intent.putExtra("info",  item)
                     binding.root.context.startActivity(intent)
                 }
@@ -35,7 +35,7 @@ class NearTourListViewHolder(
             btnAdd.setOnSingleClickListener { view ->
                 val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
                     (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
-                        (adapter as? NearTourListAdapter)?.currentList?.get(position)
+                        (adapter as? SearchListAdapter)?.currentList?.get(position)
                     }
                 }
 

@@ -38,4 +38,18 @@ interface ApiService {
         @Query("pageNo") pageNo: Int = 1,
         @Query("serviceKey") serviceKey: String = API_KEY
     ): ApiResponse<TourDetailResponse>
+
+    @GET("searchKeyword1")
+    suspend fun getSearchKeyword(
+        @Query("numOfRows") pageResultCount: Int = 20,
+        @Query("pageNo") pageNo: Int = 1,
+        @Query("MobileOS") os: String = "AND",
+        @Query("MobileApp") mobileOs: String = "TEST",
+        @Query("_type") type: String = "json",
+        @Query("listYN") listYN: String = "Y",
+        @Query("arrange") arrange: String = "C",
+        @Query("keyword") keyword: String,
+        @Query("contentTypeId") contentTypeId: Int,
+        @Query("serviceKey") serviceKey: String = API_KEY
+    ): ApiResponse<TourismResponse>
 }

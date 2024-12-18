@@ -18,4 +18,13 @@
     </style>
 
     <style name="Theme.Stamp_tour_app" parent="Base.Theme.Stamp_tour_app" />
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_top_round</item>
+    </style>
 </resources>
