@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -59,8 +60,10 @@ class SearchListActivity: BaseActivity<ActivitySearchListBinding>() {
                     val lastPos = layoutManager.findLastCompletelyVisibleItemPosition()
 
                     val totalCount = recyclerView.adapter?.itemCount
+                    Log.e("ljy", "스크롤 상태: lastPos=$lastPos, totalCount=$totalCount, isLoading=$isLoading, page=$page")
                     totalCount?.let { total ->
                         if (lastPos == total - 1) {
+                            Log.e("ljy","마지막 위치 감지! 다음 페이지 로드")
                             page++
                             search()
                         }
@@ -78,16 +81,21 @@ class SearchListActivity: BaseActivity<ActivitySearchListBinding>() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                searchKeywordViewModel.getSearchKeywordResult(keyword, contentTypeId).collect {
-                    if(page == 1) {
-                        currentResultList.clear()
-                    }
-                    if(it.isEmpty()) {
-                        return@collect
-                    }
+                try {
 
-                    currentResultList.addAll(it)
-                    searchListAdapter.submitList(currentResultList)
+                    searchKeywordViewModel.getSearchKeywordResult(keyword, contentTypeId, page).collect {
+                        if (page == 1) {
+                            currentResultList.clear()
+                        }
+                        if (it.isEmpty()) {
+                            return@collect
+                        }
+
+                        currentResultList.addAll(it)
+                        searchListAdapter.submitList(currentResultList.toList())
+                    }
+                }finally {
+                    isLoading = false
                 }
             }
         }

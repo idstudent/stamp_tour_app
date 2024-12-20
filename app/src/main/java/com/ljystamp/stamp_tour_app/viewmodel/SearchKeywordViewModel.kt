@@ -12,8 +12,8 @@ import javax.inject.Inject
 class SearchKeywordViewModel @Inject constructor(
     private val searchKeywordRepository: SearchKeywordRepository
 ): ViewModel() {
-    fun getSearchKeywordResult(keyword: String, contentTypeId: Int): Flow<List<TourMapper>> {
-        return searchKeywordRepository.getSearchKeyword(keyword, contentTypeId)
+    fun getSearchKeywordResult(keyword: String, contentTypeId: Int, page: Int): Flow<List<TourMapper>> {
+        return searchKeywordRepository.getSearchKeyword(keyword, contentTypeId, page)
             .catch { it.printStackTrace() }
     }
 }

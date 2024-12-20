@@ -217,7 +217,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
         if (result.resultCode == Activity.RESULT_OK) {
             locationTourListViewModel.startObservingSavedLocations()
             searchListAdapter.notifyDataSetChanged()
-//            search()
         }
     }
 
