@@ -1,9 +1,11 @@
 package com.ljystamp.stamp_tour_app.api.model
 
 import android.os.Parcelable
+import androidx.room.Entity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@Entity(tableName = "stamp")
 data class TourMapper(
     val numOfRows: Int,
     val pageNo: Int,
