@@ -23,6 +23,7 @@ import com.ljystamp.stamp_tour_app.databinding.FragmentSearchBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.ljystamp.stamp_tour_app.view.adapter.SearchListAdapter
+import com.ljystamp.stamp_tour_app.view.home.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.search.SearchListActivity
 import com.ljystamp.stamp_tour_app.view.user.LoginActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
@@ -68,7 +69,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
 
         binding.etSearch.setText("")
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             locationTourListViewModel.selectRecentlySearchItem().collect {
                 binding.run {
@@ -112,8 +112,12 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                     intent.putExtra("keyword", inputText)
                     startActivity(intent)
                 }
+            }
 
-
+            tvNearPlaceMore.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", contentTypeId)
+                startActivity(intent)
             }
         }
     }

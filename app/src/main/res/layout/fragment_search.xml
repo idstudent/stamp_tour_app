@@ -188,6 +188,7 @@
                     style="@style/FontSize14White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/noto_regular"
                     android:text="더보기"
