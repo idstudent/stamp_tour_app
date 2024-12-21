@@ -1,6 +1,7 @@
 package com.ljystamp.stamp_tour_app.di
 
 import com.ljystamp.stamp_tour_app.api.ApiService
+import com.ljystamp.stamp_tour_app.db.StampDatabase
 import com.ljystamp.stamp_tour_app.repository.LocationTourListRepository
 import com.ljystamp.stamp_tour_app.repository.SearchKeywordRepository
 import com.ljystamp.stamp_tour_app.repository.TourDetailRepository
@@ -22,8 +23,8 @@ object StampTourRepositoryModule {
 
     @Singleton
     @Provides
-    fun provideTourDetailRepository(apiService: ApiService): TourDetailRepository {
-        return TourDetailRepository(apiService)
+    fun provideTourDetailRepository(apiService: ApiService, stampDatabase: StampDatabase): TourDetailRepository {
+        return TourDetailRepository(apiService, stampDatabase)
     }
 
     @Singleton

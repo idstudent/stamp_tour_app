@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.repository.LocationTourListRepository
+import com.ljystamp.stamp_tour_app.repository.TourDetailRepository
 import com.ljystamp.stamp_tour_app.util.SaveResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -18,11 +19,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel
 class LocationTourListViewModel @Inject constructor(
-    private val locationTourListRepository: LocationTourListRepository
+    private val locationTourListRepository: LocationTourListRepository,
+    private val tourDetailRepository: TourDetailRepository
 ): ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
@@ -175,6 +178,10 @@ class LocationTourListViewModel @Inject constructor(
             .addOnFailureListener { e ->
                 onComplete(false, "스탬프 찍기에 실패했어요")
             }
+    }
+
+    fun selectRecentlySearchItem(): Flow<List<TourMapper>> {
+        return tourDetailRepository.selectAllSearchItem()
     }
 
     override fun onCleared() {

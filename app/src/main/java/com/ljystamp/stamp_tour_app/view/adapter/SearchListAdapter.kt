@@ -15,7 +15,7 @@ class SearchListAdapter(
 ) : ListAdapter<TourMapper, SearchListViewHolder>(
     object: DiffUtil.ItemCallback<TourMapper>() {
         override fun areItemsTheSame(oldItem: TourMapper, newItem: TourMapper): Boolean {
-            return oldItem == newItem
+            return oldItem.contentid == newItem.contentid
         }
 
         @SuppressLint("DiffUtilEquals")

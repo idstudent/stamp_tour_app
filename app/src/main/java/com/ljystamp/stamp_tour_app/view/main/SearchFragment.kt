@@ -40,15 +40,24 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
 
     private lateinit var searchListAdapter: SearchListAdapter
+    private lateinit var recentlyListAdapter: SearchListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchListAdapter = SearchListAdapter(locationTourListViewModel, ::handleLoginRequest)
+        recentlyListAdapter = SearchListAdapter(locationTourListViewModel, ::handleLoginRequest)
+
+        binding.run {
+            rvRecent.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            rvRecent.adapter = recentlyListAdapter
+
+            rvNear.layoutManager = LinearLayoutManager(requireActivity())
+            rvNear.adapter = searchListAdapter
+        }
+
         if (savedInstanceState == null) {
             checkLocationPermission()
-            searchListAdapter = SearchListAdapter(locationTourListViewModel, ::handleLoginRequest)
-            binding.rvNear.layoutManager = LinearLayoutManager(requireActivity())
-            binding.rvNear.adapter = searchListAdapter
         }
 
         initListener()
@@ -58,6 +67,23 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
         super.onResume()
 
         binding.etSearch.setText("")
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            locationTourListViewModel.selectRecentlySearchItem().collect {
+                binding.run {
+                    if (it.isNotEmpty()) {
+                        clRecentNotResult.visibility = View.INVISIBLE
+                        rvRecent.visibility = View.VISIBLE
+                        recentlyListAdapter.submitList(it)
+                        rvRecent.scrollToPosition(0)
+                    }else {
+                        clRecentNotResult.visibility = View.VISIBLE
+                        rvRecent.visibility = View.INVISIBLE
+                    }
+                }
+            }
+        }
     }
     private fun initListener() {
         binding.run {
@@ -169,7 +195,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                                 binding.run {
                                     if(tourList.isNotEmpty()) {
                                         rvNear.visibility = View.VISIBLE
-                                        clRecentNotResult.visibility = View.GONE
+                                        clNotSearch.visibility = View.GONE
                                         if(tourList.size > 4) {
                                             tvNearPlaceMore.visibility = View.VISIBLE
                                         } else {
@@ -178,7 +204,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                                         searchListAdapter.submitList(tourList.take(4))
                                     } else {
                                         rvNear.visibility = View.GONE
-                                        clRecentNotResult.visibility = View.VISIBLE
+                                        clNotSearch.visibility = View.VISIBLE
                                         tvNearPlaceMore.visibility = View.GONE
                                     }
                                 }

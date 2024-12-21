@@ -1,7 +1,9 @@
 package com.ljystamp.stamp_tour_app.api.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -17,6 +19,9 @@ data class TourMapper(
     val cat1: String,
     val cat2: String,
     val cat3: String,
+    @ColumnInfo(defaultValue = "0")
+    val timestamp: Long = 0,
+    @PrimaryKey
     val contentid: Int,
     val contenttypeid: Int,
     val createdtime: String,

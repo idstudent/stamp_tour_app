@@ -1,6 +1,7 @@
 package com.ljystamp.stamp_tour_app.view.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class SearchListViewHolder(
         binding.run {
             binding.root.setOnSingleClickListener {
                 item?.let {
+                    Log.e("ljy", "Info $item")
                     val intent = Intent(binding.root.context, SearchTourDetailActivity::class.java)
                     intent.putExtra("info",  item)
                     binding.root.context.startActivity(intent)
