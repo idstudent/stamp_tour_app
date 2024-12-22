@@ -39,8 +39,6 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>() {
                 return@setOnSingleClickListener
             }
 
-            // 닉네임 유효성 검사 추가하고 싶다면 여기에 추가
-
             // 회원가입 진행 (닉네임 중복 체크 포함)
             signUpViewModel.signUp(email, password, nickname) { success, message ->
                 if (success) {

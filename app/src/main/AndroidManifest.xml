@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stamp_tour_app"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".view.user.ResetPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".view.search.SearchListActivity"
             android:exported="false" />
@@ -31,9 +34,7 @@
         <activity
             android:name=".view.my.MyCertificationActivity"
             android:exported="false" />
-        <activity
-            android:name=".view.my.MyPlanListActivity"
-            android:exported="false" />
+
         <activity
             android:name=".view.my.MyCompleteListActivity"
             android:exported="false" />
@@ -57,7 +58,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
