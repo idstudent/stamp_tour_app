@@ -648,7 +648,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="로그아웃"
-                android:visibility="gone"
+                android:visibility="invisible"
                 style="@style/FontSize14White"
                 android:fontFamily="@font/noto_regular"
                 android:layout_marginTop="20dp"
