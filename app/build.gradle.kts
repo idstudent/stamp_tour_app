@@ -5,6 +5,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -84,4 +85,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+    implementation("com.google.firebase:firebase-crashlytics-ktx") 
+    implementation("com.google.firebase:firebase-analytics-ktx")
 }
