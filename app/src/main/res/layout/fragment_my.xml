@@ -335,7 +335,7 @@
                     android:id="@+id/tv_culture_level_sub_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="문화시설 5곳을 체험 해보세요 !"
+                    android:text="문화시설 10곳을 체험 해보세요 !"
                     style="@style/FontSize16White"
                     android:fontFamily="@font/noto_semi_bold"
                     android:layout_marginTop="8dp"
@@ -567,8 +567,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="48dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_activity_list_level"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -644,6 +642,21 @@
                     app:layout_constraintStart_toStartOf="@id/tv_food_level_name"
                     app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그아웃"
+                android:visibility="gone"
+                style="@style/FontSize14White"
+                android:fontFamily="@font/noto_regular"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="48dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@id/cl_food_list_level"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
