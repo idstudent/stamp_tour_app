@@ -26,7 +26,8 @@ class WithdrawActivity: BaseActivity<ActivityWithdrawBinding>() {
                 userViewModel.deleteAccount(password) { success, message ->
                     if (success) {
                         Toast.makeText(this@WithdrawActivity, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                        finish()
+                        finishAffinity()  // 모든 액티비티 종료
+                        System.exit(0)
                     } else {
                         Toast.makeText(this@WithdrawActivity, message, Toast.LENGTH_SHORT).show()
                     }
