@@ -23,6 +23,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".view.my.PrivacyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.my.WithdrawActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.my.SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.user.ResetPasswordActivity"
             android:exported="false" />
         <activity
@@ -34,7 +43,6 @@
         <activity
             android:name=".view.my.MyCertificationActivity"
             android:exported="false" />
-
         <activity
             android:name=".view.my.MyCompleteListActivity"
             android:exported="false" />

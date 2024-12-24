@@ -49,22 +49,32 @@ class UserViewModel: ViewModel() {
                 if (documents.isEmpty) {
                     createAccount(email, password, nickname, onComplete)
                 } else {
-                    onComplete(false, "이미 사용 중인 닉네임입니다")
+                    onComplete(false, "이미 사용 중인 닉네임이에요")
                 }
             }
             .addOnFailureListener { e ->
-                onComplete(false, "회원가입 중 오류가 발생했습니다: ${e.message}")
+                onComplete(false, "회원가입 중 오류가 발생했어요: ${e.message}")
             }
     }
     fun logout(onComplete: (Boolean) -> Unit) {
         try {
             auth.signOut()
-
+            clearAllData()
             onComplete(true)
         } catch (e: Exception) {
             Log.e("ljy", "Logout failed", e)
             onComplete(false)
         }
+    }
+    private fun clearAllData() {
+        _userProfile.value = null
+        _allList.value = emptyList()
+        _tourPlaceList.value = emptyList()
+        _cultureList.value = emptyList()
+        _eventList.value = emptyList()
+        _activityList.value = emptyList()
+        _foodList.value = emptyList()
+        _certificationCount.value = 0
     }
     private fun createAccount(email: String, password: String, nickname: String, onComplete: (Boolean, String?) -> Unit) {
         auth.createUserWithEmailAndPassword(email, password)

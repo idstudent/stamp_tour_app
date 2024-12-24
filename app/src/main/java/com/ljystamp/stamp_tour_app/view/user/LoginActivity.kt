@@ -23,7 +23,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>() {
                 val email = etEmail.text.toString()
                 val password = etPassword.text.toString()
 
-                // 입력값 검증
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(this@LoginActivity, "이메일과 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
                     return@setOnSingleClickListener
@@ -37,6 +36,12 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>() {
                     }
                 }
             }
+
+            tvSignUp.setOnSingleClickListener {
+                val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+                startActivity(intent)
+            }
+
             tvFindPassword.setOnSingleClickListener {
                 val intent = Intent(this@LoginActivity, ResetPasswordActivity::class.java)
                 startActivity(intent)

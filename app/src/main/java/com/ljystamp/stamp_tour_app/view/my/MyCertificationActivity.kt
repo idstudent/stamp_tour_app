@@ -64,16 +64,13 @@ class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
                     flTour.visibility = View.GONE
                 }
                 in 10..29 -> {
-                    visibleUnder30(flTour, llTourBadge1, llTourBadge2, llTourBadge3, llTourBadge4)
+                    visibleUnder30(flTour, llTourBadge1, llTourBadge2, llTourBadge3)
                 }
                 in 30..49 -> {
-                    visibleUnder50(flTour, llTourBadge1, llTourBadge2, llTourBadge3, llTourBadge4)
-                }
-                in 50..99 -> {
-                    visibleUnder100(flTour, llTourBadge1, llTourBadge2, llTourBadge3, llTourBadge4)
+                    visibleUnder50(flTour, llTourBadge1, llTourBadge2, llTourBadge3)
                 }
                 else -> {
-                    visibleOver100(flTour, llTourBadge1, llTourBadge2, llTourBadge3, llTourBadge4)
+                    visibleOver50(flTour, llTourBadge1, llTourBadge2, llTourBadge3)
                 }
             }
 
@@ -83,17 +80,13 @@ class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
                     flCulture.visibility = View.GONE
                 }
                 in 10..29 -> {
-                    visibleUnder30(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3, llCultureBadge4)
+                    visibleUnder30(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3)
                 }
                 in 30..49 -> {
-                    visibleUnder50(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3, llCultureBadge4)
+                    visibleUnder50(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3,)
                 }
-                in 50..99 -> {
-                    visibleUnder100(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3, llCultureBadge4)
-                }
-
                 else -> {
-                    visibleOver100(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3, llCultureBadge4)
+                    visibleOver50(flCulture, llCultureBadge1, llCultureBadge2, llCultureBadge3)
                 }
             }
 
@@ -103,17 +96,13 @@ class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
                     flEvent.visibility = View.GONE
                 }
                 in 10..29 -> {
-                    visibleUnder30(flEvent, llEventBadge1, llEventBadge2, llEventBadge3, llEventBadge4)
+                    visibleUnder30(flEvent, llEventBadge1, llEventBadge2, llEventBadge3)
                 }
                 in 30..49 -> {
-                    visibleUnder50(flEvent, llEventBadge1, llEventBadge2, llEventBadge3, llEventBadge4)
+                    visibleUnder50(flEvent, llEventBadge1, llEventBadge2, llEventBadge3)
                 }
-                in 50..99 -> {
-                    visibleUnder100(flEvent, llEventBadge1, llEventBadge2, llEventBadge3, llEventBadge4)
-                }
-
                 else -> {
-                    visibleOver100(flEvent, llEventBadge1, llEventBadge2, llEventBadge3, llEventBadge4)
+                    visibleOver50(flEvent, llEventBadge1, llEventBadge2, llEventBadge3)
                 }
             }
 
@@ -123,16 +112,13 @@ class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
                     flActivity.visibility = View.GONE
                 }
                 in 10..29 -> {
-                    visibleUnder30(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3, llActivityBadge4)
+                    visibleUnder30(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3)
                 }
                 in 30..49 -> {
-                    visibleUnder50(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3, llActivityBadge4)
-                }
-                in 50..99 -> {
-                    visibleUnder100(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3, llActivityBadge4)
+                    visibleUnder50(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3)
                 }
                 else -> {
-                    visibleOver100(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3, llActivityBadge4)
+                    visibleOver50(flActivity, llActivityBadge1, llActivityBadge2, llActivityBadge3)
                 }
             }
 
@@ -142,16 +128,13 @@ class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
                     flFood.visibility = View.GONE
                 }
                 in 10..29 -> {
-                    visibleUnder30(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3, llFoodBadge4)
+                    visibleUnder30(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3)
                 }
                 in 30..49 -> {
-                    visibleUnder50(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3, llFoodBadge4)
-                }
-                in 50..99 -> {
-                    visibleUnder100(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3, llFoodBadge4)
+                    visibleUnder50(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3)
                 }
                 else -> {
-                    visibleOver100(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3, llFoodBadge4)
+                    visibleOver50(flFood, llFoodBadge1, llFoodBadge2, llFoodBadge3)
                 }
             }
         }
@@ -159,50 +142,35 @@ class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
 
     private fun visibleUnder30(
         fl: FlexboxLayout, ll1: LinearLayoutCompat,
-        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat, ll4: LinearLayoutCompat) {
+        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat) {
 
         fl.visibility = View.VISIBLE
 
         ll1.visibility = View.VISIBLE
         ll2.visibility = View.GONE
         ll3.visibility = View.GONE
-        ll4.visibility = View.GONE
     }
 
     private fun visibleUnder50(
         fl: FlexboxLayout, ll1: LinearLayoutCompat,
-        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat, ll4: LinearLayoutCompat) {
+        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat) {
 
         fl.visibility = View.VISIBLE
 
         ll1.visibility = View.VISIBLE
         ll2.visibility = View.VISIBLE
         ll3.visibility = View.GONE
-        ll4.visibility = View.GONE
     }
 
-    private fun visibleUnder100(
+    private fun visibleOver50(
         fl: FlexboxLayout, ll1: LinearLayoutCompat,
-        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat, ll4: LinearLayoutCompat) {
+        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat) {
 
         fl.visibility = View.VISIBLE
 
         ll1.visibility = View.VISIBLE
         ll2.visibility = View.VISIBLE
         ll3.visibility = View.VISIBLE
-        ll4.visibility = View.GONE
-    }
-
-    private fun visibleOver100(
-        fl: FlexboxLayout, ll1: LinearLayoutCompat,
-        ll2: LinearLayoutCompat, ll3: LinearLayoutCompat, ll4: LinearLayoutCompat) {
-
-        fl.visibility = View.VISIBLE
-
-        ll1.visibility = View.VISIBLE
-        ll2.visibility = View.VISIBLE
-        ll3.visibility = View.VISIBLE
-        ll4.visibility = View.VISIBLE
     }
     override fun getViewBinding(): ActivityMyCertificationBinding {
         return ActivityMyCertificationBinding.inflate(layoutInflater)

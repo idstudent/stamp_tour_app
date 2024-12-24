@@ -46,7 +46,6 @@
                 android:id="@+id/fl_tour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 app:alignItems="flex_start"
@@ -64,13 +63,15 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/tour_img_1"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="여행\n병아리" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -84,13 +85,14 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/tour_img_2"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:text="방랑" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -103,33 +105,17 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/tour_img_3"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:text="콜럼버" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_tour_badge_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="10dp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/FontSize16White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="초보자" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.flexbox.FlexboxLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -147,7 +133,7 @@
                 android:id="@+id/fl_culture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 app:alignItems="flex_start"
@@ -172,7 +158,8 @@
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="관람" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -187,13 +174,13 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/culture_img_2" />
+                        android:src="@drawable/festival_img_2" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:text="예술인" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -207,34 +194,16 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/culture_img_3" />
+                        android:src="@drawable/culture_img_3"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="Art\n그 자체" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_culture_badge_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/culture_img_4" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/FontSize16White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="초보자" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.flexbox.FlexboxLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -252,7 +221,7 @@
                 android:id="@+id/fl_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 app:alignItems="flex_start"
@@ -271,13 +240,14 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
+                        android:src="@drawable/festival_img_1" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="가볍게\n즐기는 사람" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -292,13 +262,14 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
+                        android:src="@drawable/festival_img_2" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="축제에\n미쳐버린 사람" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -312,34 +283,16 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
+                        android:src="@drawable/festival_img_3" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="내가\n바로 MC" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_event_badge_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/FontSize16White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="초보자" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.flexbox.FlexboxLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -357,7 +310,7 @@
                 android:id="@+id/fl_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 app:alignItems="flex_start"
@@ -382,7 +335,7 @@
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:text="뉴비" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -403,7 +356,7 @@
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:text="고인물" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -417,34 +370,17 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/activity_img_3" />
+                        android:src="@drawable/activity_img_3"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="통달한\n사람"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_activity_badge_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/activity_img_4" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/FontSize16White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="초보자" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
+             ]
             </com.google.android.flexbox.FlexboxLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -462,7 +398,7 @@
                 android:id="@+id/fl_food"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 app:alignItems="flex_start"
@@ -483,13 +419,14 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
+                        android:src="@drawable/food_img_1"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="맛집 찾아\n헤매는 뉴비" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -504,13 +441,14 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
+                        android:src="@drawable/food_img_2"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:gravity="center"
+                        android:text="고독한\n미식가" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -524,34 +462,17 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
+                        android:src="@drawable/food_img_3"
+                        />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/FontSize16White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초보자" />
+                        android:text="먹방 신" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_food_badge_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/test_img_1" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/FontSize16White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="초보자" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.flexbox.FlexboxLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
