@@ -3,6 +3,7 @@ package com.ljystamp.stamp_tour_app.view.main
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -123,7 +124,55 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupAdapters() {
-        savedLocationsAdapter = SavedLocationsAdapter(locationTourListViewModel)
+        savedLocationsAdapter = SavedLocationsAdapter(locationTourListViewModel) { savedLocation ->
+            if(isLocationPermissionGranted) {
+                try {
+                    fusedLocationClient.lastLocation
+                        .addOnSuccessListener { location ->
+                            location?.let {
+                                val results = FloatArray(1)
+                                Location.distanceBetween(
+                                    it.latitude,
+                                    it.longitude,
+                                    savedLocation.latitude,
+                                    savedLocation.longitude,
+                                    results
+                                )
+
+                                val distanceInMeters = results[0]
+                                if (distanceInMeters <= 500) {
+                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { success, message ->
+                                        message?.let { msg ->
+                                            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "해당 장소와의 거리가 너무 멀어요! (${String.format("%.1f", distanceInMeters)}m)",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } ?: run {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "위치 정보를 가져올 수 없어요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                } catch (e: SecurityException) {
+                    Toast.makeText(
+                        requireContext(),
+                        "위치 권한이 없습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }else {
+                Toast.makeText(requireContext(), "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         binding.run {
             rvNearTourList.layoutManager = LinearLayoutManager(activity)
@@ -240,7 +289,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     } ?: run {
                         Toast.makeText(
                             requireContext(),
-                            "위치 정보를 가져올 수 없습니다.",
+                            "위치 정보를 가져올 수 없어요",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -255,7 +304,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         } catch (e: SecurityException) {
             Toast.makeText(
                 requireContext(),
-                "위치 권한이 없습니다.",
+                "위치 권한이 없어요",
                 Toast.LENGTH_SHORT
             ).show()
         }

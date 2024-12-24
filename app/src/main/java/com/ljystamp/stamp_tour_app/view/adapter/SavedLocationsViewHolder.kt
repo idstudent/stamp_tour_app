@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ItemTodayStampBinding
@@ -17,9 +18,11 @@ import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class SavedLocationsViewHolder(
     private val binding: ItemTodayStampBinding,
-    private val viewModel: LocationTourListViewModel
+    private val viewModel: LocationTourListViewModel,
+    private val onStampClick: (SavedLocation) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private var item: SavedLocation? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     init {
         binding.run {
@@ -36,24 +39,8 @@ class SavedLocationsViewHolder(
                 }
             }
             btnComplete.setOnSingleClickListener {
-                val currentItem =
-                    bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
-                        (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
-                            (adapter as? SavedLocationsAdapter)?.currentList?.get(position)
-                        }
-                    }
-
-                currentItem?.let { item ->
-                    viewModel.updateVisitStatus(item.contentId) { success, message ->
-                        Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()
-                        if (success) {
-                            btnComplete.isEnabled = false
-                            btnComplete.background = ContextCompat.getDrawable(
-                                binding.root.context,
-                                R.drawable.radius_12_2a2a2a
-                            )
-                        }
-                    }
+                item?.let {
+                    onStampClick(it)
                 }
             }
         }

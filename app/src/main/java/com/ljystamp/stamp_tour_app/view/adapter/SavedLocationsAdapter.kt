@@ -17,7 +17,8 @@ import com.ljystamp.stamp_tour_app.databinding.ItemTodayStampBinding
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class SavedLocationsAdapter(
-    private val viewModel: LocationTourListViewModel
+    private val viewModel: LocationTourListViewModel,
+    private val onStampClick: (SavedLocation) -> Unit
 ): ListAdapter<SavedLocation, SavedLocationsViewHolder>(
     object: DiffUtil.ItemCallback<SavedLocation>() {
         override fun areItemsTheSame(oldItem: SavedLocation, newItem: SavedLocation): Boolean {
@@ -34,7 +35,7 @@ class SavedLocationsAdapter(
         val binding = ItemTodayStampBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SavedLocationsViewHolder(binding,viewModel)
+        return SavedLocationsViewHolder(binding,viewModel,onStampClick)
     }
 
     override fun onBindViewHolder(holder: SavedLocationsViewHolder, position: Int) {
