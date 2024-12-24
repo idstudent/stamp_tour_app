@@ -2,12 +2,14 @@ package com.ljystamp.stamp_tour_app.view.main
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -165,8 +167,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
-                    isLocationPermissionGranted = true
-                    getCurrentLocation()
+                    // FINE_LOCATION 권한이 있는지 한번 더 체크
+                    if (ActivityCompat.checkSelfPermission(
+                            requireContext(),
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED) {
+                        // 정확한 위치 권한이 있을 때만 허용 처리
+                        isLocationPermissionGranted = true
+                        getCurrentLocation()
+                    } else {
+                        // 대략적인 위치만 허용한 경우
+                        isLocationPermissionGranted = false
+                        Toast.makeText(
+                            requireContext(),
+                            "정확한 위치 확인을 위해 '정확한 위치' 권한을 허용해주세요",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
 
                 override fun onPermissionDenied(deniedPermissions: List<String>) {
@@ -178,7 +195,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     ).show()
                 }
             })
-            .setDeniedMessage("위치 권한을 받지 않으면 몇몇 기능을 사용하지 못해요!")
+            .setDeniedMessage("정확한 위치 권한을 받지 않으면 몇몇 기능을 사용하지 못해요!\n정확한 위치를 켜시려면 설정 > 권한 > 위치 > 정확한 위치사용을 켜주세요")
             .setPermissions(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -194,7 +211,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         val latitude = it.latitude
                         val longitude = it.longitude
 
-                        Log.e("ljy", "위도: $latitude, 경도: $longitude")
                         viewLifecycleOwner.lifecycleScope.launch {
 
                             locationTourListViewModel.getLocationTourList(
