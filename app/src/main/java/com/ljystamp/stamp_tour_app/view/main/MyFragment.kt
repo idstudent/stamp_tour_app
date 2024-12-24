@@ -226,12 +226,13 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
                 startActivity(intent)
             }
 
-            if (tvNickName.text.toString() == "로그인이 필요해요") {
-                tvNickName.setOnSingleClickListener {
+            tvNickName.setOnSingleClickListener {
+                if (tvNickName.text.toString() == "로그인이 필요해요") {
                     val intent = Intent(requireActivity(), LoginActivity::class.java)
                     startActivity(intent)
                 }
             }
+
 
             ivSetting.setOnSingleClickListener {
                 val intent = Intent(requireActivity(), SettingActivity::class.java)
