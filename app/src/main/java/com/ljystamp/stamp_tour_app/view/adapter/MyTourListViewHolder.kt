@@ -17,7 +17,8 @@ import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class MyTourListViewHolder(
     private val binding: ItemMyTourBinding,
-    private val viewModel: LocationTourListViewModel
+    private val viewModel: LocationTourListViewModel,
+    private val onStampClick: (SavedLocation) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private var item: SavedLocation? = null
 
@@ -35,23 +36,8 @@ class MyTourListViewHolder(
                 }
             }
             btnComplete.setOnSingleClickListener {
-                val currentItem = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { position ->
-                    (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
-                        (adapter as? MyTourListAdapter)?.currentList?.get(position)
-                    }
-                }
-
-                currentItem?.let { item ->
-                    viewModel.updateVisitStatus(item.contentId) { success, message ->
-                        Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()
-                        if (success) {
-                            btnComplete.isEnabled = false
-                            btnComplete.background = ContextCompat.getDrawable(
-                                binding.root.context,
-                                R.drawable.radius_12_2a2a2a
-                            )
-                        }
-                    }
+                item?.let {
+                    onStampClick(it)
                 }
             }
         }

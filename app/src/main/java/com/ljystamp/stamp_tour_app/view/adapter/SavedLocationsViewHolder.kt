@@ -22,7 +22,6 @@ class SavedLocationsViewHolder(
     private val onStampClick: (SavedLocation) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private var item: SavedLocation? = null
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     init {
         binding.run {
