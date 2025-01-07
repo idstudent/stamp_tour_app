@@ -211,7 +211,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                     } ?: run {
                         Toast.makeText(
                             requireContext(),
-                            "위치 정보를 가져올 수 없습니다.",
+                            "위치 정보를 가져올 수 없어요.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -226,7 +226,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
         } catch (e: SecurityException) {
             Toast.makeText(
                 requireContext(),
-                "위치 권한이 없습니다.",
+                "위치 권한이 없어요.",
                 Toast.LENGTH_SHORT
             ).show()
         }

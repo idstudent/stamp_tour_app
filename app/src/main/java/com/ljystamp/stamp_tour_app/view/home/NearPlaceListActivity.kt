@@ -65,7 +65,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
                         }
                     } ?: run {
                         isLoading = false
-                        Toast.makeText(this, "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "위치 정보를 가져올 수 없어요.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { e ->
@@ -74,7 +74,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
                 }
         } catch (e: SecurityException) {
             isLoading = false
-            Toast.makeText(this, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "위치 권한이 없어요.", Toast.LENGTH_SHORT).show()
         }
     }
 

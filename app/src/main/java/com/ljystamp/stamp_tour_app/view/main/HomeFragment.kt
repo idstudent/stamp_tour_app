@@ -130,7 +130,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 } catch (e: SecurityException) {
                     Toast.makeText(
                         requireContext(),
-                        "위치 권한이 없습니다.",
+                        "위치 권한이 없어요.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
