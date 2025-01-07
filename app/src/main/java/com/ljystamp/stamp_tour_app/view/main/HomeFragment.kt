@@ -72,42 +72,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.run {
-            tvNearPlaceMore.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 12)
-                startActivity(intent)
-            }
-
-            tvMyPlaceMore.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), MyTourListActivity::class.java)
-                startActivity(intent)
-            }
-
-            clCulture.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 14)
-                startActivity(intent)
-            }
-
-            clFestival.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 15)
-                startActivity(intent)
-            }
-
-            clActivity.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 28)
-                startActivity(intent)
-            }
-
-            clFood.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 39)
-                startActivity(intent)
-            }
-        }
+        initListener()
+        observeNearTourList()
     }
 
     override fun onResume() {
@@ -260,32 +226,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         val latitude = it.latitude
                         val longitude = it.longitude
 
-                        viewLifecycleOwner.lifecycleScope.launch {
-
-                            locationTourListViewModel.getLocationTourList(
-                                longitude,
-                                latitude,
-                                1,
-                                12
-                            ).collect { tourList ->
-                                binding.run {
-                                    if(tourList.isNotEmpty()) {
-                                        rvNearTourList.visibility = View.VISIBLE
-                                        clNullNearPlace.visibility = View.GONE
-                                        if(tourList.size > 4) {
-                                            tvNearPlaceMore.visibility = View.VISIBLE
-                                        } else {
-                                            tvNearPlaceMore.visibility = View.GONE
-                                        }
-                                        nearTourListAdapter.submitList(tourList.take(4))
-                                    } else {
-                                        rvNearTourList.visibility = View.GONE
-                                        clNullNearPlace.visibility = View.VISIBLE
-                                        tvNearPlaceMore.visibility = View.GONE
-                                    }
-                                }
-                            }
-                        }
+                        locationTourListViewModel.getLocationTourList(longitude, latitude, 1, 12)
                     } ?: run {
                         Toast.makeText(
                             requireContext(),
@@ -315,6 +256,69 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         startActivity(intent)
     }
 
+    private fun initListener() {
+        binding.run {
+            tvNearPlaceMore.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 12)
+                startActivity(intent)
+            }
+
+            tvMyPlaceMore.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), MyTourListActivity::class.java)
+                startActivity(intent)
+            }
+
+            clCulture.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 14)
+                startActivity(intent)
+            }
+
+            clFestival.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 15)
+                startActivity(intent)
+            }
+
+            clActivity.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 28)
+                startActivity(intent)
+            }
+
+            clFood.setOnSingleClickListener {
+                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
+                intent.putExtra("typeId", 39)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun observeNearTourList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                locationTourListViewModel.nearTourList.collect {
+                    binding.run {
+                        if(it.isNotEmpty()) {
+                            rvNearTourList.visibility = View.VISIBLE
+                            clNullNearPlace.visibility = View.GONE
+                            if(it.size > 4) {
+                                tvNearPlaceMore.visibility = View.VISIBLE
+                            } else {
+                                tvNearPlaceMore.visibility = View.GONE
+                            }
+                            nearTourListAdapter.submitList(it.take(4))
+                        } else {
+                            rvNearTourList.visibility = View.GONE
+                            clNullNearPlace.visibility = View.VISIBLE
+                            tvNearPlaceMore.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?

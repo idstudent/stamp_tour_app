@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +33,9 @@ class LocationTourListViewModel @Inject constructor(
     private val db = FirebaseFirestore.getInstance()
     private val _savedLocations = MutableStateFlow<List<SavedLocation>>(emptyList())
     val savedLocations: StateFlow<List<SavedLocation>> = _savedLocations.asStateFlow()
+
+    private val _nearTourList = MutableStateFlow<List<TourMapper>>(emptyList())
+    val nearTourList = _nearTourList.asStateFlow()
 
     private var snapshotListener: ListenerRegistration? = null
 
@@ -75,9 +80,12 @@ class LocationTourListViewModel @Inject constructor(
             }
     }
 
-    fun getLocationTourList(longitude: Double, latitude: Double, pageNo: Int, contentTypeId: Int): Flow<List<TourMapper>> {
-        return locationTourListRepository.getLocationTourList(longitude, latitude, pageNo, contentTypeId)
-            .catch { it.printStackTrace() }
+    fun getLocationTourList(longitude: Double, latitude: Double, pageNo: Int, contentTypeId: Int) {
+        viewModelScope.launch {
+            val result = locationTourListRepository.getLocationTourList(longitude, latitude, pageNo, contentTypeId)
+
+            _nearTourList.value = result
+        }
     }
 
     fun saveTourLocation(tour: TourMapper, onComplete: (SaveResult) -> Unit) {

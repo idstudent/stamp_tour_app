@@ -13,7 +13,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -64,6 +66,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
         }
 
         initListener()
+        observeNearTourList()
     }
 
     override fun onResume() {
@@ -204,33 +207,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                         val latitude = it.latitude
                         val longitude = it.longitude
 
-                        Log.e("ljy", "위도: $latitude, 경도: $longitude")
-                        viewLifecycleOwner.lifecycleScope.launch {
-
-                            locationTourListViewModel.getLocationTourList(
-                                longitude,
-                                latitude,
-                                1,
-                                contentTypeId
-                            ).collect { tourList ->
-                                binding.run {
-                                    if(tourList.isNotEmpty()) {
-                                        rvNear.visibility = View.VISIBLE
-                                        clNotSearch.visibility = View.GONE
-                                        if(tourList.size > 4) {
-                                            tvNearPlaceMore.visibility = View.VISIBLE
-                                        } else {
-                                            tvNearPlaceMore.visibility = View.GONE
-                                        }
-                                        searchListAdapter.submitList(tourList.take(4))
-                                    } else {
-                                        rvNear.visibility = View.GONE
-                                        clNotSearch.visibility = View.VISIBLE
-                                        tvNearPlaceMore.visibility = View.GONE
-                                    }
-                                }
-                            }
-                        }
+                        locationTourListViewModel.getLocationTourList(longitude, latitude, 1, contentTypeId)
                     } ?: run {
                         Toast.makeText(
                             requireContext(),
@@ -258,6 +235,31 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
     private fun handleLoginRequest() {
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         activityResultLauncher.launch(intent)
+    }
+
+    private fun observeNearTourList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                locationTourListViewModel.nearTourList.collect {
+                    binding.run {
+                        if(it.isNotEmpty()) {
+                            rvNear.visibility = View.VISIBLE
+                            clNotSearch.visibility = View.GONE
+                            if(it.size > 4) {
+                                tvNearPlaceMore.visibility = View.VISIBLE
+                            } else {
+                                tvNearPlaceMore.visibility = View.GONE
+                            }
+                            searchListAdapter.submitList(it.take(4))
+                        } else {
+                            rvNear.visibility = View.GONE
+                            clNotSearch.visibility = View.VISIBLE
+                            tvNearPlaceMore.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

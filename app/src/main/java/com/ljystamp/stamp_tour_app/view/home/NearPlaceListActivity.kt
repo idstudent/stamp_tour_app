@@ -39,81 +39,29 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel, ::handleLoginRequest)
-
+        setupRecyclerView()
+        observeNearTourList()
         search()
-
-        binding.run {
-            rvNearPlace.layoutManager = GridLayoutManager(this@NearPlaceListActivity, 2)
-            rvNearPlace.adapter = nearTourListAdapter
-
-            rvNearPlace.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                    val lastPos = layoutManager.findLastCompletelyVisibleItemPosition()
-
-                    val totalCount = recyclerView.adapter?.itemCount
-                    totalCount?.let { total ->
-                        if (lastPos == total - 1) {
-                            page++
-                            search()
-                        }
-                    }
-                }
-            })
-        }
     }
 
     private fun search() {
         if (isLoading) return
-
-        val intent = intent
-        contentTypeId = intent.getIntExtra("typeId", -1)
-
         isLoading = true
+
+        contentTypeId = intent.getIntExtra("typeId", -1)
+        updateTitle()
+
         try {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.let {
-                        val latitude = it.latitude
-                        val longitude = it.longitude
-
-                        lifecycleScope.launch {
-                            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                                try {
-                                    contentTypeId?.let { typeId ->
-                                        binding.run {
-                                            when(contentTypeId) {
-                                                12 -> tvTitle.text = "내 근처 여행지"
-                                                14 -> tvTitle.text = "내 근처 문화 시설"
-                                                15 -> tvTitle.text = "내 근처 축제"
-                                                28 -> tvTitle.text = "내 근처 액티비티"
-                                                39 -> tvTitle.text = "내 근처 식당"
-                                            }
-                                        }
-
-                                        locationTourListViewModel.getLocationTourList(
-                                            longitude,
-                                            latitude,
-                                            page,
-                                            typeId
-                                        ).collect { newTourList ->
-                                            if (page == 1) {
-                                                currentTourList.clear()
-                                            }
-                                            if (newTourList.isEmpty()) {
-                                                return@collect
-                                            }
-                                            currentTourList.addAll(newTourList)
-                                            nearTourListAdapter.submitList(currentTourList.toList())
-                                        }
-                                    }
-                                } finally {
-                                    isLoading = false
-                                }
-                            }
+                        contentTypeId?.let { typeId ->
+                            locationTourListViewModel.getLocationTourList(
+                                it.longitude,
+                                it.latitude,
+                                page,
+                                typeId
+                            )
                         }
                     } ?: run {
                         isLoading = false
@@ -129,6 +77,59 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
             Toast.makeText(this, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun updateTitle() {
+        binding.tvTitle.text = when(contentTypeId) {
+            12 -> "내 근처 여행지"
+            14 -> "내 근처 문화 시설"
+            15 -> "내 근처 축제"
+            28 -> "내 근처 액티비티"
+            39 -> "내 근처 식당"
+            else -> ""
+        }
+    }
+
+    private fun observeNearTourList() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                locationTourListViewModel.nearTourList.collect { newTourList ->
+                    if (page == 1) {
+                        currentTourList.clear()
+                    }
+                    if (newTourList.isEmpty()) {
+                        isLoading = false
+                        return@collect
+                    }
+                    currentTourList.addAll(newTourList)
+                    nearTourListAdapter.submitList(currentTourList.toList())
+                    isLoading = false
+                }
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel, ::handleLoginRequest)
+
+        binding.rvNearPlace.apply {
+            layoutManager = GridLayoutManager(this@NearPlaceListActivity, 2)
+            adapter = nearTourListAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as GridLayoutManager
+                    val lastPos = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val totalCount = recyclerView.adapter?.itemCount
+
+                    if (!isLoading && totalCount != null && lastPos == totalCount - 1) {
+                        page++
+                        search()
+                    }
+                }
+            })
+        }
+    }
+    
     private fun handleLoginRequest() {
         val intent = Intent(this, LoginActivity::class.java)
         activityResultLauncher.launch(intent)
