@@ -1,10 +1,14 @@
 package com.ljystamp.stamp_tour_app.view.main
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.GnssStatus
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
@@ -33,7 +36,7 @@ import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
+import android.util.Log
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -41,8 +44,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
+    private val locationManager: LocationManager by lazy {
+        requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+
+    private var isOutdoor = false
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     private val auth = FirebaseAuth.getInstance()
+
+    private val gnssCallback = object : GnssStatus.Callback() {
+        override fun onSatelliteStatusChanged(status: GnssStatus) {
+            var strongSignals = 0
+            for (i in 0 until status.satelliteCount) {
+                if (status.getCn0DbHz(i) > 20.0f) {
+                    strongSignals++
+                }
+            }
+
+            isOutdoor = strongSignals >= 4
+            Log.d("GNSS", "강한 신호의 위성 수: $strongSignals, 실외 여부: $isOutdoor")
+        }
+    }
 
     private val nearTourListAdapter by lazy {
         NearTourListAdapter(
@@ -52,6 +74,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
     private var isLocationPermissionGranted = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationManager.registerGnssStatusCallback(gnssCallback, null)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationManager.unregisterGnssStatusCallback(gnssCallback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +107,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initListener()
         observeNearTourList()
     }
@@ -85,21 +121,52 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         userId?.let {
             locationTourListViewModel.startObservingSavedLocations()
             nearTourListAdapter.notifyDataSetChanged()
+        } ?: run {
+            // userId가 null일 경우 (로그아웃 상태)
+            locationTourListViewModel.clearSavedLocations()  // ViewModel에 clear 메서드 추가 필요
+            savedLocationsAdapter.submitList(emptyList())
         }
     }
 
+
     private fun setupAdapters() {
         savedLocationsAdapter = SavedLocationsAdapter(locationTourListViewModel) { savedLocation ->
-            if(isLocationPermissionGranted) {
-                try {
-                    fusedLocationClient.lastLocation
-                        .addOnSuccessListener { location ->
-                            location?.let {
-                                val results = FloatArray(1)
-                                Location.distanceBetween(it.latitude, it.longitude,
-                                    savedLocation.latitude, savedLocation.longitude, results)
+            if (!isLocationPermissionGranted) {
+                Toast.makeText(requireContext(), "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
+                return@SavedLocationsAdapter
+            }
 
+            if (!isOutdoor) {
+                Toast.makeText(
+                    requireContext(),
+                    "실내에서는 스탬프를 찍을 수 없어요. 실외로 이동해주세요.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@SavedLocationsAdapter
+            }
+
+            try {
+                val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+                    .setWaitForAccurateLocation(true)
+                    .setMinUpdateIntervalMillis(5000)
+                    .build()
+
+                val locationCallback = object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult) {
+                        locationResult.lastLocation?.let { location ->
+                            if (location.accuracy <= 50) {
+                                val results = FloatArray(1)
+                                Location.distanceBetween(
+                                    location.latitude,
+                                    location.longitude,
+                                    savedLocation.latitude,
+                                    savedLocation.longitude,
+                                    results
+                                )
                                 val distanceInMeters = results[0]
+                                Log.d("Location", "현재 위치 - 위도: ${location.latitude}, 경도: ${location.longitude}, 정확도: ${location.accuracy}m")
+                                Log.d("Location", "목표 위치 - 위도: ${savedLocation.latitude}, 경도: ${savedLocation.longitude}, 거리: ${distanceInMeters}m")
+
                                 if (distanceInMeters <= 500) {
                                     locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { _, message ->
                                         message?.let { msg ->
@@ -113,26 +180,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
-                            } ?: run {
+                            } else {
                                 Toast.makeText(
                                     requireContext(),
-                                    "위치 정보를 가져올 수 없어요.",
+                                    "위치 정확도가 낮아요. GPS 신호가 더 좋은 곳으로 이동해주세요.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+                            fusedLocationClient.removeLocationUpdates(this)
                         }
-                } catch (e: SecurityException) {
-                    Toast.makeText(
-                        requireContext(),
-                        "위치 권한이 없어요.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    }
                 }
-            }else {
-                Toast.makeText(requireContext(), "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
+
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    fusedLocationClient.requestLocationUpdates(
+                        locationRequest,
+                        locationCallback,
+                        Looper.getMainLooper()
+                    )
+                }
+            } catch (e: SecurityException) {
+                Toast.makeText(requireContext(), "위치 권한이 없어요.", Toast.LENGTH_SHORT).show()
             }
         }
-
 
         binding.run {
             rvNearTourList.layoutManager = LinearLayoutManager(activity)
@@ -176,16 +250,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
-                    // FINE_LOCATION 권한이 있는지 한번 더 체크
                     if (ActivityCompat.checkSelfPermission(
                             requireContext(),
                             Manifest.permission.ACCESS_FINE_LOCATION
                         ) == PackageManager.PERMISSION_GRANTED) {
-                        // 정확한 위치 권한이 있을 때만 허용 처리
                         isLocationPermissionGranted = true
                         getCurrentLocation()
                     } else {
-                        // 대략적인 위치만 허용한 경우
                         isLocationPermissionGranted = false
                         Toast.makeText(
                             requireContext(),
@@ -213,37 +284,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getCurrentLocation() {
-        try {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location ->
-                    location?.let {
-                        val latitude = it.latitude
-                        val longitude = it.longitude
+        if (!isLocationPermissionGranted) {
+            Toast.makeText(requireContext(), "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-                        locationTourListViewModel.getLocationTourList(longitude, latitude, 1, 12)
-                    } ?: run {
-                        Toast.makeText(
-                            requireContext(),
-                            "위치 정보를 가져올 수 없어요",
-                            Toast.LENGTH_SHORT
-                        ).show()
+        try {
+            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+                .setWaitForAccurateLocation(true)
+                .setMinUpdateIntervalMillis(5000)
+                .build()
+
+            val locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    locationResult.lastLocation?.let { location ->
+                        locationTourListViewModel.getLocationTourList(location.longitude, location.latitude, 1, 12)
+                        fusedLocationClient.removeLocationUpdates(this)
                     }
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(
-                        requireContext(),
-                        "위치 정보 조회 실패: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            }
+
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                fusedLocationClient.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback,
+                    Looper.getMainLooper()
+                )
+            }
         } catch (e: SecurityException) {
-            Toast.makeText(
-                requireContext(),
-                "위치 권한이 없어요",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "위치 권한이 없어요.", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun observeNearTourList() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
