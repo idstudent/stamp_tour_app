@@ -32,8 +32,9 @@ import kotlinx.coroutines.launch
 class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
     private val tourDetailViewModel: TourDetailViewModel by viewModels()
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
-
+    @Volatile
     private var isOutdoor = false
+
     private var contentId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,11 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationManager.registerGnssStatusCallback(gnssCallback, null)
+            try {
+                locationManager.registerGnssStatusCallback(gnssCallback, null)
+            } catch (e: Exception) {
+                Log.e("GNSS", "Failed to register callback", e)
+            }
         }
 
         initView()
@@ -65,10 +70,8 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
             }
 
             isOutdoor = strongSignals >= 4
-            Log.d("GNSS", "강한 신호의 위성 수: $strongSignals, 실외 여부: $isOutdoor")
         }
     }
-
     private fun initView() {
         val intent = intent
         val title = intent.getStringExtra("title") ?: ""

@@ -48,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
+    @Volatile
     private var isOutdoor = false
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     private val auth = FirebaseAuth.getInstance()
@@ -62,7 +63,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             isOutdoor = strongSignals >= 4
-            Log.d("GNSS", "강한 신호의 위성 수: $strongSignals, 실외 여부: $isOutdoor")
         }
     }
 
@@ -81,7 +81,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationManager.registerGnssStatusCallback(gnssCallback, null)
+            try {
+                locationManager.registerGnssStatusCallback(gnssCallback, null)
+            } catch (e: Exception) {
+                Log.e("GNSS", "Failed to register callback", e)
+            }
         }
     }
 
@@ -255,6 +259,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             Manifest.permission.ACCESS_FINE_LOCATION
                         ) == PackageManager.PERMISSION_GRANTED) {
                         isLocationPermissionGranted = true
+                        try {
+                            locationManager.registerGnssStatusCallback(gnssCallback, null)
+                        } catch (e: Exception) {
+                            Log.e("GNSS", "Failed to register callback", e)
+                        }
                         getCurrentLocation()
                     } else {
                         isLocationPermissionGranted = false

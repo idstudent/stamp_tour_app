@@ -32,6 +32,7 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     private var myTourListAdapter: MyTourListAdapter? = null
     private var isLocationPermissionGranted = false
+    @Volatile
     private var isOutdoor = false
 
     private val locationManager: LocationManager by lazy {
@@ -58,14 +59,6 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            locationManager.registerGnssStatusCallback(gnssCallback, null)
-        }
 
         checkLocationPermission()
 
@@ -182,8 +175,11 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
                             Manifest.permission.ACCESS_FINE_LOCATION
                         ) == PackageManager.PERMISSION_GRANTED) {
                         isLocationPermissionGranted = true
-                        // 권한이 승인되면 GNSS 콜백 등록
-                        locationManager.registerGnssStatusCallback(gnssCallback, null)
+                        try {
+                            locationManager.registerGnssStatusCallback(gnssCallback, null)
+                        } catch (e: Exception) {
+                            Log.e("GNSS", "Failed to register callback", e)
+                        }
                     } else {
                         isLocationPermissionGranted = false
                         Toast.makeText(
