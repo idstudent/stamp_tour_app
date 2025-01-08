@@ -1,8 +1,11 @@
 package com.ljystamp.stamp_tour_app.view.home
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.GnssStatus
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -29,22 +32,59 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     private var myTourListAdapter: MyTourListAdapter? = null
     private var isLocationPermissionGranted = false
+    private var isOutdoor = false
+
+    private val locationManager: LocationManager by lazy {
+        getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
 
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
 
+    private val gnssCallback = object : GnssStatus.Callback() {
+        override fun onSatelliteStatusChanged(status: GnssStatus) {
+            var strongSignals = 0
+            for (i in 0 until status.satelliteCount) {
+                if (status.getCn0DbHz(i) > 20.0f) {
+                    strongSignals++
+                }
+            }
+
+            isOutdoor = strongSignals >= 4
+            Log.d("GNSS", "강한 신호의 위성 수: $strongSignals, 실외 여부: $isOutdoor")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationManager.registerGnssStatusCallback(gnssCallback, null)
+        }
 
         checkLocationPermission()
 
         myTourListAdapter = MyTourListAdapter(locationTourListViewModel) { savedLocation ->
-            if(isLocationPermissionGranted) {
-                getCurrentLocation(savedLocation)
-            } else {
+            if (!isLocationPermissionGranted) {
                 Toast.makeText(this, "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
+                return@MyTourListAdapter
             }
+
+            if (!isOutdoor) {
+                Toast.makeText(
+                    this,
+                    "실내에서는 스탬프를 찍을 수 없어요. 실외로 이동해주세요.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@MyTourListAdapter
+            }
+
+            getCurrentLocation(savedLocation)
         }
 
         binding.run {
@@ -60,6 +100,11 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationManager.unregisterGnssStatusCallback(gnssCallback)
     }
 
     private fun getCurrentLocation(savedLocation: SavedLocation) {
@@ -83,6 +128,8 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
                                 results
                             )
                             val distanceInMeters = results[0]
+                            Log.d("Location", "현재 위치 - 위도: ${location.latitude}, 경도: ${location.longitude}, 정확도: ${location.accuracy}m")
+                            Log.d("Location", "목표 위치 - 위도: ${savedLocation.latitude}, 경도: ${savedLocation.longitude}, 거리: ${distanceInMeters}m")
 
                             if (distanceInMeters <= 500) {
                                 locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { _, message ->
@@ -135,6 +182,8 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
                             Manifest.permission.ACCESS_FINE_LOCATION
                         ) == PackageManager.PERMISSION_GRANTED) {
                         isLocationPermissionGranted = true
+                        // 권한이 승인되면 GNSS 콜백 등록
+                        locationManager.registerGnssStatusCallback(gnssCallback, null)
                     } else {
                         isLocationPermissionGranted = false
                         Toast.makeText(
