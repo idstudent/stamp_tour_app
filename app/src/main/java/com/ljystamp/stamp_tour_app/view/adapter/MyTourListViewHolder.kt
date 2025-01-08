@@ -32,6 +32,7 @@ class MyTourListViewHolder(
                     intent.putExtra("url", it.image)
                     intent.putExtra("contentId", it.contentId)
                     intent.putExtra("contentTypeId", it.contentTypeId)
+                    intent.putExtra("complete",false)
                     binding.root.context.startActivity(intent)
                 }
             }

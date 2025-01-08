@@ -76,8 +76,12 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
         val imgUrl = intent.getStringExtra("url") ?: ""
         contentId = intent.getIntExtra("contentId", -1)
         val contentTypeId = intent.getIntExtra("contentTypeId", -1)
+        val complete = intent.getBooleanExtra("complete", true)
 
         if(contentId != -1 && contentTypeId != -1) {
+            if(complete) binding.btnComplete.visibility = View.INVISIBLE
+            else binding.btnComplete.visibility = View.VISIBLE
+
             tourDetailViewModel.getTourDetail(contentId, contentTypeId)
 
             lifecycleScope.launch {
