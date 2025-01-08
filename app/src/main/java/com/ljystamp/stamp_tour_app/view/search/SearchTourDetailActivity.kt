@@ -56,7 +56,9 @@ class SearchTourDetailActivity: BaseActivity<ActivitySearchTourDetailBinding>() 
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     tourDetailViewModel.insertItem(it)
 
-                    tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid).collect { detailInfo ->
+                    tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid)
+
+                    tourDetailViewModel.tourDetailInfo.collect { detailInfo ->
                         binding.run {
                             if(detailInfo.isNotEmpty()) {
                                 detailInfo[0].run {

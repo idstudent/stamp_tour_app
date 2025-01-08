@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,17 +96,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         .addOnSuccessListener { location ->
                             location?.let {
                                 val results = FloatArray(1)
-                                Location.distanceBetween(
-                                    it.latitude,
-                                    it.longitude,
-                                    savedLocation.latitude,
-                                    savedLocation.longitude,
-                                    results
-                                )
+                                Location.distanceBetween(it.latitude, it.longitude,
+                                    savedLocation.latitude, savedLocation.longitude, results)
 
                                 val distanceInMeters = results[0]
                                 if (distanceInMeters <= 500) {
-                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { success, message ->
+                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { _, message ->
                                         message?.let { msg ->
                                             Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                                         }
@@ -250,6 +244,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             ).show()
         }
     }
+    private fun observeNearTourList() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                locationTourListViewModel.nearTourList.collect {
+                    binding.run {
+                        if(it.isNotEmpty()) {
+                            rvNearTourList.visibility = View.VISIBLE
+                            clNullNearPlace.visibility = View.GONE
+                            if(it.size > 4) {
+                                tvNearPlaceMore.visibility = View.VISIBLE
+                            } else {
+                                tvNearPlaceMore.visibility = View.GONE
+                            }
+                            nearTourListAdapter.submitList(it.take(4))
+                        } else {
+                            rvNearTourList.visibility = View.GONE
+                            clNullNearPlace.visibility = View.VISIBLE
+                            tvNearPlaceMore.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private fun handleLoginRequest() {
         val intent = Intent(requireActivity(), LoginActivity::class.java)
@@ -295,30 +313,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun observeNearTourList() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                locationTourListViewModel.nearTourList.collect {
-                    binding.run {
-                        if(it.isNotEmpty()) {
-                            rvNearTourList.visibility = View.VISIBLE
-                            clNullNearPlace.visibility = View.GONE
-                            if(it.size > 4) {
-                                tvNearPlaceMore.visibility = View.VISIBLE
-                            } else {
-                                tvNearPlaceMore.visibility = View.GONE
-                            }
-                            nearTourListAdapter.submitList(it.take(4))
-                        } else {
-                            rvNearTourList.visibility = View.GONE
-                            clNullNearPlace.visibility = View.VISIBLE
-                            tvNearPlaceMore.visibility = View.GONE
-                        }
-                    }
-                }
-            }
-        }
-    }
     override fun inflateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?

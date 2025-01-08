@@ -54,7 +54,7 @@ class MyTourListActivity: BaseActivity<ActivityMyTourListBinding>() {
 
                                 val distanceInMeters = results[0]
                                 if (distanceInMeters <= 500) {
-                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { success, message ->
+                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { _, message ->
                                         message?.let { msg ->
                                             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
                                         }

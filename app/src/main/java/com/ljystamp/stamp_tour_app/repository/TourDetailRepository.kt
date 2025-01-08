@@ -16,19 +16,18 @@ class TourDetailRepository(
     private val apiService: ApiService,
     private val stampDatabase: StampDatabase
 ) {
-    fun getTourDetail(contentId: Int, contentTypeId: Int): Flow<List<DetailItem>> {
+    suspend fun getTourDetail(contentId: Int, contentTypeId: Int): List<DetailItem> {
         val detailInfo = ArrayList<DetailItem>()
 
-        return flow {
-            apiService.getTourDetail(contentId = contentId, contentTypeId = contentTypeId)
-                .onSuccess {
-                    detailInfo.addAll(this.body.response.body.items.item)
-                }
-                .onFailure {
-                    Log.e("ljy", "detail error")
-                }
-            emit(detailInfo)
-        }
+        apiService.getTourDetail(contentId = contentId, contentTypeId = contentTypeId)
+            .onSuccess {
+                detailInfo.addAll(this.body.response.body.items.item)
+            }
+            .onFailure {
+                Log.e("ljy", "detail error")
+            }
+
+        return detailInfo
     }
 
     suspend fun insertSearchItem(item: TourMapper) {

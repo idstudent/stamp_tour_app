@@ -51,9 +51,11 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
         }
 
         tourInfo?.let {
+            tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid)
+
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid).collect { detailInfo ->
+                    tourDetailViewModel.tourDetailInfo.collect { detailInfo ->
                         binding.run {
                             if(detailInfo.isNotEmpty()) {
                                 detailInfo[0].run {

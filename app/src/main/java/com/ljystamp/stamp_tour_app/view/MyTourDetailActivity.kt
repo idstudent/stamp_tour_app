@@ -44,9 +44,11 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
         val contentTypeId = intent.getIntExtra("contentTypeId", -1)
 
         if(contentId != -1 && contentTypeId != -1) {
+            tourDetailViewModel.getTourDetail(contentId, contentTypeId)
+
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    tourDetailViewModel.getTourDetail(contentId, contentTypeId).collect {
+                    tourDetailViewModel.tourDetailInfo.collect {
                         binding.run {
                             if(it.isNotEmpty()) {
                                 it[0].run {
