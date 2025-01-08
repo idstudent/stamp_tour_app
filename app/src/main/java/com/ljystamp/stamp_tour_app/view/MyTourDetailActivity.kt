@@ -1,11 +1,17 @@
 package com.ljystamp.stamp_tour_app.view
 
-import android.annotation.SuppressLint
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.GnssStatus
+import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -27,12 +33,40 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
     private val tourDetailViewModel: TourDetailViewModel by viewModels()
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
 
+    private var isOutdoor = false
     private var contentId = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            locationManager.registerGnssStatusCallback(gnssCallback, null)
+        }
+
         initView()
         initListener()
+    }
+
+    private val locationManager: LocationManager by lazy {
+        getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+
+    private val gnssCallback = object : GnssStatus.Callback() {
+        override fun onSatelliteStatusChanged(status: GnssStatus) {
+            var strongSignals = 0
+            for (i in 0 until status.satelliteCount) {
+                if (status.getCn0DbHz(i) > 20.0f) {
+                    strongSignals++
+                }
+            }
+
+            isOutdoor = strongSignals >= 4
+            Log.d("GNSS", "강한 신호의 위성 수: $strongSignals, 실외 여부: $isOutdoor")
+        }
     }
 
     private fun initView() {
@@ -200,6 +234,15 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
 
     private fun initListener() {
         binding.btnComplete.setOnSingleClickListener {
+            if (!isOutdoor) {
+                Toast.makeText(
+                    this,
+                    "실내에서는 스탬프를 찍을 수 없어요. 실외로 이동해주세요.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnSingleClickListener
+            }
+
             locationTourListViewModel.updateVisitStatus(contentId) { success, message ->
                 Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()
                 if (success) {
@@ -207,6 +250,12 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                 }
             }
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationManager.unregisterGnssStatusCallback(gnssCallback)
     }
     override fun getViewBinding(): ActivityMyTourDetailBinding {
         return ActivityMyTourDetailBinding.inflate(layoutInflater)
