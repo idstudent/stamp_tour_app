@@ -76,31 +76,31 @@ class SearchListActivity: BaseActivity<ActivitySearchListBinding>() {
 
     private fun search() {
         if (isLoading) return
-
         isLoading = true
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                try {
+            try {
+                searchKeywordViewModel.getSearchKeywordResult(keyword, contentTypeId, page)
+                // collect를 한 번만 실행하도록 수정
+                val result = searchKeywordViewModel.getSearchResult.value
 
-                    searchKeywordViewModel.getSearchKeywordResult(keyword, contentTypeId, page).collect {
-                        if (page == 1) {
-                            currentResultList.clear()
-                        }
-                        if (it.isEmpty()) {
-                            return@collect
-                        }
-
-                        currentResultList.addAll(it)
-                        searchListAdapter.submitList(currentResultList.toList())
-                    }
-                }finally {
-                    isLoading = false
+                if (page == 1) {
+                    currentResultList.clear()
                 }
+                if (result.isEmpty()) {
+                    isLoading = false
+                    return@launch
+                }
+
+                currentResultList.addAll(result)
+                searchListAdapter.submitList(currentResultList.toList())
+                isLoading = false
+
+            } catch (e: Exception) {
+                isLoading = false
             }
         }
     }
-
     private fun handleLoginRequest() {
         val intent = Intent(this, LoginActivity::class.java)
         activityResultLauncher.launch(intent)
