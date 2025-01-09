@@ -13,16 +13,18 @@ import kotlinx.coroutines.flow.flow
 class SearchKeywordRepository(
     private val apiService: ApiService
 ) {
-    suspend fun getSearchKeyword(keyword: String, contentTypeId: Int, page: Int): List<TourMapper> {
+    fun getSearchKeyword(keyword: String, contentTypeId: Int, page: Int): Flow<List<TourMapper>> {
         val searchResult = ArrayList<TourMapper>()
 
-        apiService.getSearchKeyword(keyword = keyword,contentTypeId = contentTypeId, pageNo = page)
-            .onSuccess {
-                searchResult.addAll(this.body.toTourMapperList())
-            }.onFailure {
-                Log.e("ljy", "search fail")
-            }
+        return flow {
+            apiService.getSearchKeyword(keyword = keyword,contentTypeId = contentTypeId, pageNo = page)
+                .onSuccess {
+                    searchResult.addAll(this.body.toTourMapperList())
+                }.onFailure {
+                    Log.e("ljy", "search fail")
+                }
 
-        return searchResult
+            emit(searchResult)
+        }
     }
 }
