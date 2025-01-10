@@ -74,25 +74,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
     private lateinit var savedLocationsAdapter: SavedLocationsAdapter
     private var isLocationPermissionGranted = false
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            try {
-                locationManager.registerGnssStatusCallback(gnssCallback, null)
-            } catch (e: Exception) {
-                Log.e("GNSS", "Failed to register callback", e)
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        locationManager.unregisterGnssStatusCallback(gnssCallback)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -396,6 +377,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 startActivity(intent)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationManager.unregisterGnssStatusCallback(gnssCallback)
     }
 
     override fun inflateBinding(
