@@ -45,12 +45,6 @@ class LocationTourListViewModel @Inject constructor(
         }
     }
 
-    fun clearSavedLocations() {
-        viewModelScope.launch {
-            _savedLocations.emit(emptyList())
-        }
-    }
-
     fun startObservingSavedLocations() {
         val userId = auth.currentUser?.uid ?: return
 
