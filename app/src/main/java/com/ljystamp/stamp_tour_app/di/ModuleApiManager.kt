@@ -11,13 +11,37 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import com.ljystamp.stamp_tour_app.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ModuleApiManager {
     @Singleton
     @Provides
-    fun provideApiManager() : Retrofit {
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val originalRequest = chain.request()
+                val url = originalRequest.url.newBuilder()
+                    .addQueryParameter("serviceKey", BuildConfig.API_KEY)
+                    .build()
+
+                val request = originalRequest.newBuilder()
+                    .url(url)
+                    .build()
+
+                chain.proceed(request)
+            }
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .build()
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideApiManager(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(ApiService.BASE_URL)
             .client(
