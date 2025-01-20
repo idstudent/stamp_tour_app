@@ -1,7 +1,5 @@
 package com.ljystamp.stamp_tour_app.api
 
-import com.ljystamp.stamp_tour_app.api.model.TourDetailResponse
-import com.ljystamp.stamp_tour_app.api.model.TourismResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -23,7 +21,7 @@ interface ApiService {
         @Query("mapY") latitude: Double,
         @Query("radius") radiusInt: Int = 10000,
         @Query("contentTypeId") contentTypeId: Int
-    ): ApiResponse<TourismResponse>
+    ): ApiResponse<com.ljystamp.stamp_tour_app.model.TourismResponse>
 
     @GET("detailIntro1")
     suspend fun getTourDetail(
@@ -34,7 +32,7 @@ interface ApiService {
         @Query("contentTypeId") contentTypeId: Int,
         @Query("numOfRows") pageResultCount: Int = 20,
         @Query("pageNo") pageNo: Int = 1
-    ): ApiResponse<TourDetailResponse>
+    ): ApiResponse<com.ljystamp.stamp_tour_app.model.TourDetailResponse>
 
     @GET("searchKeyword1")
     suspend fun getSearchKeyword(
@@ -47,5 +45,5 @@ interface ApiService {
         @Query("arrange") arrange: String = "C",
         @Query("keyword") keyword: String,
         @Query("contentTypeId") contentTypeId: Int
-    ): ApiResponse<TourismResponse>
+    ): ApiResponse<com.ljystamp.stamp_tour_app.model.TourismResponse>
 }

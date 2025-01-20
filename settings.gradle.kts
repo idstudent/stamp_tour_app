@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "stamp_tour_app"
 include(":app")
- 
+include(":core_network")
+include(":core_model")
