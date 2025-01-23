@@ -1,13 +1,11 @@
 package com.ljystamp.stamp_tour_app.view.my
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.google.android.flexbox.FlexboxLayout
-import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyCertificationBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity

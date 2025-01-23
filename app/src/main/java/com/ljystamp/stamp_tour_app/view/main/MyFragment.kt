@@ -2,18 +2,14 @@ package com.ljystamp.stamp_tour_app.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener

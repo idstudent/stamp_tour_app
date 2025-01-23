@@ -17,3 +17,6 @@ rootProject.name = "stamp_tour_app"
 include(":app")
 include(":core_network")
 include(":core_model")
+include(":feature_home")
+include(":core_ui")
+include(":core_utils")

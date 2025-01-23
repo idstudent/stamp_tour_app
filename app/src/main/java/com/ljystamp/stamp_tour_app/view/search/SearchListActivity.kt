@@ -2,7 +2,6 @@ package com.ljystamp.stamp_tour_app.view.search
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ActivitySearchListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity

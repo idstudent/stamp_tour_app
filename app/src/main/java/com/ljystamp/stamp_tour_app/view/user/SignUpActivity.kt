@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.ljystamp.stamp_tour_app.databinding.ActivitySignUpBinding
