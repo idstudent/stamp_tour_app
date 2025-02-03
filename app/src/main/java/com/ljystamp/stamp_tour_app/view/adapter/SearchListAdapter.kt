@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class SearchListAdapter(
     private val viewModel: LocationTourListViewModel,

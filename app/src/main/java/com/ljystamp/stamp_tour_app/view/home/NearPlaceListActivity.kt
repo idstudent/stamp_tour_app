@@ -18,7 +18,6 @@ import com.ljystamp.stamp_tour_app.databinding.ActivityNearPlaceListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.view.adapter.NearTourListAdapter
 import com.ljystamp.stamp_tour_app.view.user.LoginActivity
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

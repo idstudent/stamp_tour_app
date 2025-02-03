@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ItemMyTourBinding
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class MyTourListAdapter(
     private val viewModel: LocationTourListViewModel,

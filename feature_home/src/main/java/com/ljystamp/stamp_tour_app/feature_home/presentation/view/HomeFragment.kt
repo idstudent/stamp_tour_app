@@ -1,11 +1,10 @@
-package com.ljystamp.stamp_tour_app.feature_home
+package com.ljystamp.stamp_tour_app.feature_home.presentation.view
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +22,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseFragment
 import com.ljystamp.feature_home.databinding.FragmentHomeBinding
 import com.ljystamp.utils.setOnSingleClickListener

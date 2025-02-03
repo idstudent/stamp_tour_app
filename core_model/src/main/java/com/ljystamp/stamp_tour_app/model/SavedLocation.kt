@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.api.model
+package com.ljystamp.stamp_tour_app.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

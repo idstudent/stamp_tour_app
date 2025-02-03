@@ -15,7 +15,6 @@ import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
 import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.search.SearchTourDetailActivity
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 
 class SearchListViewHolder(
     private val binding: ItemNearTourBinding,

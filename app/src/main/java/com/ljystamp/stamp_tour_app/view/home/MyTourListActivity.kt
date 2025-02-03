@@ -18,7 +18,6 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyTourListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.view.adapter.MyTourListAdapter
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

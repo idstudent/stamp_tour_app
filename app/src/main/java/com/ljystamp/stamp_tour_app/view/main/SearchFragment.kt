@@ -28,7 +28,6 @@ import com.ljystamp.stamp_tour_app.view.adapter.SearchListAdapter
 import com.ljystamp.stamp_tour_app.view.home.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.search.SearchListActivity
 import com.ljystamp.stamp_tour_app.view.user.LoginActivity
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

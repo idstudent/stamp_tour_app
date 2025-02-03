@@ -22,7 +22,6 @@ import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.removeHtmlTags
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.user.LoginActivity
-import com.ljystamp.stamp_tour_app.viewmodel.LocationTourListViewModel
 import com.ljystamp.stamp_tour_app.viewmodel.TourDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

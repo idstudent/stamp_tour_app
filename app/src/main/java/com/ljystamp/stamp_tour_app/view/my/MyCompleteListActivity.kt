@@ -3,7 +3,6 @@ package com.ljystamp.stamp_tour_app.view.my
 import android.os.Build
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ljystamp.stamp_tour_app.api.model.SavedLocation
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyCompleteListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.view.adapter.MyTourCompleteListAdapter
