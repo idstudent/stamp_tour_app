@@ -26,7 +26,6 @@ class LocationTourListViewModel @Inject constructor(
     private val getSavedLocationsUseCase: GetSavedLocationsUseCase,
     private val getLocationNearTourListUseCase: GetLocationNearTourListUseCase,
     private val saveTourLocationsUseCase: SaveTourLocationsUseCase,
-    private val locationTourListRepository: LocationTourListRepository,
     private val tourDetailRepository: TourDetailRepository
 ): ViewModel() {
     private val auth = FirebaseAuth.getInstance()
@@ -39,14 +38,13 @@ class LocationTourListViewModel @Inject constructor(
 
     private var snapshotListener: ListenerRegistration? = null
 
-    init {
+    fun startObservingSavedLocations() {
         viewModelScope.launch {
             getSavedLocationsUseCase.invoke().collect {
                 _savedLocations.value = it
             }
         }
     }
-
     fun getLocationTourList(longitude: Double, latitude: Double, pageNo: Int, contentTypeId: Int) {
         viewModelScope.launch {
             getLocationNearTourListUseCase.invoke(longitude,latitude,pageNo, contentTypeId).collect {

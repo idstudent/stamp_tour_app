@@ -1,14 +1,14 @@
-package com.ljystamp.stamp_tour_app.view.adapter
+package com.ljystamp.stamp_tour_app.feature_home.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.ljystamp.stamp_tour_app.databinding.ItemTodayStampBinding
+import com.ljystamp.feature_home.databinding.ItemTodayStampBinding
+import com.ljystamp.stamp_tour_app.model.SavedLocation
 
-class SavedLocationsAdapter(
-    private val viewModel: LocationTourListViewModel,
+class InProgressStampAdapter(
     private val onStampClick: (SavedLocation) -> Unit
 ): ListAdapter<SavedLocation, SavedLocationsViewHolder>(
     object: DiffUtil.ItemCallback<SavedLocation>() {
@@ -26,7 +26,7 @@ class SavedLocationsAdapter(
         val binding = ItemTodayStampBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SavedLocationsViewHolder(binding,viewModel,onStampClick)
+        return SavedLocationsViewHolder(binding,onStampClick)
     }
 
     override fun onBindViewHolder(holder: SavedLocationsViewHolder, position: Int) {

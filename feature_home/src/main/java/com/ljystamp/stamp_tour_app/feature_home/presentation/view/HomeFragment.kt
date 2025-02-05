@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -25,10 +24,12 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseFragment
 import com.ljystamp.feature_home.databinding.FragmentHomeBinding
+import com.ljystamp.stamp_tour_app.feature_home.presentation.adapter.InProgressStampAdapter
 import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
+import androidx.fragment.app.viewModels
+import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -45,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             ::handleLoginRequest
         )
     }
-    private lateinit var savedLocationsAdapter: SavedLocationsAdapter
+    private lateinit var inProgressStampAdapter: InProgressStampAdapter
     private var isLocationPermissionGranted = false
 
     override fun onCreateView(
@@ -84,7 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupAdapters() {
-        savedLocationsAdapter = SavedLocationsAdapter(locationTourListViewModel) { savedLocation ->
+        inProgressStampAdapter = InProgressStampAdapter { savedLocation ->
             if(isLocationPermissionGranted) {
                 try {
                     fusedLocationClient.lastLocation
@@ -139,7 +140,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             rvNearTourList.adapter = nearTourListAdapter
 
             rvStamp.apply {
-                adapter = savedLocationsAdapter
+                adapter = inProgressStampAdapter
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
                 offscreenPageLimit = 1
             }
@@ -152,7 +153,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 locationTourListViewModel.savedLocations.collect { locations ->
                     binding.run {
                         val notVisitedLocations = locations.filter { !it.isVisited }
-                        savedLocationsAdapter.submitList(notVisitedLocations.take(5))
+                        inProgressStampAdapter.submitList(notVisitedLocations.take(5))
 
                         if (notVisitedLocations.isNotEmpty()) {
                             tvMyPlaceMore.isVisible = locations.size >= 5
