@@ -1,9 +1,10 @@
-package com.ljystamp.common.domain.respository
+package com.ljystamp.common.data.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.ljystamp.common.domain.respository.SaveTourLocationRepository
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.stamp_tour_app.model.TourMapper

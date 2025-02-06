@@ -17,7 +17,6 @@ import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.view.my.MyCertificationActivity
 import com.ljystamp.stamp_tour_app.view.my.MyCompleteListActivity
 import com.ljystamp.stamp_tour_app.view.my.SettingActivity
-import com.ljystamp.stamp_tour_app.view.user.LoginActivity
 import com.ljystamp.stamp_tour_app.view.user.model.CategoryLevel
 import com.ljystamp.stamp_tour_app.view.user.model.LevelInfo
 import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel

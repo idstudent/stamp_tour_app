@@ -1,13 +1,13 @@
-package com.ljystamp.common.domain.respository
+package com.ljystamp.common.data.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.ljystamp.common.domain.respository.SavedLocationRepository
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SavedLocationRepositoryImpl @Inject constructor(

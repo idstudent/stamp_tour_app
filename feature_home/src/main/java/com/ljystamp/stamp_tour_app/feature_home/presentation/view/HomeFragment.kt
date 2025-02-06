@@ -30,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
 import com.ljystamp.common.presentation.adapter.NearTourListAdapter
+import com.ljystamp.common.presentation.view.LoginActivity
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {

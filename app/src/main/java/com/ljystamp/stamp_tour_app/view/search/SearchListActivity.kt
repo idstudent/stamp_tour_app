@@ -15,7 +15,6 @@ import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ActivitySearchListBinding
 import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.view.adapter.SearchListAdapter
-import com.ljystamp.stamp_tour_app.view.user.LoginActivity
 import com.ljystamp.stamp_tour_app.viewmodel.SearchKeywordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

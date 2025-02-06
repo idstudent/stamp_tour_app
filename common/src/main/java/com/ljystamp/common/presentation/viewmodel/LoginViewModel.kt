@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.viewmodel
+package com.ljystamp.common.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth

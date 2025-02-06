@@ -1,13 +1,13 @@
-package com.ljystamp.stamp_tour_app.view.user
+package com.ljystamp.common.presentation.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.ljystamp.stamp_tour_app.databinding.ActivityLoginBinding
-import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.BaseActivity
-import com.ljystamp.stamp_tour_app.viewmodel.LoginViewModel
+import com.ljystamp.common.databinding.ActivityLoginBinding
+import com.ljystamp.common.presentation.viewmodel.LoginViewModel
+import com.ljystamp.core_ui.BaseActivity
+import com.ljystamp.utils.setOnSingleClickListener
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>() {
     private val loginViewModel: LoginViewModel by viewModels()
