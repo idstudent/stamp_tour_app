@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import com.ljystamp.common.databinding.ActivityLoginBinding
 import com.ljystamp.common.presentation.viewmodel.LoginViewModel
 import com.ljystamp.core_ui.BaseActivity
+import com.ljystamp.feature_auth.presentation.view.ResetPasswordActivity
+import com.ljystamp.feature_auth.presentation.view.SignUpActivity
 import com.ljystamp.utils.setOnSingleClickListener
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>() {

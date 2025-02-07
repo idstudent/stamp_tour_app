@@ -1,17 +1,15 @@
-package com.ljystamp.stamp_tour_app.view.my
+package com.ljystamp.feature_auth.presentation.view
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.ljystamp.stamp_tour_app.databinding.ActivityWithdrawBinding
-import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.BaseActivity
-import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.ljystamp.core_ui.BaseActivity
+import com.ljystamp.feature_auth.databinding.ActivityWithdrawBinding
+import com.ljystamp.feature_auth.presentation.viewmodel.AuthViewModel
+import com.ljystamp.utils.setOnSingleClickListener
 
-@AndroidEntryPoint
 class WithdrawActivity: BaseActivity<ActivityWithdrawBinding>() {
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

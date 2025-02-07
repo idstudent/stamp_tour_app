@@ -1,12 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
-    namespace = "com.ljystamp.common"
+    namespace = "com.ljystamp.feature_auth"
     compileSdk = 34
 
     defaultConfig {
@@ -33,33 +31,23 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }
 
 dependencies {
-    implementation(project(":core_model"))
-    implementation(project(":core_network"))
-    implementation(project(":core_utils"))
     implementation(project(":core_ui"))
-    implementation(project(":feature_auth"))
-
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation(project(":core_utils"))
 
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-
-    implementation("com.github.skydoves:sandwich:2.0.5")
-    implementation("com.github.skydoves:sandwich-retrofit:2.0.5")
-
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("androidx.appcompat:appcompat:1.7.0")
 
     implementation("androidx.activity:activity-ktx:1.10.0")
+    implementation("com.google.android.material:material:1.12.0")
 }
