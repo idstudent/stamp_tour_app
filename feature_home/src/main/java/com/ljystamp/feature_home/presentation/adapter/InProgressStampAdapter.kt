@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.feature_home.presentation.adapter
+package com.ljystamp.feature_home.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

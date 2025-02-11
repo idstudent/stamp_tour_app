@@ -1,35 +1,34 @@
-package com.ljystamp.stamp_tour_app.feature_home.presentation.adapter
+package com.ljystamp.feature_my_tour.presentation.adapter
 
 import android.content.Intent
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.ljystamp.core_ui.R
-import com.ljystamp.feature_home.databinding.ItemTodayStampBinding
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.feature_my_tour.databinding.ItemMyTourBinding
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.utils.setOnSingleClickListener
 
-
-class SavedLocationsViewHolder(
-    private val binding: ItemTodayStampBinding,
+class MyTourListViewHolder(
+    private val binding: ItemMyTourBinding,
+    private val viewModel: LocationTourListViewModel,
     private val onStampClick: (SavedLocation) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private var item: SavedLocation? = null
 
     init {
         binding.run {
-
-            root.setOnSingleClickListener {
+            binding.root.setOnSingleClickListener {
                 item?.let {
-                    val intent = Intent(root.context, MyTourDetailActivity::class.java)
+                    val intent = Intent(binding.root.context, MyTourDetailActivity::class.java)
                     intent.putExtra("title", it.title)
                     intent.putExtra("addr", it.address)
                     intent.putExtra("url", it.image)
                     intent.putExtra("contentId", it.contentId)
                     intent.putExtra("contentTypeId", it.contentTypeId)
+                    intent.putExtra("complete",false)
                     binding.root.context.startActivity(intent)
                 }
             }
@@ -40,24 +39,18 @@ class SavedLocationsViewHolder(
             }
         }
     }
-    fun bind(item: SavedLocation) {
+
+    fun onBind(item: SavedLocation) {
         this.item = item
 
         binding.run {
-            Glide.with(root.context)
+            Glide.with(binding.root.context)
                 .load(item.image)
                 .transform(MultiTransformation(CenterCrop(), RoundedCorners(12)))
-                .into(ivPlace)
+                .into(ivPlaceImg)
 
-            tvTitle.text = item.title
+            tvPlace.text = item.title
             tvAddr.text = item.address
-            if(item.isVisited) {
-                btnComplete.isEnabled = false
-                btnComplete.background = ContextCompat.getDrawable(root.context, R.drawable.radius_12_2a2a2a)
-            }else {
-                btnComplete.isEnabled = true
-                btnComplete.background = ContextCompat.getDrawable(root.context, R.drawable.radius_12_ff8c00)
-            }
         }
     }
 }

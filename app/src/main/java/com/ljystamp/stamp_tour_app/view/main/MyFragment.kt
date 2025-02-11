@@ -13,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.ljystamp.stamp_tour_app.databinding.FragmentMyBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
 import com.ljystamp.stamp_tour_app.view.BaseFragment
-import com.ljystamp.stamp_tour_app.view.home.MyTourListActivity
 import com.ljystamp.stamp_tour_app.view.my.MyCertificationActivity
 import com.ljystamp.stamp_tour_app.view.my.MyCompleteListActivity
 import com.ljystamp.stamp_tour_app.view.my.SettingActivity

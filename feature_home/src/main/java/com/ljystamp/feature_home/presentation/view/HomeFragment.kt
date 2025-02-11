@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.feature_home.presentation.view
+package com.ljystamp.feature_home.presentation.view
 
 import android.Manifest
 import android.content.Intent
@@ -24,13 +24,14 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseFragment
 import com.ljystamp.feature_home.databinding.FragmentHomeBinding
-import com.ljystamp.stamp_tour_app.feature_home.presentation.adapter.InProgressStampAdapter
+import com.ljystamp.feature_home.presentation.adapter.InProgressStampAdapter
 import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
 import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.feature_my_tour.presentation.view.MyTourListActivity
 import com.ljystamp.feature_near_place.NearPlaceListActivity
 
 @AndroidEntryPoint

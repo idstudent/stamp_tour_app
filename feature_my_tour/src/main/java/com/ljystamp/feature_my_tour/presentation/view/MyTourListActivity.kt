@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.view.home
+package com.ljystamp.feature_my_tour.presentation.view
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,9 +15,10 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.ljystamp.stamp_tour_app.databinding.ActivityMyTourListBinding
-import com.ljystamp.stamp_tour_app.view.BaseActivity
-import com.ljystamp.stamp_tour_app.view.adapter.MyTourListAdapter
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_ui.BaseActivity
+import com.ljystamp.feature_my_tour.databinding.ActivityMyTourListBinding
+import com.ljystamp.feature_my_tour.presentation.adapter.MyTourListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

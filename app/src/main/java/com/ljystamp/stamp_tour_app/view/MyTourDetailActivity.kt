@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyTourDetailBinding
 import com.ljystamp.stamp_tour_app.util.removeHtmlTags
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener

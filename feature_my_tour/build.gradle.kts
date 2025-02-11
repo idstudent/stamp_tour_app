@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -8,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ljystamp.feature_home"
+    namespace = "com.ljystamp.feature_my_tour"
     compileSdk = 34
 
     defaultConfig {
@@ -16,12 +14,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-    }
-    defaultConfig {
-        minSdk = 24
-
-        val properties = gradleLocalProperties(rootDir)
-        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
     }
 
     buildTypes {
@@ -47,31 +39,26 @@ android {
 }
 
 dependencies {
-    implementation(project(":core_model"))
-    implementation(project(":core_network"))
     implementation(project(":core_ui"))
     implementation(project(":core_utils"))
+    implementation(project(":core_model"))
     implementation(project(":common"))
-    implementation(project(":feature_near_place"))
-    implementation(project(":feature_my_tour"))
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
+    implementation("androidx.activity:activity-ktx:1.10.0")
 
-    implementation("com.tbuonomo:dotsindicator:5.1.0")
-    implementation("com.github.bumptech.glide:glide:4.14.2")
-
-    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-
-    // Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+
+    implementation("io.github.ParkSangGwon:tedpermission-normal:3.4.2")
+
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    implementation("com.github.bumptech.glide:glide:4.14.2")
 }
