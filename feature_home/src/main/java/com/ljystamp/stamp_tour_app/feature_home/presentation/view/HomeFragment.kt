@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
 import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.feature_near_place.NearPlaceListActivity
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {

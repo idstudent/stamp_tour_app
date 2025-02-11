@@ -1,9 +1,9 @@
-package com.ljystamp.stamp_tour_app.view.home
+package com.ljystamp.feature_near_place
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,11 +16,10 @@ import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseActivity
-import com.ljystamp.stamp_tour_app.databinding.ActivityNearPlaceListBinding
+import com.ljystamp.feature_near_place.databinding.ActivityNearPlaceListBinding
 import com.ljystamp.stamp_tour_app.model.TourMapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import androidx.activity.result.contract.ActivityResultContracts
 
 @AndroidEntryPoint
 class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
@@ -136,7 +135,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             locationTourListViewModel.startObservingSavedLocations()
             nearTourListAdapter.notifyDataSetChanged()
             search()
