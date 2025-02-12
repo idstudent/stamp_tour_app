@@ -15,12 +15,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.stamp_tour_app.R
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ActivityTourDetailBinding
-import com.ljystamp.stamp_tour_app.util.SaveResult
-import com.ljystamp.stamp_tour_app.util.removeHtmlTags
-import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
+import com.ljystamp.stamp_tour_app.model.TourMapper
 import com.ljystamp.stamp_tour_app.viewmodel.TourDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -49,7 +47,7 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
         }
 
         tourInfo?.let {
-            tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid)
+            tourDetailViewModel.getTourDetail(it.contentId, it.contentTypeId)
 
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -58,13 +56,13 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
                             if(detailInfo.isNotEmpty()) {
                                 detailInfo[0].run {
                                     Glide.with(binding.root.context)
-                                        .load(it.firstimage)
+                                        .load(it.firstImage)
                                         .into(ivThumb)
 
                                     tvTitle.text = it.title
                                     tvAddr.text = it.addr1
 
-                                    when(it.contenttypeid) {
+                                    when(it.contentTypeId) {
                                         12 -> {
                                             gpTourPlace.visibility = View.VISIBLE
                                             gpCulture.visibility = View.GONE

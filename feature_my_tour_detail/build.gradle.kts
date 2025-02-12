@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ljystamp.feature_my_tour"
+    namespace = "com.ljystamp.feature_my_tour_detail"
     compileSdk = 34
 
     defaultConfig {
@@ -43,7 +43,6 @@ dependencies {
     implementation(project(":core_utils"))
     implementation(project(":core_model"))
     implementation(project(":common"))
-    implementation(project(":feature_my_tour_detail"))
 
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")

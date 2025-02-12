@@ -8,6 +8,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.feature_my_tour.databinding.ItemMyTourBinding
+import com.ljystamp.feature_my_tour_detail.presentation.view.MyTourDetailActivity
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.utils.setOnSingleClickListener
 

@@ -25,8 +25,8 @@ import javax.inject.Inject
 class LocationTourListViewModel @Inject constructor(
     private val getSavedLocationsUseCase: GetSavedLocationsUseCase,
     private val getLocationNearTourListUseCase: GetLocationNearTourListUseCase,
-    private val saveTourLocationsUseCase: SaveTourLocationsUseCase,
-    private val tourDetailRepository: TourDetailRepository
+    private val saveTourLocationsUseCase: SaveTourLocationsUseCase
+//    private val tourDetailRepository: TourDetailRepository
 ): ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
@@ -111,9 +111,10 @@ class LocationTourListViewModel @Inject constructor(
             }
     }
 
-    fun selectRecentlySearchItem(): Flow<List<TourMapper>> {
-        return tourDetailRepository.selectAllSearchItem()
-    }
+    //TODO: search fragment 작업시 사용
+//    fun selectRecentlySearchItem(): Flow<List<TourMapper>> {
+//        return tourDetailRepository.selectAllSearchItem()
+//    }
 
     override fun onCleared() {
         super.onCleared()

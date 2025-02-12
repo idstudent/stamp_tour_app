@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":feature_near_place"))
     implementation(project(":feature_my_tour"))
+    implementation(project(":feature_my_tour_detail"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
