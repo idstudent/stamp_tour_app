@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ljystamp.feature_my_tour_detail"
+    namespace = "com.ljystamp.feature_tour_detail"
     compileSdk = 34
 
     defaultConfig {

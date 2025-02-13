@@ -13,7 +13,6 @@ import com.ljystamp.stamp_tour_app.api.model.TourMapper
 import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
 import com.ljystamp.stamp_tour_app.util.SaveResult
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.TourDetailActivity
 
 class NearTourListViewHolder(
     private val binding: ItemNearTourBinding,

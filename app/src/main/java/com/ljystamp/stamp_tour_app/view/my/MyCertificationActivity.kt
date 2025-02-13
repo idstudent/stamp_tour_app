@@ -7,7 +7,6 @@ import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.google.android.flexbox.FlexboxLayout
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyCertificationBinding
-import com.ljystamp.stamp_tour_app.view.BaseActivity
 
 class MyCertificationActivity: BaseActivity<ActivityMyCertificationBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {

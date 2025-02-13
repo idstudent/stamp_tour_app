@@ -3,7 +3,6 @@ package com.ljystamp.stamp_tour_app.view.my
 import android.os.Bundle
 import android.webkit.WebViewClient
 import com.ljystamp.stamp_tour_app.databinding.ActivityPrivacyBinding
-import com.ljystamp.stamp_tour_app.view.BaseActivity
 
 class PrivacyActivity: BaseActivity<ActivityPrivacyBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {

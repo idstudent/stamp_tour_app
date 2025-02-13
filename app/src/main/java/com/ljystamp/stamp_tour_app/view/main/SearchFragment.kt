@@ -23,7 +23,6 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.FilterClickListener
 import com.ljystamp.stamp_tour_app.databinding.FragmentSearchBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.BaseFragment
 import com.ljystamp.stamp_tour_app.view.adapter.SearchListAdapter
 import com.ljystamp.stamp_tour_app.view.home.NearPlaceListActivity
 import com.ljystamp.stamp_tour_app.view.search.SearchListActivity

@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.ljystamp.stamp_tour_app.databinding.ActivitySignUpBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.BaseActivity
 import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
 
 

@@ -6,7 +6,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.ljystamp.stamp_tour_app.databinding.ActivityResetPasswordBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.BaseActivity
 
 class ResetPasswordActivity: BaseActivity<ActivityResetPasswordBinding>() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()

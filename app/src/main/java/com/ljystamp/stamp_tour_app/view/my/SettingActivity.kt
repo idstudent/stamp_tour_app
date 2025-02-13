@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.ljystamp.stamp_tour_app.databinding.ActivitySettingBinding
 import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

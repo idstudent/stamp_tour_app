@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ljystamp.stamp_tour_app.databinding.ActivityMainBinding
-import com.ljystamp.stamp_tour_app.view.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
