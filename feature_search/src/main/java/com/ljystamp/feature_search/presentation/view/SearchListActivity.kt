@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.view.search
+package com.ljystamp.feature_search.presentation.view
 
 import android.app.Activity
 import android.content.Intent
@@ -11,10 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
-import com.ljystamp.stamp_tour_app.databinding.ActivitySearchListBinding
-import com.ljystamp.stamp_tour_app.view.adapter.SearchListAdapter
-import com.ljystamp.stamp_tour_app.viewmodel.SearchKeywordViewModel
+import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_ui.BaseActivity
+import com.ljystamp.feature_search.databinding.ActivitySearchListBinding
+import com.ljystamp.feature_search.presentation.adapter.SearchListAdapter
+import com.ljystamp.feature_search.presentation.viewmodel.SearchKeywordViewModel
+import com.ljystamp.stamp_tour_app.model.TourMapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -74,26 +77,24 @@ class SearchListActivity: BaseActivity<ActivitySearchListBinding>() {
 
         isLoading = true
 
+        searchKeywordViewModel.getSearchKeywordResult(keyword, contentTypeId, page)
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                try {
-
-                    searchKeywordViewModel.getSearchKeywordResult(keyword, contentTypeId, page).collect {
-                        if (page == 1) {
-                            currentResultList.clear()
-                        }
-                        if (it.isEmpty()) {
-                            return@collect
-                        }
-
-                        currentResultList.addAll(it)
-                        searchListAdapter.submitList(currentResultList.toList())
+                searchKeywordViewModel.getSearchKeyWordResult.collect {
+                    if (page == 1) {
+                        currentResultList.clear()
                     }
-                }finally {
-                    isLoading = false
+                    if (it.isEmpty()) {
+                        return@collect
+                    }
+
+                    currentResultList.addAll(it)
+                    searchListAdapter.submitList(currentResultList.toList())
                 }
             }
         }
+        isLoading = false
     }
 
     private fun handleLoginRequest() {
@@ -102,7 +103,7 @@ class SearchListActivity: BaseActivity<ActivitySearchListBinding>() {
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             locationTourListViewModel.startObservingSavedLocations()
             searchListAdapter.notifyDataSetChanged()
             search()

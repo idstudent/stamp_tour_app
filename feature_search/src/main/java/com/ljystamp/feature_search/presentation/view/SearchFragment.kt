@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.view.main
+package com.ljystamp.feature_search.presentation.view
 
 import android.Manifest
 import android.app.Activity
@@ -20,14 +20,18 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.ljystamp.stamp_tour_app.FilterClickListener
-import com.ljystamp.stamp_tour_app.databinding.FragmentSearchBinding
-import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.view.adapter.SearchListAdapter
-import com.ljystamp.stamp_tour_app.view.home.NearPlaceListActivity
-import com.ljystamp.stamp_tour_app.view.search.SearchListActivity
+import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_ui.BaseFragment
+import com.ljystamp.feature_near_place.NearPlaceListActivity
+import com.ljystamp.feature_search.databinding.FragmentSearchBinding
+import com.ljystamp.feature_search.presentation.adapter.SearchListAdapter
+import com.ljystamp.feature_search.presentation.bottomsheet.FilterClickListener
+import com.ljystamp.feature_search.presentation.bottomsheet.SearchFilterBottomFragment
+import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class SearchFragment: BaseFragment<FragmentSearchBinding>() {

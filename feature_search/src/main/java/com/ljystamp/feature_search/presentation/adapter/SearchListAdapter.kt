@@ -1,12 +1,13 @@
-package com.ljystamp.stamp_tour_app.view.adapter
+package com.ljystamp.feature_search.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
-import com.ljystamp.stamp_tour_app.databinding.ItemNearTourBinding
+import com.ljystamp.common.databinding.ItemNearTourBinding
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.stamp_tour_app.model.TourMapper
 
 class SearchListAdapter(
     private val viewModel: LocationTourListViewModel,
@@ -14,7 +15,7 @@ class SearchListAdapter(
 ) : ListAdapter<TourMapper, SearchListViewHolder>(
     object: DiffUtil.ItemCallback<TourMapper>() {
         override fun areItemsTheSame(oldItem: TourMapper, newItem: TourMapper): Boolean {
-            return oldItem.contentid == newItem.contentid
+            return oldItem.contentId == newItem.contentId
         }
 
         @SuppressLint("DiffUtilEquals")
