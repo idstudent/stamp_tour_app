@@ -1,7 +1,7 @@
-package com.ljystamp.common.data.repository
+package com.ljystamp.feature_tour_detail.data.repository
 
 import com.ljystamp.common.data.dataSource.GetTourDetailRemoteSource
-import com.ljystamp.common.domain.respository.GetTourDetailRepository
+import com.ljystamp.feature_tour_detail.domain.repository.GetTourDetailRepository
 import com.ljystamp.stamp_tour_app.model.DetailItem
 
 class GetTourDetailRepositoryImpl(

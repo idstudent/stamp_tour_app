@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.view.search
+package com.ljystamp.feature_tour_detail.presentation.view
 
 import android.app.Activity
 import android.content.Intent
@@ -15,23 +15,25 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
-import com.ljystamp.stamp_tour_app.R
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
-import com.ljystamp.stamp_tour_app.databinding.ActivitySearchTourDetailBinding
-import com.ljystamp.stamp_tour_app.util.SaveResult
-import com.ljystamp.stamp_tour_app.util.removeHtmlTags
-import com.ljystamp.stamp_tour_app.util.setOnSingleClickListener
-import com.ljystamp.stamp_tour_app.viewmodel.TourDetailViewModel
+import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_ui.BaseActivity
+import com.ljystamp.feature_tour_detail.databinding.ActivityTourDetailBinding
+import com.ljystamp.stamp_tour_app.model.SaveResult
+import com.ljystamp.stamp_tour_app.model.TourMapper
+import com.ljystamp.utils.removeHtmlTags
+import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.ljystamp.core_ui.R
+import com.ljystamp.feature_tour_detail.presentation.viewmodel.TourDetailViewModel
 
 @AndroidEntryPoint
-class SearchTourDetailActivity: BaseActivity<ActivitySearchTourDetailBinding>() {
+class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
     private val tourDetailViewModel: TourDetailViewModel by viewModels()
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
 
     private var tourInfo: TourMapper? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,25 +50,29 @@ class SearchTourDetailActivity: BaseActivity<ActivitySearchTourDetailBinding>() 
             intent.getParcelableExtra("info")
         }
 
+        val enterSearch = intent.getBooleanExtra("search", false)
+
         tourInfo?.let {
+            tourDetailViewModel.getTourDetail(it.contentId, it.contentTypeId)
+
+            if(enterSearch) {
+                tourDetailViewModel.insertItem(it)
+            }
+
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    tourDetailViewModel.insertItem(it)
-
-                    tourDetailViewModel.getTourDetail(it.contentid, it.contenttypeid)
-
                     tourDetailViewModel.tourDetailInfo.collect { detailInfo ->
                         binding.run {
                             if(detailInfo.isNotEmpty()) {
                                 detailInfo[0].run {
                                     Glide.with(binding.root.context)
-                                        .load(it.firstimage)
+                                        .load(it.firstImage)
                                         .into(ivThumb)
 
                                     tvTitle.text = it.title
                                     tvAddr.text = it.addr1
 
-                                    when(it.contenttypeid) {
+                                    when(it.contentTypeId) {
                                         12 -> {
                                             gpTourPlace.visibility = View.VISIBLE
                                             gpCulture.visibility = View.GONE
@@ -235,7 +241,7 @@ class SearchTourDetailActivity: BaseActivity<ActivitySearchTourDetailBinding>() 
     }
 
     private fun isSavedCheck() {
-        tourInfo?.contentid?.let {
+        tourInfo?.contentId?.let {
             locationTourListViewModel.checkIfLocationSaved(it) { isSaved ->
                 if(isSaved) {
                     binding.btnComplete.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
@@ -255,7 +261,7 @@ class SearchTourDetailActivity: BaseActivity<ActivitySearchTourDetailBinding>() 
             isSavedCheck()
         }
     }
-    override fun getViewBinding(): ActivitySearchTourDetailBinding {
-        return ActivitySearchTourDetailBinding.inflate(layoutInflater)
+    override fun getViewBinding(): ActivityTourDetailBinding {
+        return ActivityTourDetailBinding.inflate(layoutInflater)
     }
 }

@@ -1,7 +1,7 @@
-package com.ljystamp.stamp_tour_app.db
+package com.ljystamp.common.db
 
 import androidx.room.*
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
+import com.ljystamp.stamp_tour_app.model.TourMapper
 import kotlinx.coroutines.flow.Flow
 
 @Dao

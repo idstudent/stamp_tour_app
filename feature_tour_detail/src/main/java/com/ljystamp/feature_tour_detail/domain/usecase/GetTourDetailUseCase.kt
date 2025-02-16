@@ -1,6 +1,6 @@
-package com.ljystamp.common.domain.usecase
+package com.ljystamp.feature_tour_detail.domain.usecase
 
-import com.ljystamp.common.domain.respository.GetTourDetailRepository
+import com.ljystamp.feature_tour_detail.domain.repository.GetTourDetailRepository
 import com.ljystamp.stamp_tour_app.model.DetailItem
 import javax.inject.Inject
 

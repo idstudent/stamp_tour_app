@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
-import com.ljystamp.common.presentation.viewmodel.TourDetailViewModel
 import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_my_tour_detail.databinding.ActivityMyTourDetailBinding
+import com.ljystamp.feature_tour_detail.presentation.viewmodel.TourDetailViewModel
 import com.ljystamp.utils.removeHtmlTags
 import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

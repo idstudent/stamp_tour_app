@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":core_ui"))
+    implementation(project(":core_network"))
     implementation(project(":core_utils"))
     implementation(project(":core_model"))
     implementation(project(":common"))
@@ -57,4 +58,10 @@ dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
 
     implementation("com.github.bumptech.glide:glide:4.14.2")
+    implementation("com.github.skydoves:sandwich:2.0.5")
+    implementation("com.github.skydoves:sandwich-retrofit:2.0.5")
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 }
