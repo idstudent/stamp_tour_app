@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.di
+package com.ljystamp.common.di
 
 import android.app.Application
 import androidx.room.Room

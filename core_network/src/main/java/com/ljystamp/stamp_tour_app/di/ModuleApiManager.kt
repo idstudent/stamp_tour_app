@@ -1,5 +1,6 @@
 package com.ljystamp.stamp_tour_app.di
 
+import com.ljystamp.core_network.BuildConfig
 import com.ljystamp.stamp_tour_app.api.ApiService
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
@@ -11,7 +12,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import com.ljystamp.stamp_tour_app.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
