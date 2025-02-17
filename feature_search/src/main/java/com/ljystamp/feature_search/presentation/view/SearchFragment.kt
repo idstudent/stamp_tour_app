@@ -28,6 +28,7 @@ import com.ljystamp.feature_search.databinding.FragmentSearchBinding
 import com.ljystamp.feature_search.presentation.adapter.SearchListAdapter
 import com.ljystamp.feature_search.presentation.bottomsheet.FilterClickListener
 import com.ljystamp.feature_search.presentation.bottomsheet.SearchFilterBottomFragment
+import com.ljystamp.feature_search.presentation.viewmodel.RecentlySearchViewModel
 import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -42,6 +43,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
     }
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
+    private val recentlySearchViewModel: RecentlySearchViewModel by viewModels()
 
     private lateinit var searchListAdapter: SearchListAdapter
     private lateinit var recentlyListAdapter: SearchListAdapter
@@ -73,8 +75,10 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
 
         binding.etSearch.setText("")
 
+        recentlySearchViewModel.selectRecentlySearchItem()
+
         viewLifecycleOwner.lifecycleScope.launch {
-            locationTourListViewModel.selectRecentlySearchItem().collect {
+            recentlySearchViewModel.recentlySearchResult.collect {
                 binding.run {
                     if (it.isNotEmpty()) {
                         clRecentNotResult.visibility = View.INVISIBLE
