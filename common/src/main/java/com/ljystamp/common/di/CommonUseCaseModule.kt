@@ -29,9 +29,4 @@ class CommonUseCaseModule {
     @Provides
     fun provideSaveTourLocationsUseCase(saveTourLocationRepository: SaveTourLocationRepository) =
         SaveTourLocationsUseCase(saveTourLocationRepository)
-
-    @Singleton
-    @Provides
-    fun provideGetTourDetailUseCase(getTourDetailRepository: GetTourDetailRepository) =
-        GetTourDetailUseCase(getTourDetailRepository)
 }

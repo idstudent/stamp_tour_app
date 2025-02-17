@@ -1,7 +1,7 @@
 package com.ljystamp.common.di
 
-import com.ljystamp.common.data.dataSource.GetLocationNearTourListRemoteSource
-import com.ljystamp.common.data.dataSource.GetLocationNearTourListRemoteSourceImpl
+import com.ljystamp.common.data.dataSource.GetLocationNearTourListRemoteDataSource
+import com.ljystamp.common.data.dataSource.GetLocationNearTourListRemoteDataSourceImpl
 import com.ljystamp.common.data.repository.GetLocationNearTourListRepositoryImpl
 import com.ljystamp.common.data.repository.SaveTourLocationRepositoryImpl
 import com.ljystamp.common.data.repository.SavedLocationRepositoryImpl
@@ -26,8 +26,8 @@ abstract class CommonRepositoryModule {
     @Singleton
     @Binds
     abstract fun bindGetLocationNearTourListRemoteSource(
-        impl: GetLocationNearTourListRemoteSourceImpl
-    ): GetLocationNearTourListRemoteSource
+        impl: GetLocationNearTourListRemoteDataSourceImpl
+    ): GetLocationNearTourListRemoteDataSource
 
     @Singleton
     @Binds

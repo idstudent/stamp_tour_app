@@ -9,9 +9,9 @@ import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.retrofit.body
 import javax.inject.Inject
 
-class GetLocationNearTourListRemoteSourceImpl @Inject constructor(
+class GetLocationNearTourListRemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService
-): GetLocationNearTourListRemoteSource {
+): GetLocationNearTourListRemoteDataSource {
     override suspend fun getLocationNearTourList(
         longitude: Double,
         latitude: Double,

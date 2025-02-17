@@ -1,4 +1,4 @@
-package com.ljystamp.common.data.dataSource
+package com.ljystamp.feature_tour_detail.data.datasource
 
 import android.util.Log
 import com.ljystamp.stamp_tour_app.api.ApiService
@@ -8,9 +8,9 @@ import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.retrofit.body
 import javax.inject.Inject
 
-class GetTourDetailRemoteSourceImpl @Inject constructor(
+class GetTourDetailRemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService
-): GetTourDetailRemoteSource {
+): GetTourDetailRemoteDataSource {
     override suspend fun getTourDetail(contentId: Int, contentTypeId: Int): List<DetailItem> {
         val detailInfo = ArrayList<DetailItem>()
 

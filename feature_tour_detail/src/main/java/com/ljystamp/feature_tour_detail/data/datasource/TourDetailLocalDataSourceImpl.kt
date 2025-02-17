@@ -5,9 +5,9 @@ import com.ljystamp.stamp_tour_app.model.TourMapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class TourDetailDataSourceImpl @Inject constructor(
+class TourDetailLocalDataSourceImpl @Inject constructor(
     private val stampDatabase: StampDatabase
-): TourDetailLocalSource{
+): TourDetailLocalDataSource{
 
     override suspend fun insertSearchItem(item: TourMapper) {
         return stampDatabase.stampDao().insertItem(item)
