@@ -7,9 +7,4 @@
         <item name="itemRippleColor">@android:color/transparent</item>
         <item name="itemBackground">@null</item>
     </style>
-    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">@android:color/transparent</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
-    </style>
 </resources>

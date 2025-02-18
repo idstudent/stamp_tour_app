@@ -8,8 +8,9 @@ import com.ljystamp.common.domain.respository.SaveTourLocationRepository
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.stamp_tour_app.model.TourMapper
+import javax.inject.Inject
 
-class SaveTourLocationRepositoryImpl(
+class SaveTourLocationRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore,
     private val auth: FirebaseAuth
 ): SaveTourLocationRepository {

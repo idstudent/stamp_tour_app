@@ -22,16 +22,4 @@
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_top_round</item>
     </style>
-    <style name="BottomNavigation">
-        <item name="android:background">@color/white</item>
-        <item name="itemIconTint">@color/bottom_nav_selector</item>
-        <item name="itemTextColor">@color/bottom_nav_selector</item>
-        <item name="itemRippleColor">@android:color/transparent</item>
-        <item name="itemBackground">@null</item>
-    </style>
-    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">@android:color/transparent</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
-    </style>
 </resources>

@@ -59,7 +59,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 
-    implementation("androidx.activity:activity-ktx:1.10.0")
+    implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("com.github.bumptech.glide:glide:4.14.2")
 
     implementation("com.github.skydoves:sandwich:2.0.5")

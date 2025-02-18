@@ -3,20 +3,4 @@
     <style name="TextViewBase" parent="Widget.AppCompat.TextView">
         <item name="android:includeFontPadding">false</item>
     </style>
-
-    <style name="FontSize24White" parent="TextViewBase">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:fontFamily">@font/noto_extra_bold</item>
-    </style>
-
-    <style name="FontSize14White" parent="TextViewBase">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="FontSize16White" parent="TextViewBase">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
 </resources>

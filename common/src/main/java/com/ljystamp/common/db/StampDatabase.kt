@@ -1,11 +1,10 @@
-package com.ljystamp.stamp_tour_app.db
+package com.ljystamp.common.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ljystamp.common.db.StampDao
-import com.ljystamp.stamp_tour_app.api.model.TourMapper
+import com.ljystamp.stamp_tour_app.model.TourMapper
 
 @Database(entities = [TourMapper::class], version = 1)
 abstract class StampDatabase  : RoomDatabase(){

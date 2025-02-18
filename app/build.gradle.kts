@@ -50,7 +50,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
+    implementation(project(":core_model"))
+    implementation(project(":core_network"))
     implementation(project(":core_ui"))
+    implementation(project(":core_utils"))
+    implementation(project(":feature_auth"))
+    implementation(project(":feature_home"))
+    implementation(project(":feature_my"))
+    implementation(project(":feature_my_tour"))
+    implementation(project(":feature_my_tour_detail"))
+    implementation(project(":feature_near_place"))
+    implementation(project(":feature_search"))
+    implementation(project(":feature_tour_detail"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")

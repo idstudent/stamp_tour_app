@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ljystamp.core_ui.R
 import com.ljystamp.common.databinding.ItemNearTourBinding
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
-import com.ljystamp.feature_tour_detail.presentation.view.TourDetailActivity
+import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.TourMapper
 import com.ljystamp.utils.setOnSingleClickListener
@@ -27,9 +27,7 @@ class NearTourListViewHolder(
         binding.run {
             root.setOnSingleClickListener {
                 item?.let {
-                    val intent = Intent(root.context, TourDetailActivity::class.java)
-                    intent.putExtra("info",  item)
-                    root.context.startActivity(intent)
+                    Navigator.navigateToTourDetail(root.context, it)
                 }
             }
 

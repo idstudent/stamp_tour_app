@@ -7,8 +7,9 @@ import com.ljystamp.stamp_tour_app.model.toTourMapperList
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.retrofit.body
+import javax.inject.Inject
 
-class GetSearchKeyWordResultRemoteSourceImpl(
+class GetSearchKeyWordResultRemoteSourceImpl @Inject constructor(
     private val apiService: ApiService
 ) : GetSearchKeyWordResultRemoteSource {
     override suspend fun getSearchKeyword(keyword: String, contentTypeId: Int, page: Int): List<TourMapper> {

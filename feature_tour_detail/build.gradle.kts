@@ -44,12 +44,12 @@ dependencies {
     implementation(project(":core_utils"))
     implementation(project(":core_model"))
     implementation(project(":common"))
+    implementation(project(":core_navigation"))
 
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("androidx.appcompat:appcompat:1.7.0")
-
-    implementation("androidx.activity:activity-ktx:1.10.0")
+    implementation("androidx.activity:activity-ktx:1.7.2")
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")

@@ -4,8 +4,9 @@ import com.ljystamp.feature_search.data.datasource.GetSearchKeyWordResultRemoteS
 import com.ljystamp.feature_search.domain.repository.GetSearchKeyWordResultRepository
 import com.ljystamp.stamp_tour_app.api.ApiService
 import com.ljystamp.stamp_tour_app.model.TourMapper
+import javax.inject.Inject
 
-class GetSearchKeyWordResultRepositoryImpl(
+class GetSearchKeyWordResultRepositoryImpl @Inject constructor(
     private val getSearchKeyWordResultRemoteSource: GetSearchKeyWordResultRemoteSource
 ): GetSearchKeyWordResultRepository {
     override suspend fun getSearchKeyword(keyword: String, contentTypeId: Int, page: Int): List<TourMapper> {

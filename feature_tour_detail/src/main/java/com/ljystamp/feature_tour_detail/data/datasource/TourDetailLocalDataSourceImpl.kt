@@ -1,6 +1,6 @@
 package com.ljystamp.feature_tour_detail.data.datasource
 
-import com.ljystamp.stamp_tour_app.db.StampDatabase
+import com.ljystamp.common.db.StampDatabase
 import com.ljystamp.stamp_tour_app.model.TourMapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
