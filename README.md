@@ -19,7 +19,7 @@ https://play.google.com/console/u/0/developers/5528735982804744405/app/497350205
 
           only_mvvm 브랜치 - MVVM, DI - Hilt
           
-          clean_arch 브랜치 - MVVM, 현재 clean Architecture 도입 및 멀티 모듈 작업 중
+          clean_arch 브랜치 - MVVM, clean Architecture 도입 및 멀티 모듈
           
 coroutine, flow, hilt, firebase analytics, firebase database, sandwich, room, view binding, retrofit2, glide
 
