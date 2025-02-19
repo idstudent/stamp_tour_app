@@ -26,7 +26,6 @@ class LocationTourListViewModel @Inject constructor(
     private val getSavedLocationsUseCase: GetSavedLocationsUseCase,
     private val getLocationNearTourListUseCase: GetLocationNearTourListUseCase,
     private val saveTourLocationsUseCase: SaveTourLocationsUseCase
-//    private val tourDetailRepository: TourDetailRepository
 ): ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
@@ -38,6 +37,11 @@ class LocationTourListViewModel @Inject constructor(
 
     private var snapshotListener: ListenerRegistration? = null
 
+    init {
+        auth.currentUser?.let {
+            startObservingSavedLocations()
+        }
+    }
     fun startObservingSavedLocations() {
         viewModelScope.launch {
             getSavedLocationsUseCase.invoke().collect {
@@ -110,11 +114,6 @@ class LocationTourListViewModel @Inject constructor(
                 onComplete(false, "스탬프 찍기에 실패했어요")
             }
     }
-
-    //TODO: search fragment 작업시 사용
-//    fun selectRecentlySearchItem(): Flow<List<TourMapper>> {
-//        return tourDetailRepository.selectAllSearchItem()
-//    }
 
     override fun onCleared() {
         super.onCleared()

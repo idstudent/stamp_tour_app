@@ -1,4 +1,4 @@
-package com.ljystamp.feature_near_place
+package com.ljystamp.feature_near_place.presentation.view
 
 import android.content.Intent
 import android.os.Bundle

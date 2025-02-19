@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":core_utils"))
     implementation(project(":core_model"))
     implementation(project(":common"))
+    implementation(project(":core_navigation"))
 
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")

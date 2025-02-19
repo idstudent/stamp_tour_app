@@ -31,8 +31,8 @@ import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
 import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 import com.ljystamp.common.presentation.view.LoginActivity
-import com.ljystamp.feature_my_tour.presentation.view.MyTourListActivity
-import com.ljystamp.feature_near_place.NearPlaceListActivity
+import com.ljystamp.core_navigation.Navigator
+import com.ljystamp.stamp_tour_app.model.SavedLocation
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -51,6 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
     private lateinit var inProgressStampAdapter: InProgressStampAdapter
     private var isLocationPermissionGranted = false
+    private var saveTourList = ArrayList<SavedLocation>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -156,6 +157,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 locationTourListViewModel.savedLocations.collect { locations ->
                     binding.run {
                         val notVisitedLocations = locations.filter { !it.isVisited }
+                        saveTourList = ArrayList(notVisitedLocations)
                         inProgressStampAdapter.submitList(notVisitedLocations.take(5))
 
                         if (notVisitedLocations.isNotEmpty()) {
@@ -257,38 +259,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun initListener() {
         binding.run {
             tvNearPlaceMore.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 12)
-                startActivity(intent)
+                Navigator.navigateToNearPlaceList(requireContext(), 12)
             }
 
             tvMyPlaceMore.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), MyTourListActivity::class.java)
-                startActivity(intent)
+                Navigator.navigateMyTourList(requireContext())
             }
 
             clCulture.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 14)
-                startActivity(intent)
+                Navigator.navigateToNearPlaceList(requireContext(), 14)
             }
 
             clFestival.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 15)
-                startActivity(intent)
+                Navigator.navigateToNearPlaceList(requireContext(), 15)
             }
 
             clActivity.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 28)
-                startActivity(intent)
+                Navigator.navigateToNearPlaceList(requireContext(), 28)
             }
 
             clFood.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", 39)
-                startActivity(intent)
+                Navigator.navigateToNearPlaceList(requireContext(), 39)
             }
         }
     }

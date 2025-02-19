@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":core_model"))
     implementation(project(":common"))
     implementation(project(":feature_my_tour_detail"))
+    implementation(project(":core_navigation"))
 
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")

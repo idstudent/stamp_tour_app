@@ -64,4 +64,7 @@ dependencies {
 
     implementation("com.github.skydoves:sandwich:2.0.5")
     implementation("com.github.skydoves:sandwich-retrofit:2.0.5")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.4")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.4")
 }

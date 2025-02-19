@@ -3,9 +3,12 @@ package com.ljystamp.core_navigation
 import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
+import com.ljystamp.stamp_tour_app.model.SavedLocation
 
 object NavigationConstants {
-    const val TOUR_DETAIL_ACTIVITY = "com.ljystamp.feature_tour_detail.presentation.TourDetailActivity"
+    const val TOUR_DETAIL_ACTIVITY = "com.ljystamp.feature_tour_detail.presentation.view.TourDetailActivity"
+    const val NEAR_PLACE_LIST_ACTIVITY = "com.ljystamp.feature_near_place.presentation.view.NearPlaceListActivity"
+    const val MY_TOUR_LIST_ACTIVITY = "com.ljystamp.feature_my_tour.presentation.view.MyTourListActivity"
 }
 
 object Navigator {
@@ -15,6 +18,22 @@ object Navigator {
             NavigationConstants.TOUR_DETAIL_ACTIVITY
         )
         intent.putExtra("info", tourInfo)
+        context.startActivity(intent)
+    }
+
+    fun navigateToNearPlaceList(context: Context, typeId: Int) {
+        val intent = Intent().setClassName(
+            context.packageName,
+            NavigationConstants.NEAR_PLACE_LIST_ACTIVITY
+        )
+        intent.putExtra("typeId", typeId)
+        context.startActivity(intent)
+    }
+    fun navigateMyTourList(context: Context) {
+        val intent = Intent().setClassName(
+            context.packageName,
+            NavigationConstants.MY_TOUR_LIST_ACTIVITY
+        )
         context.startActivity(intent)
     }
 }

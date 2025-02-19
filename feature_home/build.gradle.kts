@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":feature_near_place"))
     implementation(project(":feature_my_tour"))
     implementation(project(":feature_my_tour_detail"))
+    implementation(project(":core_navigation"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -75,4 +76,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.4")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.4")
 }

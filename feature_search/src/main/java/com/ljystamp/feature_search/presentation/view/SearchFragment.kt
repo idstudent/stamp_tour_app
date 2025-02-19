@@ -23,7 +23,7 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseFragment
-import com.ljystamp.feature_near_place.NearPlaceListActivity
+import com.ljystamp.feature_near_place.presentation.view.NearPlaceListActivity
 import com.ljystamp.feature_search.databinding.FragmentSearchBinding
 import com.ljystamp.feature_search.presentation.adapter.SearchListAdapter
 import com.ljystamp.feature_search.presentation.bottomsheet.FilterClickListener
