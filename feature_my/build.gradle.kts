@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":feature_auth"))
     implementation(project(":feature_my_tour"))
     implementation(project(":feature_my_tour_detail"))
+    implementation(project(":core_navigation"))
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")

@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.BaseFragment
 import com.ljystamp.feature_my.databinding.FragmentMyBinding
 import com.ljystamp.feature_my.domain.model.CategoryLevel
@@ -194,29 +195,15 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
     private fun initListener() {
         binding.run {
             llComplete.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), MyCompleteListActivity::class.java)
-                intent.putExtra("tourList", saveTourList)
-                intent.putExtra("cultureList", saveCultureList)
-                intent.putExtra("eventList", saveEventList)
-                intent.putExtra("activityList", saveActivityList)
-                intent.putExtra("foodList", saveFoodList)
-                startActivity(intent)
+                Navigator.navigateMyComplete(requireContext(), saveTourList, saveCultureList, saveEventList, saveActivityList, saveFoodList)
             }
 
             llNotComplete.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), MyTourListActivity::class.java)
-                intent.putExtra("tourList", saveTourList)
-                startActivity(intent)
+                Navigator.navigateMyTourList(requireContext())
             }
 
             llCertification.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), MyCertificationActivity::class.java)
-                intent.putExtra("tourList", saveTourList)
-                intent.putExtra("cultureList", saveCultureList)
-                intent.putExtra("eventList", saveEventList)
-                intent.putExtra("activityList", saveActivityList)
-                intent.putExtra("foodList", saveFoodList)
-                startActivity(intent)
+                Navigator.navigateMyCertification(requireContext(), saveTourList, saveCultureList, saveEventList, saveActivityList, saveFoodList)
             }
 
             tvNickName.setOnSingleClickListener {
@@ -228,8 +215,7 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
 
 
             ivSetting.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), SettingActivity::class.java)
-                startActivity(intent)
+                Navigator.navigateSetting(requireContext())
             }
 
             tvLogout.setOnSingleClickListener {
