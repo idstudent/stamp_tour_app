@@ -22,6 +22,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.BaseFragment
 import com.ljystamp.feature_near_place.presentation.view.NearPlaceListActivity
 import com.ljystamp.feature_search.databinding.FragmentSearchBinding
@@ -68,6 +69,25 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
 
         initListener()
         observeNearTourList()
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                recentlySearchViewModel.recentlySearchResult.collect {
+                    binding.run {
+                        if (it.isNotEmpty()) {
+                            clRecentNotResult.visibility = View.INVISIBLE
+                            rvRecent.visibility = View.VISIBLE
+                            recentlyListAdapter.submitList(it)
+                            rvRecent.scrollToPosition(0)
+                        } else {
+                            clRecentNotResult.visibility = View.VISIBLE
+                            rvRecent.visibility = View.INVISIBLE
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -77,21 +97,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
 
         recentlySearchViewModel.selectRecentlySearchItem()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            recentlySearchViewModel.recentlySearchResult.collect {
-                binding.run {
-                    if (it.isNotEmpty()) {
-                        clRecentNotResult.visibility = View.INVISIBLE
-                        rvRecent.visibility = View.VISIBLE
-                        recentlyListAdapter.submitList(it)
-                        rvRecent.scrollToPosition(0)
-                    }else {
-                        clRecentNotResult.visibility = View.VISIBLE
-                        rvRecent.visibility = View.INVISIBLE
-                    }
-                }
-            }
-        }
     }
     private fun initListener() {
         binding.run {
@@ -115,17 +120,12 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
                     Toast.makeText(requireActivity(), "검색어를 입력하세요", Toast.LENGTH_SHORT).show()
                     return@setOnSingleClickListener
                 }else {
-                    val intent = Intent(requireActivity(), SearchListActivity::class.java)
-                    intent.putExtra("contentTypeId", contentTypeId)
-                    intent.putExtra("keyword", inputText)
-                    startActivity(intent)
+                    Navigator.navigateSearchList(requireContext(), contentTypeId, inputText)
                 }
             }
 
             tvNearPlaceMore.setOnSingleClickListener {
-                val intent = Intent(requireActivity(), NearPlaceListActivity::class.java)
-                intent.putExtra("typeId", contentTypeId)
-                startActivity(intent)
+                Navigator.navigateToNearPlaceList(requireContext(),contentTypeId)
             }
         }
     }

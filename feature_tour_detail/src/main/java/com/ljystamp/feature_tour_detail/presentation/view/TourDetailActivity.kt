@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -56,6 +57,7 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
             tourDetailViewModel.getTourDetail(it.contentId, it.contentTypeId)
 
             if(enterSearch) {
+                Log.e("ljy", "삽입 $it")
                 tourDetailViewModel.insertItem(it)
             }
 

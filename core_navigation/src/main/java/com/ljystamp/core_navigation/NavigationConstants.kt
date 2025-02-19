@@ -9,6 +9,7 @@ object NavigationConstants {
     const val TOUR_DETAIL_ACTIVITY = "com.ljystamp.feature_tour_detail.presentation.view.TourDetailActivity"
     const val NEAR_PLACE_LIST_ACTIVITY = "com.ljystamp.feature_near_place.presentation.view.NearPlaceListActivity"
     const val MY_TOUR_LIST_ACTIVITY = "com.ljystamp.feature_my_tour.presentation.view.MyTourListActivity"
+    const val SEARCH_LIST_ACTIVITY = "com.ljystamp.feature_search.presentation.view.SearchListActivity"
 }
 
 object Navigator {
@@ -34,6 +35,16 @@ object Navigator {
             context.packageName,
             NavigationConstants.MY_TOUR_LIST_ACTIVITY
         )
+        context.startActivity(intent)
+    }
+
+    fun navigateSearchList(context: Context, contentTypeId: Int, keyword: String) {
+        val intent = Intent().setClassName(
+            context.packageName,
+            NavigationConstants.SEARCH_LIST_ACTIVITY
+        )
+        intent.putExtra("contentTypeId", contentTypeId)
+        intent.putExtra("keyword", keyword)
         context.startActivity(intent)
     }
 }

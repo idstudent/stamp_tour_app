@@ -21,7 +21,9 @@ class RecentlySearchViewModel @Inject constructor (
     val recentlySearchResult: StateFlow<List<TourMapper>> = _recentlySearchResult.asStateFlow()
     fun selectRecentlySearchItem() {
         viewModelScope.launch {
-            getRecentlySearchUseCase.invoke()
+            getRecentlySearchUseCase.invoke().collect {
+                _recentlySearchResult.value = it
+            }
         }
     }
 }
