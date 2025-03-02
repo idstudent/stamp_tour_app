@@ -15,4 +15,18 @@ dependencyResolutionManagement {
 
 rootProject.name = "stamp_tour_app"
 include(":app")
- 
+include(":core_network")
+include(":core_model")
+include(":feature_home")
+include(":core_ui")
+include(":core_utils")
+include(":common")
+include(":feature_auth")
+include(":feature_near_place")
+include(":feature_my_tour")
+include(":feature_my_tour_detail")
+include(":feature_tour_detail")
+include(":feature_search")
+include(":feature_my")
+include(":core_navigation")
+include(":core_navigation")

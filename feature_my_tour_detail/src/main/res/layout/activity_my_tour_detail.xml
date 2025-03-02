@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".presentation.view.MyTourDetailActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_complete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                style="@style/FontSize20White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/noto_extra_bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_thumb"
+                tools:text="타이틀" />
+
+            <!-- 여행지 -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_addr"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="주소" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_open_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_addr"
+                tools:text="시작일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_rest_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_open_date"
+                tools:text="쉬는날" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_use_time"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_rest_date"
+                tools:text="이용시간" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/gp_tour_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_open_date, tv_use_time, tv_rest_date"/>
+
+            <!-- 문화시설 -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_culture_rest_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_addr"
+                tools:text="문화 휴무일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_culture_use_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_culture_rest_date"
+                tools:text="문화 시작일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_culture_price"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_culture_use_date"
+                tools:text="문화 가격" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_culture_parking"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_culture_price"
+                tools:text="문화 주차 여부" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_culture_parking_price"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_culture_parking"
+                tools:text="문화 주차 요금" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_culture_info"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_culture_parking_price"
+                tools:text="문의" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/gp_culture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_culture_rest_date,tv_culture_use_date,tv_culture_price,tv_culture_parking,tv_culture_parking_price,tv_culture_info"/>
+
+            <!-- 축제 -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_start_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_addr"
+                tools:text="축제 시작일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_end_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_event_start_date"
+                tools:text="축제 종료일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_play_time"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_event_end_date"
+                tools:text="축제 시간" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_place"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_event_play_time"
+                tools:text="축제 장소" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_price"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_event_place"
+                tools:text="축제 가격" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_sponsor"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_event_price"
+                tools:text="축제 주최자" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_event_sponsor_info"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_event_sponsor"
+                tools:text="축제 주최자 문의" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/gp_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_event_start_date,tv_event_end_date,tv_event_play_time,tv_event_place,tv_event_price,tv_event_sponsor,tv_event_sponsor_info"/>
+
+
+            <!-- 액티비티 -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_activity_end_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_addr"
+                tools:text="액티비티 휴무일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_activity_play_time"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_activity_end_date"
+                tools:text="액티비티 이용시간" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_activity_age"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_activity_play_time"
+                tools:text="액티비티 이용 가능 나이" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_activity_parking"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_activity_age"
+                tools:text="주차 가능 및 요금" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_activity_reservation"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_activity_parking"
+                tools:text="예약" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_activity_info"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_activity_reservation"
+                tools:text="문의 전화" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/gp_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_activity_end_date,tv_activity_play_time,tv_activity_age,tv_activity_parking,tv_activity_reservation,tv_activity_info"/>
+
+            <!-- 음식 -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_food_rest_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_addr"
+                tools:text="식당 휴무일" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_food_open_date"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_food_rest_date"
+                tools:text="식당 영업시간" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_food_first_menu"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_food_open_date"
+                tools:text="대표 메뉴" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_food_treat_menu"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_food_first_menu"
+                tools:text="메뉴" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_food_take_out"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_food_treat_menu"
+                tools:text="포장 가능 여부" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_food_info"
+                style="@style/FontSize16White"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/noto_semi_bold"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_food_take_out"
+                tools:text="문의 전화" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/gp_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_food_rest_date,tv_food_open_date,tv_food_first_menu,tv_food_treat_menu,tv_food_take_out,tv_food_info"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_complete"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="@drawable/radius_12_ff8c00"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스탬프 찍기"
+            style="@style/FontSize20White"
+            android:fontFamily="@font/noto_semi_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

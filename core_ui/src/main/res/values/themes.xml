@@ -1,0 +1,37 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Stamp_tour_app" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textViewStyle">@style/TextViewBase</item>
+        <item name="bottomNavigationStyle">@style/CustomBottomNavigationView</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+
+    <style name="CustomBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.BottomNav</item>
+    </style>
+
+    <style name="ThemeOverlay.BottomNav" parent="">
+        <item name="colorSecondaryContainer">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Stamp_tour_app" parent="Base.Theme.Stamp_tour_app" />
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_top_round</item>
+    </style>
+    <style name="BottomNavigation">
+        <item name="android:background">@color/white</item>
+        <item name="itemIconTint">@color/bottom_nav_selector</item>
+        <item name="itemTextColor">@color/bottom_nav_selector</item>
+        <item name="itemRippleColor">@android:color/transparent</item>
+        <item name="itemBackground">@null</item>
+    </style>
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+</resources>
