@@ -106,7 +106,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                                 val distanceInMeters = results[0]
                                 if (distanceInMeters <= 300) {
-                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { success, message ->
+                                    locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { _, message ->
                                         message?.let { msg ->
                                             Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                                         }

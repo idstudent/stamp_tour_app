@@ -9,15 +9,44 @@ import com.ljystamp.core_ui.R
 
 
 private val NotoSansRegular = FontFamily(Font(R.font.noto_regular))
-private val NotoSansBold = FontFamily(Font(R.font.noto_extra_bold))
+private val NotoSansExtraBold = FontFamily(Font(R.font.noto_extra_bold))
 private val NotoSansSemiBold = FontFamily(Font(R.font.noto_semi_bold))
 
 object AppTypography {
+    val fontSize14Regular = TextStyle(
+        fontFamily = NotoSansRegular,
+        fontSize = 14.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        ),
+        color = AppColors.White
+    )
+
+
     val fontSize14SemiBold = TextStyle(
         fontFamily = NotoSansSemiBold,
         fontSize = 14.sp,
         platformStyle = PlatformTextStyle(
             includeFontPadding = false
-        )
+        ),
+        color = AppColors.White
+    )
+
+    val fontSize16SemiBold = TextStyle(
+        fontFamily = NotoSansSemiBold,
+        fontSize = 16.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        ),
+        color = AppColors.White
+    )
+
+    val fontSize24ExtraBold = TextStyle(
+        fontFamily = NotoSansExtraBold,
+        fontSize = 24.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        ),
+        color = AppColors.White
     )
 }

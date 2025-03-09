@@ -24,7 +24,7 @@ fun BottomNavigationBar(
 
     NavigationBar(
         containerColor = AppColors.Black,
-        contentColor = AppColors.FF8C00
+        contentColor = AppColors.ColorFF8C00
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -46,8 +46,8 @@ fun BottomNavigationBar(
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = AppColors.FF8C00,
-                    selectedTextColor = AppColors.FF8C00,
+                    selectedIconColor = AppColors.ColorFF8C00,
+                    selectedTextColor = AppColors.ColorFF8C00,
                     unselectedIconColor = AppColors.White,
                     unselectedTextColor = AppColors.White,
                     indicatorColor = AppColors.Black, // 설정 안하면 select된 아이템에 둥그런 박스가 보임
