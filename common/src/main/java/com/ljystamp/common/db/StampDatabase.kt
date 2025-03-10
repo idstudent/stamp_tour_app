@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ljystamp.stamp_tour_app.model.TourMapper
 
-@Database(entities = [TourMapper::class], version = 1)
+@Database(entities = [TourMapper::class], version = 2)
 abstract class StampDatabase  : RoomDatabase(){
     abstract fun stampDao() : StampDao
 
