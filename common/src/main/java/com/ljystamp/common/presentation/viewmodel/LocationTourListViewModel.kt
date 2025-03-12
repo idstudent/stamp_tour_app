@@ -37,11 +37,12 @@ class LocationTourListViewModel @Inject constructor(
 
     private var snapshotListener: ListenerRegistration? = null
 
-    init {
-        auth.currentUser?.let {
-            startObservingSavedLocations()
-        }
-    }
+    // 이부분 필요한건지 체크
+//    init {
+//        auth.currentUser?.let {
+//            startObservingSavedLocations()
+//        }
+//    }
     fun startObservingSavedLocations() {
         viewModelScope.launch {
             getSavedLocationsUseCase.invoke().collect {
