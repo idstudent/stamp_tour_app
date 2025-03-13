@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ljystamp.core_ui.theme.AppColors
 import com.ljystamp.core_ui.theme.AppTypography
@@ -45,7 +46,8 @@ fun HomeNearEmptyView() {
             Text(
                 text = "아쉽게도 주변에 스탬프 찍을 곳이 없어요\n다른 동네로 떠나볼까요? 🗺️",
                 style = AppTypography.fontSize16SemiBold,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
+                textAlign = TextAlign.Center
             )
         }
     }

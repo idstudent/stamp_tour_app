@@ -1,5 +1,6 @@
 package com.ljystamp.core_ui.presentation.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,10 +25,14 @@ import com.ljystamp.stamp_tour_app.model.TourMapper
 @Composable
 fun NearItem(
     nearLocation: TourMapper,
-    onClick: () -> Unit
+    onButtonClick: () -> Unit,
+    onItemClick: () -> Unit,
+    isSaveState: Boolean
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onItemClick),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = AppColors.Color2A2A2A
@@ -68,18 +73,21 @@ fun NearItem(
             )
 
             Button(
-                onClick = onClick,
+                onClick = onButtonClick,
+                enabled = !isSaveState,
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.ColorFF8C00
-                ),
+                colors = if(isSaveState) {
+                    ButtonDefaults.buttonColors(containerColor = AppColors.Color3D3D3D)
+                }else {
+                    ButtonDefaults.buttonColors(containerColor = AppColors.ColorFF8C00)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 20.dp)
             ) {
                 Text(
                     text = "등록",
-                    style = AppTypography.fontSize16SemiBold,
+                    style = AppTypography.fontSize14Regular,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }

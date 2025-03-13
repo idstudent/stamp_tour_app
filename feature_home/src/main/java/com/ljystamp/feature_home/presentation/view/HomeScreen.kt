@@ -55,73 +55,6 @@ fun HomeScreen() {
         LocationServices.getFusedLocationProviderClient(context)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        val notVisitedLocations = savedLocations.value.filter { !it.isVisited }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp, start = 20.dp, end = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "진행 중인 스탬프",
-                style = AppTypography.fontSize24ExtraBold,
-            )
-
-            if (notVisitedLocations.size > 5) {
-                Text(
-                    text = "더보기",
-                    style = AppTypography.fontSize14Regular,
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-
-        StampTourViewPager(
-            savedLocations = savedLocations.value,
-            isLocationPermissionGranted = true, // 수정예정
-            fusedLocationClient = fusedLocationClient,
-            locationTourListViewModel = locationTourListViewModel,
-            context = context
-        )
-
-        Spacer(modifier = Modifier.padding(top = 24.dp))
-
-        HomeCategorySection(context = context)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp, start = 20.dp, end = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "근처 여행지",
-                style = AppTypography.fontSize24ExtraBold,
-            )
-
-            if (nearTourList.value.size > 4) {
-                Text(
-                    text = "더보기",
-                    style = AppTypography.fontSize14Regular,
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        HomeNearTourList(nearTourList = nearTourList.value, locationTourListViewModel = locationTourListViewModel)
-        Spacer(modifier = Modifier.height(40.dp))
-
-    }
-
     fun getCurrentLocation() {
         try {
             fusedLocationClient.lastLocation
@@ -220,5 +153,72 @@ fun HomeScreen() {
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        val notVisitedLocations = savedLocations.value.filter { !it.isVisited }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, start = 20.dp, end = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "진행 중인 스탬프",
+                style = AppTypography.fontSize24ExtraBold,
+            )
+
+            if (notVisitedLocations.size > 5) {
+                Text(
+                    text = "더보기",
+                    style = AppTypography.fontSize14Regular,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(top = 20.dp))
+
+        StampTourViewPager(
+            savedLocations = savedLocations.value,
+            isLocationPermissionGranted = true, // 수정예정
+            fusedLocationClient = fusedLocationClient,
+            locationTourListViewModel = locationTourListViewModel,
+            context = context
+        )
+
+        Spacer(modifier = Modifier.padding(top = 24.dp))
+
+        HomeCategorySection(context = context)
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, start = 20.dp, end = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "근처 여행지",
+                style = AppTypography.fontSize24ExtraBold,
+            )
+
+            if (nearTourList.value.size > 4) {
+                Text(
+                    text = "더보기",
+                    style = AppTypography.fontSize14Regular,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        HomeNearTourList(nearTourList = nearTourList.value, locationTourListViewModel = locationTourListViewModel)
+        Spacer(modifier = Modifier.height(40.dp))
+
     }
 }
