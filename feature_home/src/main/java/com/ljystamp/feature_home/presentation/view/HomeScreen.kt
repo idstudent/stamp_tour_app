@@ -186,7 +186,7 @@ fun HomeScreen() {
 
         StampTourViewPager(
             savedLocations = savedLocations.value,
-            isLocationPermissionGranted = true, // 수정예정
+            isLocationPermissionGranted = isLocationPermissionGranted,
             fusedLocationClient = fusedLocationClient,
             locationTourListViewModel = locationTourListViewModel,
             context = context
