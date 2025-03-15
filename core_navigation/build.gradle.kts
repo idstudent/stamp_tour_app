@@ -34,4 +34,7 @@ android {
 
 dependencies {
     implementation(project(":core_model"))
+    implementation(project(":core_ui"))
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.compose.material3:material3:1.3.1")
 }

@@ -51,9 +51,15 @@ class LocationTourListViewModel @Inject constructor(
         }
     }
     fun getLocationTourList(longitude: Double, latitude: Double, pageNo: Int, contentTypeId: Int) {
+        Log.e("ljy", "ViewModel - getLocationTourList 호출 - lon: $longitude, lat: $latitude, page: $pageNo")
         viewModelScope.launch {
-            getLocationNearTourListUseCase.invoke(longitude,latitude,pageNo, contentTypeId).collect {
-                _nearTourList.value = it
+            try {
+                getLocationNearTourListUseCase.invoke(longitude,latitude,pageNo, contentTypeId).collect {
+                    Log.e("ljy", "ViewModel - 데이터 수신 - page: $pageNo, 항목 수: ${it.size}")
+                    _nearTourList.value = it
+                }
+            } catch (e: Exception) {
+                Log.e("ljy", "ViewModel - 오류 발생: ${e.message}")
             }
         }
     }

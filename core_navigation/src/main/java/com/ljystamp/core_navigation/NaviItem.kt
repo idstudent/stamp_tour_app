@@ -1,7 +1,6 @@
-package com.ljystamp.stamp_tour_app.navigation
+package com.ljystamp.core_navigation
 
 import androidx.annotation.DrawableRes
-import com.ljystamp.stamp_tour_app.R
 
 sealed class NaviItem(
     val title: String?,

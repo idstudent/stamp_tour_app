@@ -1,4 +1,4 @@
-package com.ljystamp.stamp_tour_app.navigation
+package com.ljystamp.stamp_tour_app
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.core_ui.theme.AppColors
 
 @Composable
@@ -23,7 +24,7 @@ fun BottomNavigationBar(
     )
 
     NavigationBar(
-        containerColor = AppColors.Black,
+        containerColor = AppColors.Color2A2A2A,
         contentColor = AppColors.ColorFF8C00
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -50,7 +51,7 @@ fun BottomNavigationBar(
                     selectedTextColor = AppColors.ColorFF8C00,
                     unselectedIconColor = AppColors.White,
                     unselectedTextColor = AppColors.White,
-                    indicatorColor = AppColors.Black, // 설정 안하면 select된 아이템에 둥그런 박스가 보임
+                    indicatorColor = AppColors.Color2A2A2A, // 설정 안하면 select된 아이템에 둥그런 박스가 보임
                 ),
                 label = { Text(text = item.title ?: "") },
                 alwaysShowLabel = true

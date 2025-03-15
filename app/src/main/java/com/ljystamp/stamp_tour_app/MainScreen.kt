@@ -8,9 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ljystamp.stamp_tour_app.navigation.BottomNavigationBar
-import com.ljystamp.stamp_tour_app.navigation.NaviItem
-import com.ljystamp.stamp_tour_app.navigation.NavigationGraph
+import com.ljystamp.core_navigation.NaviItem
 
 @Composable
 fun MainScreen(navController: NavHostController) {

@@ -3,6 +3,7 @@ package com.ljystamp.feature_home.presentation.view
 import android.Manifest
 import android.content.pm.PackageManager
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,10 +40,12 @@ import com.ljystamp.core_ui.theme.AppTypography
 import com.ljystamp.feature_home.presentation.coponent.HomeCategorySection
 import com.ljystamp.feature_home.presentation.coponent.StampTourViewPager
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigation.NavController
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.feature_home.presentation.coponent.HomeNearTourList
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val locationTourListViewModel: LocationTourListViewModel = hiltViewModel()
     val savedLocations = locationTourListViewModel.savedLocations.collectAsState()
     val nearTourList = locationTourListViewModel.nearTourList.collectAsState()
@@ -212,6 +215,9 @@ fun HomeScreen() {
                 Text(
                     text = "더보기",
                     style = AppTypography.fontSize14Regular,
+                    modifier = Modifier.clickable {
+                        navController.navigate("${AppRoutes.NEAR_PLACE_LIST}/12")
+                    }
                 )
             }
         }

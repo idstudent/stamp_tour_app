@@ -56,6 +56,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":core_navigation"))
     implementation(project(":core_model"))
     implementation(project(":core_network"))
     implementation(project(":core_ui"))
@@ -79,6 +80,8 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
