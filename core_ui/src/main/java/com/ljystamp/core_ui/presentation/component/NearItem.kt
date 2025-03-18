@@ -33,7 +33,7 @@ fun NearItem(
     nearLocation: TourMapper,
     onButtonClick: () -> Unit,
     onItemClick: () -> Unit,
-    isSaveState: Boolean
+    isSaved: Boolean
 ) {
     Card(
         modifier = Modifier
@@ -85,9 +85,9 @@ fun NearItem(
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 20.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(
-                        if (isSaveState) AppColors.Color3D3D3D else AppColors.ColorFF8C00
+                        if (isSaved) AppColors.Color3D3D3D else AppColors.ColorFF8C00
                     )
-                    .clickable(enabled = !isSaveState) { onButtonClick() }
+                    .clickable(enabled = !isSaved) { onButtonClick() }
             ) {
                 Text(
                     text = "등록",

@@ -1,7 +1,6 @@
 package com.ljystamp.feature_near_place.presentation.view
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -124,11 +123,11 @@ fun NearPlaceListScreen(
         ){
             items(currentTourList.size) {index ->
                 val item = currentTourList[index]
-                val isSaveState = remember { mutableStateOf(false) }
+                val isSaved = remember { mutableStateOf(false) }
 
                 LaunchedEffect(item.contentId) {
                     locationTourListViewModel.checkIfLocationSaved(item.contentId) {
-                        isSaveState.value = it
+                        isSaved.value = it
                     }
                 }
 
@@ -138,7 +137,7 @@ fun NearPlaceListScreen(
                         locationTourListViewModel.saveTourLocation(item) { result ->
                             when(result) {
                                 is SaveResult.Success -> {
-                                    isSaveState.value = true
+                                    isSaved.value = true
                                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                                 }
                                 is SaveResult.Failure -> {
@@ -155,7 +154,7 @@ fun NearPlaceListScreen(
                         }
                     },
                     onItemClick = { /*TODO*/ },
-                    isSaveState = isSaveState.value
+                    isSaved = isSaved.value
                 )
 
                 if (index >= currentTourList.size - 3 && !isLoading && canLoadMore) {

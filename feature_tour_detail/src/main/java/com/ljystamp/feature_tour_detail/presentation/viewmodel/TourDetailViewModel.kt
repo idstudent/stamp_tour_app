@@ -1,5 +1,6 @@
 package com.ljystamp.feature_tour_detail.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ljystamp.feature_tour_detail.domain.usecase.GetTourDetailUseCase
@@ -22,7 +23,7 @@ class TourDetailViewModel @Inject constructor(
 
 ): ViewModel() {
     private val _tourDetailInfo = MutableStateFlow<List<DetailItem>>(emptyList())
-    val tourDetailInfo: StateFlow<List<DetailItem>> = _tourDetailInfo.asStateFlow()
+    val tourDetailInfo = _tourDetailInfo.asStateFlow()
 
     fun getTourDetail(contentId: Int, contentTypeId: Int) {
         viewModelScope.launch {

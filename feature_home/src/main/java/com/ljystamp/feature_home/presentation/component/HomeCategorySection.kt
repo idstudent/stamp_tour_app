@@ -1,4 +1,4 @@
-package com.ljystamp.feature_home.presentation.coponent
+package com.ljystamp.feature_home.presentation.component
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement

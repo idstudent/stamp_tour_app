@@ -57,7 +57,6 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
             tourDetailViewModel.getTourDetail(it.contentId, it.contentTypeId)
 
             if(enterSearch) {
-                Log.e("ljy", "삽입 $it")
                 tourDetailViewModel.insertItem(it)
             }
 

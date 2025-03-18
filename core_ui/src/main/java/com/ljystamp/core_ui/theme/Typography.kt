@@ -41,6 +41,24 @@ object AppTypography {
         color = AppColors.White
     )
 
+    val fontSize20SemiBold = TextStyle(
+        fontFamily = NotoSansSemiBold,
+        fontSize = 20.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        ),
+        color = AppColors.White
+    )
+
+    val fontSize20ExtraBold = TextStyle(
+        fontFamily = NotoSansExtraBold,
+        fontSize = 20.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        ),
+        color = AppColors.White
+    )
+
     val fontSize24ExtraBold = TextStyle(
         fontFamily = NotoSansExtraBold,
         fontSize = 24.sp,

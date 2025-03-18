@@ -37,12 +37,12 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.theme.AppTypography
-import com.ljystamp.feature_home.presentation.coponent.HomeCategorySection
-import com.ljystamp.feature_home.presentation.coponent.StampTourViewPager
+import com.ljystamp.feature_home.presentation.component.HomeCategorySection
+import com.ljystamp.feature_home.presentation.component.StampTourViewPager
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.ljystamp.core_navigation.AppRoutes
-import com.ljystamp.feature_home.presentation.coponent.HomeNearTourList
+import com.ljystamp.feature_home.presentation.component.HomeNearTourList
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -223,7 +223,7 @@ fun HomeScreen(navController: NavController) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        HomeNearTourList(nearTourList = nearTourList.value, locationTourListViewModel = locationTourListViewModel)
+        HomeNearTourList(navController = navController, nearTourList = nearTourList.value, locationTourListViewModel = locationTourListViewModel)
         Spacer(modifier = Modifier.height(40.dp))
 
     }

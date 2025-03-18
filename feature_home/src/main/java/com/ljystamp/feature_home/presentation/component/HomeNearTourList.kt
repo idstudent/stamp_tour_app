@@ -1,4 +1,4 @@
-package com.ljystamp.feature_home.presentation.coponent
+package com.ljystamp.feature_home.presentation.component
 
 import android.content.Intent
 import android.widget.Toast
@@ -14,16 +14,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
-import com.ljystamp.core_ui.R
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.presentation.component.NearItem
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.TourMapper
+import java.net.URLEncoder
 
 @Composable
 fun HomeNearTourList(
+    navController: NavController,
     nearTourList: List<TourMapper>,
     locationTourListViewModel: LocationTourListViewModel
 ) {
@@ -41,11 +44,11 @@ fun HomeNearTourList(
                 .padding(start = 16.dp, end = 16.dp, bottom = 40.dp)
         ) {
             nearTourList.take(4).forEachIndexed { index, item ->
-                val isSaveState = remember { mutableStateOf(false) }
+                val isSaved = remember { mutableStateOf(false) }
 
                 LaunchedEffect(item.contentId) {
                     locationTourListViewModel.checkIfLocationSaved(item.contentId) {
-                        isSaveState.value = it
+                        isSaved.value = it
                     }
                 }
 
@@ -55,7 +58,7 @@ fun HomeNearTourList(
                         locationTourListViewModel.saveTourLocation(item) { result ->
                             when(result) {
                                 is SaveResult.Success -> {
-                                    isSaveState.value = true
+                                    isSaved.value = true
                                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                                 }
                                 is SaveResult.Failure -> {
@@ -72,9 +75,12 @@ fun HomeNearTourList(
                         }
                     },
                     onItemClick = {
-                        //TODO: 컴포즈로 변경시 추가 예정
+                        val gson = Gson()
+                        val itemJson = gson.toJson(item)
+                        val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                        navController.navigate("${AppRoutes.TOUR_DETAIL}/$encodedItem/${false}")
                     },
-                    isSaveState = isSaveState.value
+                    isSaved = isSaved.value
                 )
                 if(index < nearTourList.take(4).size - 1) {
                     Spacer(modifier = Modifier.height(8.dp))

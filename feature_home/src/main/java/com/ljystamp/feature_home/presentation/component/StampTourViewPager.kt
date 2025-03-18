@@ -1,11 +1,10 @@
-package com.ljystamp.feature_home.presentation.coponent
+package com.ljystamp.feature_home.presentation.component
 
 import android.content.Context
 import android.location.Location
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

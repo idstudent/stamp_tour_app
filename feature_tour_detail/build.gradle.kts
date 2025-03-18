@@ -35,6 +35,10 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 }
 
@@ -64,4 +68,12 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.compose.material3:material3:1.3.1")
+
+    implementation("androidx.compose.foundation:foundation:1.5.4")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
