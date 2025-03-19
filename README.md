@@ -21,7 +21,9 @@ https://play.google.com/console/u/0/developers/5528735982804744405/app/497350205
           
           clean_arch 브랜치 - MVVM, clean Architecture 도입 및 멀티 모듈
           
-coroutine, flow, hilt, firebase analytics, firebase database, sandwich, room, view binding, retrofit2, glide
+          clean_arch_compose 브랜치 - MVVM, clean Architecture, 멀티 모듈, compose 도입 (작업 중)
+          
+compose, coroutine, flow, hilt, firebase analytics, firebase database, sandwich, room, view binding, retrofit2, glide
 
 
 ## 내용
