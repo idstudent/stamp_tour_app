@@ -4,7 +4,7 @@
 https://play.google.com/console/u/0/developers/5528735982804744405/app/4973502058682403497/app-dashboard?timespan=thirtyDays
 
 ## 기간
-2022.11.18 ~ 진행중
+2024.12 ~ 진행중
 이후에도 신기술이 있으면 공부해서 추가할 예정입니다.
 
 ## 기술스택 
