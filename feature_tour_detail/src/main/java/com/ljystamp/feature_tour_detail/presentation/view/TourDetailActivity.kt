@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +15,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_tour_detail.databinding.ActivityTourDetailBinding
@@ -233,7 +231,7 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
 
                         is SaveResult.LoginRequired -> {
                             Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                            handleLoginRequest()
+//                            handleLoginRequest()
                         }
                     }
                 }
@@ -252,10 +250,10 @@ class TourDetailActivity: BaseActivity<ActivityTourDetailBinding>() {
             }
         }
     }
-    private fun handleLoginRequest() {
-        val intent = Intent(this, LoginActivity::class.java)
-        activityResultLauncher.launch(intent)
-    }
+//    private fun handleLoginRequest() {
+//        val intent = Intent(this, LoginActivity::class.java)
+//        activityResultLauncher.launch(intent)
+//    }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {

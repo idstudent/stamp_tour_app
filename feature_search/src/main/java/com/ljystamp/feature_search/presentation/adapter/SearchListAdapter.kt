@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.ljystamp.common.databinding.ItemNearTourBinding
+//import com.ljystamp.common.databinding.ItemNearTourBinding
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.feature_search.databinding.ItemNearBinding
 import com.ljystamp.stamp_tour_app.model.TourMapper
 
 class SearchListAdapter(
@@ -26,13 +27,13 @@ class SearchListAdapter(
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchListViewHolder {
         return SearchListViewHolder(
-            ItemNearTourBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            ItemNearBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             viewModel,
             onLoginRequired
         )
     }
 
     override fun onBindViewHolder(holder: SearchListViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+//        holder.onBind(getItem(position))
     }
 }

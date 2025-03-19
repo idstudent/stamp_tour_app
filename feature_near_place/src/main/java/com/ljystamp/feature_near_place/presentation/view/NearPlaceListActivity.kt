@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.ljystamp.common.presentation.adapter.NearTourListAdapter
-import com.ljystamp.common.presentation.view.LoginActivity
+//import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_near_place.databinding.ActivityNearPlaceListBinding
@@ -28,7 +27,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     }
 
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
-    private lateinit var nearTourListAdapter: NearTourListAdapter
+//    private lateinit var nearTourListAdapter: NearTourListAdapter
     private var page = 1
     private val currentTourList = mutableListOf<TourMapper>()
     private var isLoading = false
@@ -100,7 +99,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
                         return@collect
                     }
                     currentTourList.addAll(newTourList)
-                    nearTourListAdapter.submitList(currentTourList.toList())
+//                    nearTourListAdapter.submitList(currentTourList.toList())
                     isLoading = false
                 }
             }
@@ -108,11 +107,11 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     }
 
     private fun setupRecyclerView() {
-        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel, ::handleLoginRequest)
+//        nearTourListAdapter = NearTourListAdapter(locationTourListViewModel, ::handleLoginRequest)
 
         binding.rvNearPlace.apply {
             layoutManager = GridLayoutManager(this@NearPlaceListActivity, 2)
-            adapter = nearTourListAdapter
+//            adapter = nearTourListAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -130,14 +129,14 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     }
     
     private fun handleLoginRequest() {
-        val intent = Intent(this, LoginActivity::class.java)
+//        val intent = Intent(this, LoginActivity::class.java)
         activityResultLauncher.launch(intent)
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             locationTourListViewModel.startObservingSavedLocations()
-            nearTourListAdapter.notifyDataSetChanged()
+//            nearTourListAdapter.notifyDataSetChanged()
             search()
         }
     }

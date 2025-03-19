@@ -22,6 +22,15 @@ object AppTypography {
         color = AppColors.White
     )
 
+    val fontSize16Regular = TextStyle(
+        fontFamily = NotoSansRegular,
+        fontSize = 16.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        ),
+        color = AppColors.White
+    )
+
 
     val fontSize14SemiBold = TextStyle(
         fontFamily = NotoSansSemiBold,

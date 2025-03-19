@@ -29,8 +29,6 @@ import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
-import com.ljystamp.common.presentation.adapter.NearTourListAdapter
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 
@@ -43,12 +41,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
     private val auth = FirebaseAuth.getInstance()
 
-    private val nearTourListAdapter by lazy {
-        NearTourListAdapter(
-            locationTourListViewModel,
-            ::handleLoginRequest
-        )
-    }
+//    private val nearTourListAdapter by lazy {
+//        NearTourListAdapter(
+//            locationTourListViewModel,
+//            ::handleLoginRequest
+//        )
+//    }
     private lateinit var inProgressStampAdapter: InProgressStampAdapter
     private var isLocationPermissionGranted = false
     private var saveTourList = ArrayList<SavedLocation>()
@@ -84,7 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val userId = auth.currentUser?.uid
         userId?.let {
             locationTourListViewModel.startObservingSavedLocations()
-            nearTourListAdapter.notifyDataSetChanged()
+//            nearTourListAdapter.notifyDataSetChanged()
         }
     }
 
@@ -141,7 +139,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         binding.run {
             rvNearTourList.layoutManager = LinearLayoutManager(activity)
-            rvNearTourList.adapter = nearTourListAdapter
+//            rvNearTourList.adapter = nearTourListAdapter
 
             rvStamp.apply {
                 adapter = inProgressStampAdapter
@@ -251,10 +249,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun handleLoginRequest() {
-        val intent = Intent(requireActivity(), LoginActivity::class.java)
-        startActivity(intent)
-    }
+//    private fun handleLoginRequest() {
+//        val intent = Intent(requireActivity(), LoginActivity::class.java)
+//        startActivity(intent)
+//    }
 
     private fun initListener() {
         binding.run {
@@ -297,7 +295,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             } else {
                                 tvNearPlaceMore.visibility = View.GONE
                             }
-                            nearTourListAdapter.submitList(it.take(4))
+//                            nearTourListAdapter.submitList(it.take(4))
                         } else {
                             rvNearTourList.visibility = View.GONE
                             clNullNearPlace.visibility = View.VISIBLE

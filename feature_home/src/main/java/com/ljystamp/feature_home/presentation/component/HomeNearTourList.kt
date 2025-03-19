@@ -1,6 +1,5 @@
 package com.ljystamp.feature_home.presentation.component
 
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.gson.Gson
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.presentation.component.NearItem
@@ -32,9 +30,7 @@ fun HomeNearTourList(
 ) {
     val context = LocalContext.current
     val handleLoginRequest = {
-        // TODO: 로그인화면 컴포즈로 바꾸면 수정예정
-        val intent = Intent(context, LoginActivity::class.java)
-        context.startActivity(intent)
+        navController.navigate(AppRoutes.LOGIN)
     }
 
     if(nearTourList.isNotEmpty()) {

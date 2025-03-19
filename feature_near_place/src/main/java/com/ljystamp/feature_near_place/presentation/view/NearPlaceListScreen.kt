@@ -18,9 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.android.gms.location.LocationServices
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.presentation.component.NearItem
 import com.ljystamp.core_ui.theme.AppTypography
 import com.ljystamp.stamp_tour_app.model.SaveResult
@@ -28,6 +29,7 @@ import com.ljystamp.stamp_tour_app.model.TourMapper
 
 @Composable
 fun NearPlaceListScreen(
+    navController: NavController,
     locationTourListViewModel: LocationTourListViewModel,
     contentTypeId: Int
 ) {
@@ -44,9 +46,7 @@ fun NearPlaceListScreen(
     }
 
     val handleLoginRequest = {
-        // TODO: 로그인화면 컴포즈로 바꾸면 수정예정
-        val intent = Intent(context, LoginActivity::class.java)
-        context.startActivity(intent)
+        navController.navigate(AppRoutes.LOGIN)
     }
 
     fun getNearList() {

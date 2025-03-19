@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_search.databinding.ActivitySearchListBinding
@@ -97,8 +96,8 @@ class SearchListActivity: BaseActivity<ActivitySearchListBinding>() {
     }
 
     private fun handleLoginRequest() {
-        val intent = Intent(this, LoginActivity::class.java)
-        activityResultLauncher.launch(intent)
+//        val intent = Intent(this, LoginActivity::class.java)
+//        activityResultLauncher.launch(intent)
     }
 
     private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

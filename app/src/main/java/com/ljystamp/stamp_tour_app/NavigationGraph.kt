@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.gson.Gson
+import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
@@ -34,6 +35,15 @@ fun NavigationGraph(navController: NavHostController) {
         }
 
         composable(
+            route = "${AppRoutes.LOGIN}"
+        ) {
+            LoginScreen(
+                navController = navController,
+                loginViewModel = hiltViewModel()
+            )
+        }
+
+        composable(
             route = "${AppRoutes.NEAR_PLACE_LIST}/{contentTypeId}",
             arguments = listOf(
                 navArgument("contentTypeId") { type = NavType.IntType }
@@ -41,6 +51,7 @@ fun NavigationGraph(navController: NavHostController) {
         ) {
             val contentTypeId = it.arguments?.getInt("contentTypeId") ?: 0
             NearPlaceListScreen(
+                navController = navController,
                 locationTourListViewModel = hiltViewModel(),
                 contentTypeId = contentTypeId
             )

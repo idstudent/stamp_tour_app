@@ -10,13 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.BaseFragment
 import com.ljystamp.feature_my.databinding.FragmentMyBinding
 import com.ljystamp.feature_my.domain.model.CategoryLevel
 import com.ljystamp.feature_my.domain.model.LevelInfo
-import com.ljystamp.feature_my_tour.presentation.view.MyTourListActivity
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.stamp_tour_app.viewmodel.UserViewModel
 import com.ljystamp.utils.setOnSingleClickListener
@@ -208,8 +206,8 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
 
             tvNickName.setOnSingleClickListener {
                 if (tvNickName.text.toString() == "로그인이 필요해요") {
-                    val intent = Intent(requireActivity(), LoginActivity::class.java)
-                    startActivity(intent)
+//                    val intent = Intent(requireActivity(), LoginActivity::class.java)
+//                    startActivity(intent)
                 }
             }
 

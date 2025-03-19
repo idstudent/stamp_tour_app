@@ -20,11 +20,9 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.BaseFragment
-import com.ljystamp.feature_near_place.presentation.view.NearPlaceListActivity
 import com.ljystamp.feature_search.databinding.FragmentSearchBinding
 import com.ljystamp.feature_search.presentation.adapter.SearchListAdapter
 import com.ljystamp.feature_search.presentation.bottomsheet.FilterClickListener
@@ -236,8 +234,8 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun handleLoginRequest() {
-        val intent = Intent(requireActivity(), LoginActivity::class.java)
-        activityResultLauncher.launch(intent)
+//        val intent = Intent(requireActivity(), LoginActivity::class.java)
+//        activityResultLauncher.launch(intent)
     }
 
     private fun observeNearTourList() {
