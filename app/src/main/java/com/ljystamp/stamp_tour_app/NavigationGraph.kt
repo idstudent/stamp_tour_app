@@ -13,6 +13,7 @@ import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
 import com.ljystamp.feature_near_place.presentation.view.NearPlaceListScreen
+import com.ljystamp.feature_search.presentation.view.SearchScreen
 import com.ljystamp.feature_tour_detail.presentation.view.TourDetailScreen
 import com.ljystamp.stamp_tour_app.model.TourMapper
 import java.lang.Exception
@@ -28,15 +29,13 @@ fun NavigationGraph(navController: NavHostController) {
             HomeScreen(navController)
         }
         composable(route = NaviItem.Search.route) {
-            HomeScreen(navController)
+            SearchScreen(navController)
         }
         composable(route = NaviItem.My.route) {
             HomeScreen(navController)
         }
 
-        composable(
-            route = "${AppRoutes.LOGIN}"
-        ) {
+        composable(route = "${AppRoutes.LOGIN}") {
             LoginScreen(
                 navController = navController,
                 loginViewModel = hiltViewModel()

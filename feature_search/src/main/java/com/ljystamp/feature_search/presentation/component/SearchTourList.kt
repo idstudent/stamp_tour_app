@@ -1,11 +1,11 @@
-package com.ljystamp.feature_home.presentation.component
+package com.ljystamp.feature_search.presentation.component
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -19,29 +19,30 @@ import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.presentation.component.NearEmptyView
 import com.ljystamp.core_ui.presentation.component.TourItem
-import com.ljystamp.feature_home.R
+import com.ljystamp.feature_search.presentation.viewmodel.RecentlySearchViewModel
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.TourMapper
 import java.net.URLEncoder
 
 @Composable
-fun HomeNearTourList(
+fun SearchTourList(
     navController: NavController,
-    nearTourList: List<TourMapper>,
-    locationTourListViewModel: LocationTourListViewModel
+    tourList: List<TourMapper>,
+    locationTourListViewModel: LocationTourListViewModel,
+    emptyString: String
 ) {
     val context = LocalContext.current
     val handleLoginRequest = {
         navController.navigate(AppRoutes.LOGIN)
     }
 
-    if(nearTourList.isNotEmpty()) {
-        Column(
+    if(tourList.isNotEmpty()) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 40.dp)
-        ) {
-            nearTourList.take(4).forEachIndexed { index, item ->
+                .padding(top = 16.dp, start = 20.dp, end = 20.dp, bottom = 48.dp)
+        ){
+            tourList.take(4).forEachIndexed { index, item ->
                 val isSaved = remember { mutableStateOf(false) }
 
                 LaunchedEffect(item.contentId) {
@@ -76,20 +77,20 @@ fun HomeNearTourList(
                         val gson = Gson()
                         val itemJson = gson.toJson(item)
                         val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
-                        navController.navigate("${AppRoutes.TOUR_DETAIL}/$encodedItem/${false}")
+                        navController.navigate("${AppRoutes.TOUR_DETAIL}/$encodedItem/${true}")
                     },
                     isSaved = isSaved.value
                 )
-                if(index < nearTourList.take(4).size - 1) {
-                    Spacer(modifier = Modifier.height(8.dp))
+                if(index < tourList.take(4).size - 1) {
+                    Spacer(modifier = Modifier.width(8.dp))
                 }
             }
         }
     }else {
         NearEmptyView(
-            height = 240,
-            icon = R.drawable.baseline_help_24,
-            content = "아쉽게도 주변에 스탬프 찍을 곳이 없어요\n다른 동네로 떠나볼까요? 🗺️"
+            height = 160,
+            icon = null,
+            content = emptyString
         )
     }
 }

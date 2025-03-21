@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import com.google.android.gms.location.LocationServices
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_navigation.AppRoutes
-import com.ljystamp.core_ui.presentation.component.NearItem
+import com.ljystamp.core_ui.presentation.component.TourItem
 import com.ljystamp.core_ui.theme.AppTypography
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.TourMapper
@@ -131,7 +131,7 @@ fun NearPlaceListScreen(
                     }
                 }
 
-                NearItem(
+                TourItem(
                     nearLocation = item,
                     onButtonClick = {
                         locationTourListViewModel.saveTourLocation(item) { result ->
