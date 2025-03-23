@@ -2,6 +2,7 @@ package com.ljystamp.feature_search.presentation.component
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +27,7 @@ import com.ljystamp.stamp_tour_app.model.TourMapper
 import java.net.URLEncoder
 
 @Composable
-fun SearchTourList(
+fun NearTourList(
     navController: NavController,
     tourList: List<TourMapper>,
     locationTourListViewModel: LocationTourListViewModel,
@@ -39,7 +40,7 @@ fun SearchTourList(
 
     Log.e("ljy", "tour list $tourList")
     if(tourList.isNotEmpty()) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, start = 20.dp, end = 20.dp, bottom = 48.dp)

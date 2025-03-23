@@ -8,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,12 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,9 +48,12 @@ import com.google.android.gms.location.LocationServices
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.theme.AppColors
 import com.ljystamp.core_ui.theme.AppTypography
 import com.ljystamp.feature_search.R
+import com.ljystamp.feature_search.presentation.bottomsheet.SearchBottomSheet
+import com.ljystamp.feature_search.presentation.component.NearTourList
 import com.ljystamp.feature_search.presentation.component.SearchTourList
 import com.ljystamp.feature_search.presentation.viewmodel.RecentlySearchViewModel
 
@@ -66,6 +64,10 @@ fun SearchScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     var inputText by remember { mutableStateOf("") }
+    var filterText by remember { mutableStateOf("검색할 분류를 선택해주세요") }
+    var contentTypeId by remember { mutableStateOf(-1) }
+
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     val locationTourListViewModel: LocationTourListViewModel = hiltViewModel()
     val recentlySearchViewModel: RecentlySearchViewModel = hiltViewModel()
@@ -87,7 +89,7 @@ fun SearchScreen(
                         val latitude = it.latitude
                         val longitude = it.longitude
 
-                        locationTourListViewModel.getLocationTourList(longitude, latitude, 1, 12)
+                        locationTourListViewModel.getLocationTourList(longitude, latitude, 1, contentTypeId)
                     } ?: run {
                         Toast.makeText(
                             context,
@@ -168,6 +170,26 @@ fun SearchScreen(
         }
     }
 
+    SearchBottomSheet(
+        isVisible = showBottomSheet,
+        onDismiss = { showBottomSheet = false },
+        onFilterSelected = {
+            contentTypeId = it
+
+            filterText = when(contentTypeId) {
+                12 -> "여행지"
+                14 -> "문화"
+                15 -> "축제"
+                28 -> "액티비티"
+                39 -> "음식"
+                else -> "검색할 분류를 선택해주세요"
+            }
+
+            if(isLocationPermissionGranted) {
+                getCurrentLocation()
+            }
+        }
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -183,6 +205,9 @@ fun SearchScreen(
         Row(
            modifier = Modifier
                .padding(top = 48.dp, start = 20.dp)
+               .clickable {
+                   showBottomSheet = true
+               }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_tune_24),
@@ -191,7 +216,7 @@ fun SearchScreen(
                 modifier = Modifier.size(24.dp)
             )
             Text(
-                text = "검색할 분류를 선택해주세요",
+                text = filterText,
                 style = AppTypography.fontSize16Regular,
                 modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
             )
@@ -239,7 +264,19 @@ fun SearchScreen(
                     .padding(start = 16.dp)
                     .wrapContentSize()
                     .background(AppColors.ColorFF8C00, shape = RoundedCornerShape(24.dp))
-                    .clickable { }
+                    .clickable {
+                        if (contentTypeId == -1) {
+                            Toast.makeText(context, "검색 조건을 선택하세요", Toast.LENGTH_SHORT).show()
+                            return@clickable
+                        }
+
+                        if(inputText.isEmpty()) {
+                            Toast.makeText(context, "검색어를 입력하세요", Toast.LENGTH_SHORT).show()
+                            return@clickable
+                        }else {
+                            // TODO: 검색리스트 구현하면 이동
+                        }
+                    }
                     .padding(6.dp),
                 contentAlignment = Alignment.Center
             ){
@@ -297,13 +334,13 @@ fun SearchScreen(
                     text = "더보기",
                     style = AppTypography.fontSize14Regular,
                     modifier = Modifier.clickable {
-
+                        Navigator.navigateToNearPlaceList(context, contentTypeId)
                     }
                 )
             }
         }
 
-        SearchTourList(
+        NearTourList(
             navController = navController,
             tourList = nearTourList.value,
             locationTourListViewModel = locationTourListViewModel,
