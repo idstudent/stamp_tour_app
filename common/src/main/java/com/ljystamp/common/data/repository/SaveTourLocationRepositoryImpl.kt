@@ -46,9 +46,9 @@ class SaveTourLocationRepositoryImpl @Inject constructor(
                 val savedLocation = SavedLocation(
                     contentId = tour.contentId,
                     contentTypeId = tour.contentTypeId,
-                    title = tour.title,
-                    address = tour.addr1,
-                    image = tour.firstImage,
+                    title = tour.title ?: "",
+                    address = tour.addr1 ?: "",
+                    image = tour.firstImage ?: "",
                     latitude = tour.mapY,
                     longitude = tour.mapX,
                     isVisited = false,

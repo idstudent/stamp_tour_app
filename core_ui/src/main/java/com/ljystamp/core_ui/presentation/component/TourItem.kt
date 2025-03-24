@@ -57,7 +57,7 @@ fun TourItem(
             )
 
             Text(
-                text = nearLocation.title,
+                text = nearLocation.title ?: "",
                 style = AppTypography.fontSize16SemiBold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -67,7 +67,7 @@ fun TourItem(
             )
 
             Text(
-                text = nearLocation.addr1,
+                text = nearLocation.addr1 ?: "",
                 style = AppTypography.fontSize14SemiBold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,

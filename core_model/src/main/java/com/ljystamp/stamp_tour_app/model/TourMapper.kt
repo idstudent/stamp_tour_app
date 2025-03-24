@@ -11,9 +11,9 @@ import kotlinx.parcelize.Parcelize
 data class TourMapper(
     val numOfRows: Int,
     val pageNo: Int,
-    val totalCount: Int,
-    val addr1: String,
-    val addr2: String,
+    val totalCount: Int? = 0,
+    val addr1: String? = "",
+    val addr2: String? = "",
     val areaCode: String,
     @ColumnInfo(defaultValue = "0")
     val timestamp: Long = 0,
@@ -22,16 +22,16 @@ data class TourMapper(
     val contentTypeId: Int,
     val createdTime: String,
     val dist: String,
-    val firstImage: String,
-    val firstImage2: String,
+    val firstImage: String? = "",
+    val firstImage2: String? = "",
     val cpyrhtDivCd: String,
     val mapX: Double,
     val mapY: Double,
     val level: String,
-    val modifiedTime: String,
+    val modifiedTime: String? = "",
     val sigunguCode: String,
-    val tel: String,
-    val title: String
+    val tel: String? = "",
+    val title: String? = ""
 ) : Parcelable
 
 fun TourismResponse.toTourMapperList(): List<TourMapper> {

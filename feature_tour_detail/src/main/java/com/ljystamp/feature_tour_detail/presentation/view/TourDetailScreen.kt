@@ -75,7 +75,7 @@ fun TourDetailScreen(
         ) {
             tourInfo?.let {
                 AsyncImage(
-                    model = it.firstImage,
+                    model = it.firstImage ?: "",
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -84,14 +84,14 @@ fun TourDetailScreen(
                 )
 
                 Text(
-                    text = it.title,
+                    text = it.title ?: "",
                     style = AppTypography.fontSize24ExtraBold,
                     modifier = Modifier
                         .padding(top = 20.dp, start = 16.dp, end = 16.dp)
                 )
 
                 Text(
-                    text = it.addr1,
+                    text = it.addr1 ?: "",
                     style = AppTypography.fontSize16SemiBold,
                     modifier = Modifier
                         .padding(top = 8.dp, start = 16.dp, end = 16.dp)
