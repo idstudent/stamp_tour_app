@@ -11,4 +11,8 @@ class GetRecentlySearchUseCase @Inject constructor(
     operator fun invoke(): Flow<List<TourMapper>> {
         return tourDetailDBRepository.selectAllSearchItem()
     }
+
+    suspend fun allDeleteItem() {
+        tourDetailDBRepository.removeAllItem()
+    }
 }

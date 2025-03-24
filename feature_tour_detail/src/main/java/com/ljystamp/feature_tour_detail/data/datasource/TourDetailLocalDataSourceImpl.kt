@@ -23,4 +23,9 @@ class TourDetailLocalDataSourceImpl @Inject constructor(
         }
         stampDatabase.stampDao().insertItem(newItem)
     }
+
+    override suspend fun removeAllItem() {
+        return stampDatabase.stampDao().deleteAllItem()
+    }
+
 }

@@ -7,4 +7,6 @@ interface TourDetailDBRepository {
     suspend fun insertSearchItem(item: TourMapper)
     fun selectAllSearchItem(): Flow<List<TourMapper>>
     suspend fun removeOldestAndSaveNew(newItem: TourMapper)
+
+    suspend fun removeAllItem()
 }

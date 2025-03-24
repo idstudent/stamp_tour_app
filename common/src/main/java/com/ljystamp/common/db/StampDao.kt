@@ -12,6 +12,9 @@ interface StampDao {
     @Delete
     suspend fun deleteItem(item: TourMapper)
 
+    @Query("DELETE FROM stamp")
+    suspend fun deleteAllItem()
+
     @Query("SELECT * FROM stamp ORDER BY timestamp DESC")
     fun selectItem(): Flow<List<TourMapper>>
 

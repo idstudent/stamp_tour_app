@@ -305,7 +305,7 @@ fun SearchScreen(
                     text = "전체 삭제",
                     style = AppTypography.fontSize14Regular,
                     modifier = Modifier.clickable {
-
+                        recentlySearchViewModel.deleteAllItem()
                     }
                 )
             }

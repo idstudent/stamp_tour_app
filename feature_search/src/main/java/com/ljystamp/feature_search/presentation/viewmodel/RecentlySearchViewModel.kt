@@ -26,4 +26,10 @@ class RecentlySearchViewModel @Inject constructor (
             }
         }
     }
+
+    fun deleteAllItem() {
+        viewModelScope.launch {
+            getRecentlySearchUseCase.allDeleteItem()
+        }
+    }
 }

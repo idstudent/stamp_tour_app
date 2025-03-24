@@ -20,4 +20,8 @@ class TourDetailDBRepositoryImpl @Inject constructor(
     override suspend fun removeOldestAndSaveNew(newItem: TourMapper) {
         tourDetailLocalSource.removeOldestAndSaveNew(newItem)
     }
+
+    override suspend fun removeAllItem() {
+        tourDetailLocalSource.removeAllItem()
+    }
 }
