@@ -29,10 +29,11 @@ fun TourItem(
     nearLocation: TourMapper,
     onButtonClick: () -> Unit,
     onItemClick: () -> Unit,
-    isSaved: Boolean
+    isSaved: Boolean,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(start = 4.dp, end = 4.dp, bottom = 8.dp)
             .clickable(onClick = onItemClick),

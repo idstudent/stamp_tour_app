@@ -2,16 +2,20 @@ package com.ljystamp.feature_search.presentation.component
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -33,18 +37,21 @@ fun SearchTourList(
     emptyString: String
 ) {
     val context = LocalContext.current
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val itemWidth = screenWidth - 40.dp
+
     val handleLoginRequest = {
         navController.navigate(AppRoutes.LOGIN)
     }
 
-    Log.e("ljy", "tour list $tourList")
     if(tourList.isNotEmpty()) {
-        Row(
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, start = 20.dp, end = 20.dp, bottom = 48.dp)
-        ){
-            tourList.take(4).forEachIndexed { index, item ->
+                .padding(top = 16.dp, start = 16.dp, bottom = 48.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(tourList.take(4)) { item ->
                 val isSaved = remember { mutableStateOf(false) }
 
                 LaunchedEffect(item.contentId) {
@@ -81,14 +88,12 @@ fun SearchTourList(
                         val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
                         navController.navigate("${AppRoutes.TOUR_DETAIL}/$encodedItem/${true}")
                     },
-                    isSaved = isSaved.value
+                    isSaved = isSaved.value,
+                    modifier = Modifier.width(itemWidth)
                 )
-                if(index < tourList.take(4).size - 1) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                }
             }
         }
-    }else {
+    } else {
         NearEmptyView(
             height = 160,
             icon = null,
