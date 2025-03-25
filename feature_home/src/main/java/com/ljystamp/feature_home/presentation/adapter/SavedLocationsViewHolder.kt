@@ -26,11 +26,7 @@ class SavedLocationsViewHolder(
             root.setOnSingleClickListener {
                 item?.let {
                     val intent = Intent(root.context, MyTourDetailActivity::class.java)
-                    intent.putExtra("title", it.title)
-                    intent.putExtra("addr", it.address)
-                    intent.putExtra("url", it.image)
-                    intent.putExtra("contentId", it.contentId)
-                    intent.putExtra("contentTypeId", it.contentTypeId)
+                    intent.putExtra("info", it)
                     binding.root.context.startActivity(intent)
                 }
             }

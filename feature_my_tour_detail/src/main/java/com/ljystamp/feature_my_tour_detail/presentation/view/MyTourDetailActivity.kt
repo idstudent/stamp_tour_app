@@ -1,19 +1,29 @@
 package com.ljystamp.feature_my_tour_detail.presentation.view
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_my_tour_detail.databinding.ActivityMyTourDetailBinding
 import com.ljystamp.feature_tour_detail.presentation.viewmodel.TourDetailViewModel
+import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.utils.removeHtmlTags
 import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,42 +31,53 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(this)
+    }
+
     private val tourDetailViewModel: TourDetailViewModel by viewModels()
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
 
-    private var contentId = -1
+    private var isLocationPermissionGranted = false
+
+    var tourInfo: SavedLocation? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
         initListener()
+        checkLocationPermission()
     }
 
     private fun initView() {
         val intent = intent
-        val title = intent.getStringExtra("title") ?: ""
-        val addr = intent.getStringExtra("addr") ?: ""
-        val imgUrl = intent.getStringExtra("url") ?: ""
-        contentId = intent.getIntExtra("contentId", -1)
-        val contentTypeId = intent.getIntExtra("contentTypeId", -1)
 
-        if(contentId != -1 && contentTypeId != -1) {
+        tourInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("info", SavedLocation::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("info")
+        }
+
+
+        tourInfo?.let { tourInfo ->
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    tourDetailViewModel.getTourDetail(contentId, contentTypeId)
+                    tourDetailViewModel.getTourDetail(tourInfo.contentId, tourInfo.contentTypeId)
                     tourDetailViewModel.tourDetailInfo.collect {
                         binding.run {
                             if(it.isNotEmpty()) {
                                 it[0].run {
 
                                     Glide.with(binding.root.context)
-                                        .load(imgUrl)
+                                        .load(tourInfo.image)
                                         .into(ivThumb)
 
-                                    tvTitle.text = title
-                                    tvAddr.text = addr
+                                    tvTitle.text = tourInfo.title
+                                    tvAddr.text = tourInfo.address
 
-                                    when(contentTypeId) {
+                                    when(tourInfo.contentTypeId) {
                                         12 -> {
                                             gpTourPlace.visibility = View.VISIBLE
                                             gpCulture.visibility = View.GONE
@@ -193,14 +214,96 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
     private fun tvVisible(textView: AppCompatTextView, data: String?) {
         textView.isVisible = data != "" && data != null
     }
+    private fun checkLocationPermission() {
+        TedPermission.create()
+            .setPermissionListener(object : PermissionListener {
+                override fun onPermissionGranted() {
+                    if (ActivityCompat.checkSelfPermission(
+                            this@MyTourDetailActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED) {
+                        isLocationPermissionGranted = true
+                    } else {
+                        isLocationPermissionGranted = false
+                        Toast.makeText(
+                            this@MyTourDetailActivity,
+                            "정확한 위치 확인을 위해 '정확한 위치' 권한을 허용해주세요",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onPermissionDenied(deniedPermissions: List<String>) {
+                    isLocationPermissionGranted = false
+                    Toast.makeText(
+                        this@MyTourDetailActivity,
+                        "위치 권한이 거부되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+            .setDeniedMessage("정확한 위치 권한을 받지 않으면 몇몇 기능을 사용하지 못해요!\n정확한 위치를 켜시려면 설정 > 권한 > 위치 > 정확한 위치사용을 켜주세요")
+            .setPermissions(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            .check()
+    }
 
     private fun initListener() {
         binding.btnComplete.setOnSingleClickListener {
-            locationTourListViewModel.updateVisitStatus(contentId) { success, message ->
-                Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()
-                if (success) {
-                    finish()
+            if(isLocationPermissionGranted) {
+                tourInfo?.let { savedLocation ->
+                    try {
+                        fusedLocationClient.lastLocation
+                            .addOnSuccessListener { location ->
+                                location?.let {
+                                    val results = FloatArray(1)
+                                    Location.distanceBetween(
+                                        it.latitude,
+                                        it.longitude,
+                                        savedLocation.latitude,
+                                        savedLocation.longitude,
+                                        results
+                                    )
+
+                                    val distanceInMeters = results[0]
+                                    if (distanceInMeters <= 300) {
+                                        locationTourListViewModel.updateVisitStatus(savedLocation.contentId) { success, message ->
+                                            message?.let { msg ->
+                                                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(
+                                            this,
+                                            "해당 장소와의 거리가 너무 멀어요! (${
+                                                String.format(
+                                                    "%.1f",
+                                                    distanceInMeters
+                                                )
+                                            }m)",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } ?: run {
+                                    Toast.makeText(
+                                        this,
+                                        "위치 정보를 가져올 수 없어요.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    } catch (e: SecurityException) {
+                        Toast.makeText(
+                            this,
+                            "위치 권한이 없습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
+            }else {
+                Toast.makeText(this, "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
