@@ -201,7 +201,7 @@ fun HomeScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.padding(top = 24.dp))
 
-        HomeCategorySection(context = context)
+        HomeCategorySection(navController = navController)
 
         Row(
             modifier = Modifier

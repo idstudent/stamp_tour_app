@@ -1,6 +1,5 @@
 package com.ljystamp.feature_home.presentation.component
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,10 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.feature_home.R
 
 @Composable
-fun HomeCategorySection(context: Context) {
+fun HomeCategorySection(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -22,7 +23,7 @@ fun HomeCategorySection(context: Context) {
             icon = R.drawable.baseline_synagogue_24,
             title = "문화",
             onClick = {
-//                Navigator.navigateToNearPlaceList(context, 14)
+                navController.navigate("${AppRoutes.NEAR_PLACE_LIST}/14")
             }
         )
 
@@ -30,7 +31,7 @@ fun HomeCategorySection(context: Context) {
             icon = R.drawable.baseline_celebration_24,
             title = "축제",
             onClick = {
-//                Navigator.navigateToNearPlaceList(context, 15)
+                navController.navigate("${AppRoutes.NEAR_PLACE_LIST}/15")
             }
         )
 
@@ -38,7 +39,7 @@ fun HomeCategorySection(context: Context) {
             icon = R.drawable.baseline_directions_run_24,
             title = "액티비티",
             onClick = {
-//                Navigator.navigateToNearPlaceList(context, 28)
+                navController.navigate("${AppRoutes.NEAR_PLACE_LIST}/28")
             }
         )
 
@@ -46,7 +47,7 @@ fun HomeCategorySection(context: Context) {
             icon = R.drawable.baseline_food_bank_24,
             title = "음식",
             onClick = {
-//                Navigator.navigateToNearPlaceList(context, 39)
+                navController.navigate("${AppRoutes.NEAR_PLACE_LIST}/39")
             }
         )
     }
