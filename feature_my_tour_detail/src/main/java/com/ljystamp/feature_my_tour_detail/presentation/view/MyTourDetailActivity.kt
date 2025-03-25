@@ -195,6 +195,7 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
     }
 
     private fun initListener() {
+        // TODO: 거리계산 로직 넣어야됨 지금 그냥 완료처리되고있음
         binding.btnComplete.setOnSingleClickListener {
             locationTourListViewModel.updateVisitStatus(contentId) { success, message ->
                 Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()

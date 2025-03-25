@@ -22,13 +22,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.gson.Gson
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.theme.AppColors
 import com.ljystamp.stamp_tour_app.model.SavedLocation
+import java.net.URLEncoder
 
 @Composable
 fun StampTourViewPager(
+    navController: NavController,
     savedLocations: List<SavedLocation>,
     isLocationPermissionGranted: Boolean,
     fusedLocationClient: FusedLocationProviderClient,
@@ -90,6 +95,12 @@ fun StampTourViewPager(
                         }else {
                             Toast.makeText(context, "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
                         }
+                    },
+                    onItemClick = {
+                        val gson = Gson()
+                        val itemJson = gson.toJson(notVisitedLocations[page])
+                        val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                        navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem")
                     }
                 )
             }

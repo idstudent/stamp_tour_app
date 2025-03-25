@@ -1,5 +1,6 @@
 package com.ljystamp.stamp_tour_app
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -12,9 +13,11 @@ import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
+import com.ljystamp.feature_my_tour_detail.presentation.view.MyTourDetailScreen
 import com.ljystamp.feature_near_place.presentation.view.NearPlaceListScreen
 import com.ljystamp.feature_search.presentation.view.SearchScreen
 import com.ljystamp.feature_tour_detail.presentation.view.TourDetailScreen
+import com.ljystamp.stamp_tour_app.model.SavedLocation
 import com.ljystamp.stamp_tour_app.model.TourMapper
 import java.lang.Exception
 import java.net.URLDecoder
@@ -80,6 +83,31 @@ fun NavigationGraph(navController: NavHostController) {
                 locationTourListViewModel = hiltViewModel(),
                 tourInfo = tourDetailInfo,
                 enterSearch = search
+            )
+        }
+
+        composable(
+            route = "${AppRoutes.MY_TOUR_DETAIL}/{info}",
+            arguments = listOf(
+                navArgument("info") { type = NavType.StringType}
+            )
+        ) {
+            val info = it.arguments?.getString("info") ?: ""
+
+            val decodedJson = URLDecoder.decode(info, "UTF-8")
+
+            val tourDetailInfo = try {
+                Gson().fromJson(decodedJson, SavedLocation::class.java)
+            }catch (e: Exception) {
+                null
+            }
+            Log.e("ljy", "그래프 $tourDetailInfo")
+
+            MyTourDetailScreen(
+                navController = navController,
+                tourDetailViewModel = hiltViewModel(),
+                locationTourListViewModel = hiltViewModel(),
+                tourInfo = tourDetailInfo
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.ljystamp.feature_home.presentation.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,12 +27,14 @@ import com.ljystamp.stamp_tour_app.model.SavedLocation
 @Composable
 fun StampViewPagerItem (
     savedLocation: SavedLocation,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onItemClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp),
+            .height(240.dp)
+            .clickable(onClick = onItemClick),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = AppColors.Color2A2A2A

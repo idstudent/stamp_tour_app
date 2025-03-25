@@ -181,6 +181,9 @@ fun HomeScreen(navController: NavController) {
                 Text(
                     text = "더보기",
                     style = AppTypography.fontSize14Regular,
+                    modifier = Modifier.clickable {
+                        // TODO: 진행중인 리스트 만들면 추가
+                    }
                 )
             }
         }
@@ -188,6 +191,7 @@ fun HomeScreen(navController: NavController) {
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
         StampTourViewPager(
+            navController = navController,
             savedLocations = savedLocations.value,
             isLocationPermissionGranted = isLocationPermissionGranted,
             fusedLocationClient = fusedLocationClient,
