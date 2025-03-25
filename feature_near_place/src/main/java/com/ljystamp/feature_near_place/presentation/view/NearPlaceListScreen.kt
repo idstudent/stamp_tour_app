@@ -1,6 +1,5 @@
 package com.ljystamp.feature_near_place.presentation.view
 
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,8 @@ import com.ljystamp.core_ui.presentation.component.TourItem
 import com.ljystamp.core_ui.theme.AppTypography
 import com.ljystamp.stamp_tour_app.model.SaveResult
 import com.ljystamp.stamp_tour_app.model.TourMapper
+import java.net.URLEncoder
+import com.google.gson.Gson
 
 @Composable
 fun NearPlaceListScreen(
@@ -43,10 +44,6 @@ fun NearPlaceListScreen(
 
     val fusedLocationClient = remember {
         LocationServices.getFusedLocationProviderClient(context)
-    }
-
-    val handleLoginRequest = {
-        navController.navigate(AppRoutes.LOGIN)
     }
 
     fun getNearList() {
@@ -148,12 +145,17 @@ fun NearPlaceListScreen(
                                 }
                                 is SaveResult.LoginRequired -> {
                                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                                    handleLoginRequest()
+                                    navController.navigate(AppRoutes.LOGIN)
                                 }
                             }
                         }
                     },
-                    onItemClick = { /*TODO*/ },
+                    onItemClick = {
+                        val gson = Gson()
+                        val itemJson = gson.toJson(item)
+                        val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                        navController.navigate("${AppRoutes.TOUR_DETAIL}/$encodedItem/${false}")
+                    },
                     isSaved = isSaved.value
                 )
 
