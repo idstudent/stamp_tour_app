@@ -36,10 +36,9 @@ fun NearPlaceListScreen(
 ) {
     var page by remember { mutableStateOf(1) }
     var isLoading by remember { mutableStateOf(false) }
-    var canLoadMore by remember { mutableStateOf(true) }
 
     val currentTourList = remember { mutableStateListOf<TourMapper>() }
-    
+
     val context = LocalContext.current
 
     val fusedLocationClient = remember {
@@ -47,7 +46,7 @@ fun NearPlaceListScreen(
     }
 
     fun getNearList() {
-        if (isLoading || !canLoadMore) return
+        if (isLoading) return
         isLoading = true
 
         try {
@@ -61,16 +60,16 @@ fun NearPlaceListScreen(
                             contentTypeId
                         )
                     } ?: run {
-                        isLoading = false
+                        isLoading = true
                         Toast.makeText(context, "위치 정보를 가져올 수 없어요.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { e ->
-                    isLoading = false
+                    isLoading = true
                     Toast.makeText(context, "위치 정보 조회 실패: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         } catch (e: SecurityException) {
-            isLoading = false
+            isLoading = true
             Toast.makeText(context, "위치 권한이 없어요.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -87,12 +86,11 @@ fun NearPlaceListScreen(
             }
 
             if (newTourList.isEmpty()) {
-                canLoadMore = false
+                isLoading = true
             } else {
                 currentTourList.addAll(newTourList)
-                canLoadMore = true
+                isLoading = false
             }
-            isLoading = false
         }
     }
 
@@ -101,12 +99,12 @@ fun NearPlaceListScreen(
     ) {
         Text(
             text = when(contentTypeId) {
-               12 -> "내 근처 여행지"
-               14 -> "내 근처 문화 시설"
-               15 -> "내 근처 축제"
-               28 -> "내 근처 액티비티"
-               39 -> "내 근처 식당"
-               else -> ""
+                12 -> "내 근처 여행지"
+                14 -> "내 근처 문화 시설"
+                15 -> "내 근처 축제"
+                28 -> "내 근처 액티비티"
+                39 -> "내 근처 식당"
+                else -> ""
             },
             style = AppTypography.fontSize24ExtraBold,
             modifier = Modifier
@@ -159,7 +157,7 @@ fun NearPlaceListScreen(
                     isSaved = isSaved.value
                 )
 
-                if (index >= currentTourList.size - 3 && !isLoading && canLoadMore) {
+                if (index >= currentTourList.size - 3 && !isLoading) {
                     page++
                     getNearList()
                 }
