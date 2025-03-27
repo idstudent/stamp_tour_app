@@ -55,7 +55,6 @@ fun MyTourDetailScreen(
 ) {
     var isLocationPermissionGranted by remember { mutableStateOf(false) }
 
-    val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
     val fusedLocationClient: FusedLocationProviderClient by lazy {

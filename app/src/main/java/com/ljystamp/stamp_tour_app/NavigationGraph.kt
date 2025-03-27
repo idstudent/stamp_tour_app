@@ -13,6 +13,7 @@ import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
+import com.ljystamp.feature_my_tour.presentation.view.MyTourListScreen
 import com.ljystamp.feature_my_tour_detail.presentation.view.MyTourDetailScreen
 import com.ljystamp.feature_near_place.presentation.view.NearPlaceListScreen
 import com.ljystamp.feature_search.presentation.view.SearchListScreen
@@ -61,6 +62,15 @@ fun NavigationGraph(navController: NavHostController) {
         }
 
         composable(
+            route = "${AppRoutes.MY_TOUR_LIST}",
+        ) {
+            MyTourListScreen(
+                navController = navController,
+                locationTourListViewModel = hiltViewModel(),
+            )
+        }
+
+        composable(
             route = "${AppRoutes.TOUR_DETAIL}/{info}/{search}",
             arguments = listOf(
                 navArgument("info") { type = NavType.StringType },
@@ -102,7 +112,6 @@ fun NavigationGraph(navController: NavHostController) {
             }catch (e: Exception) {
                 null
             }
-            Log.e("ljy", "그래프 $tourDetailInfo")
 
             MyTourDetailScreen(
                 navController = navController,

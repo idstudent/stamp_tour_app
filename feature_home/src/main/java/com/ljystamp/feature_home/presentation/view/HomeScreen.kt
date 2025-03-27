@@ -182,7 +182,7 @@ fun HomeScreen(navController: NavController) {
                     text = "더보기",
                     style = AppTypography.fontSize14Regular,
                     modifier = Modifier.clickable {
-                        // TODO: 진행중인 리스트 만들면 추가
+                        navController.navigate(AppRoutes.MY_TOUR_LIST)
                     }
                 )
             }
