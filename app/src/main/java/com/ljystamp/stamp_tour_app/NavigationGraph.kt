@@ -15,6 +15,7 @@ import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
 import com.ljystamp.feature_my_tour_detail.presentation.view.MyTourDetailScreen
 import com.ljystamp.feature_near_place.presentation.view.NearPlaceListScreen
+import com.ljystamp.feature_search.presentation.view.SearchListScreen
 import com.ljystamp.feature_search.presentation.view.SearchScreen
 import com.ljystamp.feature_tour_detail.presentation.view.TourDetailScreen
 import com.ljystamp.stamp_tour_app.model.SavedLocation
@@ -108,6 +109,26 @@ fun NavigationGraph(navController: NavHostController) {
                 tourDetailViewModel = hiltViewModel(),
                 locationTourListViewModel = hiltViewModel(),
                 tourInfo = tourDetailInfo
+            )
+        }
+
+        composable(
+            route = "${AppRoutes.SEARCH_LIST}/{contentTypeId}/{keyword}",
+            arguments = listOf(
+                navArgument("contentTypeId") { type = NavType.IntType},
+                navArgument("keyword") { type = NavType.StringType}
+            )
+        ) {
+            val contentTypeId = it.arguments?.getInt("contentTypeId") ?: 0
+            val keyword = it.arguments?.getString("keyword") ?: ""
+
+
+            SearchListScreen(
+                navController = navController,
+                contentTypeId = contentTypeId,
+                keyword = keyword,
+                searchKeywordViewModel = hiltViewModel(),
+                locationTourListViewModel = hiltViewModel(),
             )
         }
     }

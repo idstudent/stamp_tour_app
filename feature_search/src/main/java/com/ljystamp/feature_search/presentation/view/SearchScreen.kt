@@ -48,6 +48,7 @@ import com.google.android.gms.location.LocationServices
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.theme.AppColors
 import com.ljystamp.core_ui.theme.AppTypography
@@ -274,7 +275,7 @@ fun SearchScreen(
                             Toast.makeText(context, "검색어를 입력하세요", Toast.LENGTH_SHORT).show()
                             return@clickable
                         }else {
-                            // TODO: 검색리스트 구현하면 이동
+                            navController.navigate("${AppRoutes.SEARCH_LIST}/$contentTypeId/$inputText")
                         }
                     }
                     .padding(6.dp),
