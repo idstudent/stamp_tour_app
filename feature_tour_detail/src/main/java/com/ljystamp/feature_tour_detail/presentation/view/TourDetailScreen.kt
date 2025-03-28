@@ -160,22 +160,31 @@ fun TourDetailScreen(
                     if (isSaved.value) AppColors.Color3D3D3D else AppColors.ColorFF8C00
                 )
                 .clickable {
-                    tourInfo?.let {
-                        locationTourListViewModel.saveTourLocation(it) { result ->
-                            when (result) {
-                                is SaveResult.Success -> {
-                                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                                    navController.popBackStack()
-                                }
-                                is SaveResult.Failure -> {
-                                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                                }
-                                is SaveResult.MaxLimitReached -> {
-                                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                                }
-                                is SaveResult.LoginRequired -> {
-                                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                                    navController.navigate(AppRoutes.LOGIN)
+                    if(!isSaved.value) {
+                        tourInfo?.let {
+                            locationTourListViewModel.saveTourLocation(it) { result ->
+                                when (result) {
+                                    is SaveResult.Success -> {
+                                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT)
+                                            .show()
+                                        navController.popBackStack()
+                                    }
+
+                                    is SaveResult.Failure -> {
+                                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+
+                                    is SaveResult.MaxLimitReached -> {
+                                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+
+                                    is SaveResult.LoginRequired -> {
+                                        Toast.makeText(context, result.message, Toast.LENGTH_SHORT)
+                                            .show()
+                                        navController.navigate(AppRoutes.LOGIN)
+                                    }
                                 }
                             }
                         }
