@@ -48,25 +48,13 @@ dependencies {
     implementation(project(":core_model"))
     implementation(project(":common"))
     implementation(project(":core_navigation"))
-
-    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-
-    implementation("androidx.activity:activity-ktx:1.7.2")
-
+    
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
-    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
-
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
-    implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.compose.material3:material3:1.3.1")
 
     implementation("androidx.compose.foundation:foundation:1.5.4")
