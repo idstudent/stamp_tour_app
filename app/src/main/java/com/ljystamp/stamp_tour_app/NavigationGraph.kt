@@ -13,6 +13,7 @@ import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
+import com.ljystamp.feature_my.presentation.view.MyScreen
 import com.ljystamp.feature_my_tour.presentation.view.MyTourListScreen
 import com.ljystamp.feature_my_tour_detail.presentation.view.MyTourDetailScreen
 import com.ljystamp.feature_near_place.presentation.view.NearPlaceListScreen
@@ -37,7 +38,10 @@ fun NavigationGraph(navController: NavHostController) {
             SearchScreen(navController)
         }
         composable(route = NaviItem.My.route) {
-            HomeScreen(navController)
+            MyScreen(
+                navController,
+                userViewModel = hiltViewModel()
+            )
         }
 
         composable(route = "${AppRoutes.LOGIN}") {

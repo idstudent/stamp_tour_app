@@ -2,6 +2,7 @@ package com.ljystamp.stamp_tour_app.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -11,7 +12,10 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ljystamp.stamp_tour_app.model.SavedLocation
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class UserViewModel: ViewModel() {
     private val auth = FirebaseAuth.getInstance()
@@ -40,6 +44,18 @@ class UserViewModel: ViewModel() {
 
     private val _certificationCount = MutableStateFlow(0)
     val certificationCount = _certificationCount.asStateFlow()
+
+    val nickname = userProfile.map { profile ->
+        profile?.get("nickname") as? String
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val completeCount = allList.map { list ->
+        list.filter { it.isVisited }.size
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    val notCompleteCount = allList.map { list ->
+        list.filter { !it.isVisited }.size
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     fun signUp(email: String, password: String, nickname: String, onComplete: (Boolean, String?) -> Unit) {
         db.collection("users")
