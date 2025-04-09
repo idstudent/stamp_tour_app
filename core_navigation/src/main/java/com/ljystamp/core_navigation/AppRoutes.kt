@@ -7,4 +7,5 @@ object AppRoutes {
     const val MY_TOUR_DETAIL = "my_tour_detail"
     const val LOGIN = "login"
     const val SEARCH_LIST = "search_list"
+    const val MY_COMPLETE_LIST = "my_complete_list"
 }
