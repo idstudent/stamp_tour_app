@@ -43,15 +43,17 @@ fun MyCompleteListScreen(
         )
 
         completeTourList?.let { item ->
+            val visitedItem = item.filter { it.isVisited }
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 userScrollEnabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(((item.size + 1) / 2 * 320).dp)
+                    .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
-                items(item.size) {
-                    MyCompleteItem(item[it])
+                items(visitedItem.size) {
+                    MyCompleteItem(visitedItem[it])
                 }
             }
         }
@@ -63,15 +65,17 @@ fun MyCompleteListScreen(
         )
 
         completeCultureList?.let { item ->
+            val visitedItem = item.filter { it.isVisited }
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 userScrollEnabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(((item.size + 1) / 2 * 320).dp)
+                    .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
-                items(item.size) {
-                    MyCompleteItem(item[it])
+                items(visitedItem.size) {
+                    MyCompleteItem(visitedItem[it])
                 }
             }
         }
@@ -83,15 +87,17 @@ fun MyCompleteListScreen(
         )
 
         completeEventList?.let { item ->
+            val visitedItem = item.filter { it.isVisited }
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 userScrollEnabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(((item.size + 1) / 2 * 320).dp)
+                    .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
-                items(item.size) {
-                    MyCompleteItem(item[it])
+                items(visitedItem.size) {
+                    MyCompleteItem(visitedItem[it])
                 }
             }
         }
@@ -103,15 +109,17 @@ fun MyCompleteListScreen(
         )
 
         completeActivityList?.let { item ->
+            val visitedItem = item.filter { it.isVisited }
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 userScrollEnabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(((item.size + 1) / 2 * 320).dp)
+                    .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
-                items(item.size) {
-                    MyCompleteItem(item[it])
+                items(visitedItem.size) {
+                    MyCompleteItem(visitedItem[it])
                 }
             }
         }
@@ -123,15 +131,17 @@ fun MyCompleteListScreen(
         )
 
         completeFoodList?.let { item ->
+            val visitedItem = item.filter { it.isVisited }
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 userScrollEnabled = false,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(((item.size + 1) / 2 * 320).dp)
+                    .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
-                items(item.size) {
-                    MyCompleteItem(item[it])
+                items(visitedItem.size) {
+                    MyCompleteItem(visitedItem[it])
                 }
             }
         }
