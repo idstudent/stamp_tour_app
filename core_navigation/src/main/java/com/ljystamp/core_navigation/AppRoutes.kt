@@ -8,4 +8,5 @@ object AppRoutes {
     const val LOGIN = "login"
     const val SEARCH_LIST = "search_list"
     const val MY_COMPLETE_LIST = "my_complete_list"
+    const val SETTING = "setting"
 }

@@ -100,7 +100,9 @@ fun MyScreen(
                 .wrapContentSize(Alignment.TopEnd)
                 .padding(top = 20.dp, end = 20.dp)
                 .size(32.dp)
-                .clickable { },
+                .clickable {
+                   navController.navigate(AppRoutes.SETTING)
+                },
         )
 
         Row(
