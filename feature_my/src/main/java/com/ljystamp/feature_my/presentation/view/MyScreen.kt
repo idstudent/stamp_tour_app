@@ -190,7 +190,8 @@ fun MyScreen(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 8.dp)
+                    .clickable { navController.navigate(AppRoutes.MY_TOUR_LIST) },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
