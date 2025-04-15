@@ -12,6 +12,7 @@ import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_home.presentation.view.HomeScreen
+import com.ljystamp.feature_my.presentation.view.MyCertificationScreen
 import com.ljystamp.feature_my.presentation.view.MyCompleteListScreen
 import com.ljystamp.feature_my.presentation.view.MyScreen
 import com.ljystamp.feature_my.presentation.view.SettingScreen
@@ -214,6 +215,70 @@ fun NavigationGraph(navController: NavHostController) {
             route = AppRoutes.SETTING,
         ) {
             SettingScreen(navController = navController)
+        }
+        
+        composable(
+            route = "${AppRoutes.MY_CERTIFICATION}/{tourList}/{cultureList}/{eventList}/{activityList}/{foodList}",
+            arguments = listOf(
+                navArgument("tourList") { type = NavType.StringType },
+                navArgument("cultureList") { type = NavType.StringType },
+                navArgument("eventList") { type = NavType.StringType },
+                navArgument("activityList") { type = NavType.StringType },
+                navArgument("foodList") { type = NavType.StringType },
+            )
+        ) {
+            val tourList = it.arguments?.getString("tourList") ?: ""
+            val tourJson = URLDecoder.decode(tourList, "UTF-8")
+
+            val completeTourList = try {
+                Gson().fromJson(tourJson, Array<SavedLocation>::class.java)?.toList()
+            } catch (e: Exception) {
+                null
+            }
+
+            val cultureList = it.arguments?.getString("cultureList") ?: ""
+            val cultureJson = URLDecoder.decode(cultureList, "UTF-8")
+
+            val completeCultureList = try {
+                Gson().fromJson(cultureJson, Array<SavedLocation>::class.java)?.toList()
+            } catch (e: Exception) {
+                null
+            }
+
+            val eventList = it.arguments?.getString("eventList") ?: ""
+            val eventJson = URLDecoder.decode(eventList, "UTF-8")
+
+            val completeEventList = try {
+                Gson().fromJson(eventJson, Array<SavedLocation>::class.java)?.toList()
+            } catch (e: Exception) {
+                null
+            }
+
+            val activityList = it.arguments?.getString("activityList") ?: ""
+            val activityJson = URLDecoder.decode(activityList, "UTF-8")
+
+            val completeActivityList = try {
+                Gson().fromJson(activityJson, Array<SavedLocation>::class.java)?.toList()
+            } catch (e: Exception) {
+                null
+            }
+
+            val foodList = it.arguments?.getString("foodList") ?: ""
+            val foodJson = URLDecoder.decode(foodList, "UTF-8")
+
+            val completeFoodList = try {
+                Gson().fromJson(foodJson, Array<SavedLocation>::class.java)?.toList()
+            } catch (e: Exception) {
+                null
+            }
+
+            MyCertificationScreen(
+                completeTourList,
+                completeCultureList,
+                completeEventList,
+                completeActivityList,
+                completeFoodList
+            )
         }
     }
 }

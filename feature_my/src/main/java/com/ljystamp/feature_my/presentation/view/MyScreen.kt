@@ -222,7 +222,26 @@ fun MyScreen(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(end = 16.dp),
+                    .padding(end = 16.dp)
+                    .clickable {
+                        val gson = Gson()
+
+                        val tourListJson = gson.toJson(tourPlaceList)
+                        val cultureListJson = gson.toJson(culturePlaceList)
+                        val eventListJson = gson.toJson(eventPlaceList)
+                        val activityListJson = gson.toJson(activityPlaceList)
+                        val foodListJson = gson.toJson(foodPlaceList)
+
+                        val encodedTourList = URLEncoder.encode(tourListJson, "UTF-8")
+                        val encodedCultureList = URLEncoder.encode(cultureListJson, "UTF-8")
+                        val encodedEventList = URLEncoder.encode(eventListJson, "UTF-8")
+                        val encodedActivityList = URLEncoder.encode(activityListJson, "UTF-8")
+                        val encodedFoodList = URLEncoder.encode(foodListJson, "UTF-8")
+
+                        navController.navigate(
+                            "${AppRoutes.MY_CERTIFICATION}/$encodedTourList/$encodedCultureList/$encodedEventList/$encodedActivityList/$encodedFoodList"
+                        )
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
