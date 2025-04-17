@@ -15,6 +15,7 @@ import com.ljystamp.feature_home.presentation.view.HomeScreen
 import com.ljystamp.feature_my.presentation.view.MyCertificationScreen
 import com.ljystamp.feature_my.presentation.view.MyCompleteListScreen
 import com.ljystamp.feature_my.presentation.view.MyScreen
+import com.ljystamp.feature_my.presentation.view.PrivacyScreen
 import com.ljystamp.feature_my.presentation.view.SettingScreen
 import com.ljystamp.feature_my_tour.presentation.view.MyTourListScreen
 import com.ljystamp.feature_my_tour_detail.presentation.view.MyTourDetailScreen
@@ -279,6 +280,12 @@ fun NavigationGraph(navController: NavHostController) {
                 completeActivityList,
                 completeFoodList
             )
+        }
+
+        composable(
+            route = AppRoutes.PRIVACY
+        ) {
+            PrivacyScreen()
         }
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.theme.AppTypography
 
 @Composable
@@ -32,7 +33,9 @@ fun SettingScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 20.dp)
                 .padding(top = 28.dp)
-                .clickable {  }
+                .clickable {
+                    navController.navigate(AppRoutes.PRIVACY)
+                }
         )
 
         Text(
