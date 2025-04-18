@@ -2,6 +2,7 @@ package com.ljystamp.stamp_tour_app
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,6 +12,7 @@ import com.google.gson.Gson
 import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
+import com.ljystamp.feature_auth.presentation.view.WithdrawScreen
 import com.ljystamp.feature_home.presentation.view.HomeScreen
 import com.ljystamp.feature_my.presentation.view.MyCertificationScreen
 import com.ljystamp.feature_my.presentation.view.MyCompleteListScreen
@@ -286,6 +288,15 @@ fun NavigationGraph(navController: NavHostController) {
             route = AppRoutes.PRIVACY
         ) {
             PrivacyScreen()
+        }
+
+        composable(
+            route = AppRoutes.WITHDRAW
+        ) {
+            WithdrawScreen(
+                navController = navController,
+                authViewModel = viewModel()
+            )
         }
     }
 }

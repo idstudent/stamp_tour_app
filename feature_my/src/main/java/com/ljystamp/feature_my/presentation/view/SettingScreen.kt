@@ -44,7 +44,9 @@ fun SettingScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 20.dp)
-                .clickable {  }
+                .clickable {
+                    navController.navigate(AppRoutes.WITHDRAW)
+                }
         )
 
         Text(

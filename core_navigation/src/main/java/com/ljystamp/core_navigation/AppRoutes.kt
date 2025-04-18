@@ -11,4 +11,5 @@ object AppRoutes {
     const val SETTING = "setting"
     const val MY_CERTIFICATION = "my_certification"
     const val PRIVACY = "privacy"
+    const val WITHDRAW = "withdraw"
 }
