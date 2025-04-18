@@ -13,12 +13,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.google.gson.Gson
+import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_ui.theme.AppTypography
 import com.ljystamp.feature_my.presentation.component.MyCompleteItem
 import com.ljystamp.stamp_tour_app.model.SavedLocation
+import java.net.URLEncoder
 
 @Composable
 fun MyCompleteListScreen(
+    navController: NavController,
     completeTourList: List<SavedLocation>?,
     completeCultureList: List<SavedLocation>?,
     completeEventList: List<SavedLocation>?,
@@ -53,7 +58,15 @@ fun MyCompleteListScreen(
                     .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
                 items(visitedItem.size) {
-                    MyCompleteItem(visitedItem[it])
+                    MyCompleteItem(
+                        savedLocation =  visitedItem[it],
+                        onItemClick = {
+                            val gson = Gson()
+                            val itemJson = gson.toJson(visitedItem[it])
+                            val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                            navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${true}")
+                        }
+                    )
                 }
             }
         }
@@ -75,7 +88,15 @@ fun MyCompleteListScreen(
                     .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
                 items(visitedItem.size) {
-                    MyCompleteItem(visitedItem[it])
+                    MyCompleteItem(
+                        savedLocation =  visitedItem[it],
+                        onItemClick = {
+                            val gson = Gson()
+                            val itemJson = gson.toJson(visitedItem[it])
+                            val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                            navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${true}")
+                        }
+                    )
                 }
             }
         }
@@ -97,7 +118,15 @@ fun MyCompleteListScreen(
                     .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
                 items(visitedItem.size) {
-                    MyCompleteItem(visitedItem[it])
+                    MyCompleteItem(
+                        savedLocation =  visitedItem[it],
+                        onItemClick = {
+                            val gson = Gson()
+                            val itemJson = gson.toJson(visitedItem[it])
+                            val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                            navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${true}")
+                        }
+                    )
                 }
             }
         }
@@ -119,7 +148,15 @@ fun MyCompleteListScreen(
                     .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
                 items(visitedItem.size) {
-                    MyCompleteItem(visitedItem[it])
+                    MyCompleteItem(
+                        savedLocation =  visitedItem[it],
+                        onItemClick = {
+                            val gson = Gson()
+                            val itemJson = gson.toJson(visitedItem[it])
+                            val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                            navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${true}")
+                        }
+                    )
                 }
             }
         }
@@ -141,7 +178,15 @@ fun MyCompleteListScreen(
                     .height(((visitedItem.size + 1) / 2 * 320).dp)
             ){
                 items(visitedItem.size) {
-                    MyCompleteItem(visitedItem[it])
+                    MyCompleteItem(
+                        savedLocation =  visitedItem[it],
+                        onItemClick = {
+                            val gson = Gson()
+                            val itemJson = gson.toJson(visitedItem[it])
+                            val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
+                            navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${true}")
+                        }
+                    )
                 }
             }
         }

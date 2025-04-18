@@ -100,7 +100,7 @@ fun StampTourViewPager(
                         val gson = Gson()
                         val itemJson = gson.toJson(notVisitedLocations[page])
                         val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
-                        navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem")
+                        navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${false}")
                     }
                 )
             }

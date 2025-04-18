@@ -52,6 +52,7 @@ fun MyTourDetailScreen(
     tourDetailViewModel: TourDetailViewModel,
     locationTourListViewModel: LocationTourListViewModel,
     tourInfo: SavedLocation?,
+    complete: Boolean
 ) {
     var isLocationPermissionGranted by remember { mutableStateOf(false) }
 
@@ -197,72 +198,85 @@ fun MyTourDetailScreen(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
-                .height(48.dp)
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(12.dp))
-                .background(AppColors.ColorFF8C00)
-                .clickable {
-                    if(isLocationPermissionGranted) {
-                        try {
-                            tourInfo?.let { tourInfo ->
-                                fusedLocationClient.lastLocation
-                                    .addOnSuccessListener { location ->
-                                        location?.let {
-                                            val results = FloatArray(1)
-                                            Location.distanceBetween(
-                                                it.latitude,
-                                                it.longitude,
-                                                tourInfo.latitude,
-                                                tourInfo.longitude,
-                                                results
-                                            )
+        if(!complete) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
+                    .height(48.dp)
+                    .align(Alignment.BottomCenter)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(AppColors.ColorFF8C00)
+                    .clickable {
+                        if (isLocationPermissionGranted) {
+                            try {
+                                tourInfo?.let { tourInfo ->
+                                    fusedLocationClient.lastLocation
+                                        .addOnSuccessListener { location ->
+                                            location?.let {
+                                                val results = FloatArray(1)
+                                                Location.distanceBetween(
+                                                    it.latitude,
+                                                    it.longitude,
+                                                    tourInfo.latitude,
+                                                    tourInfo.longitude,
+                                                    results
+                                                )
 
-                                            val distanceInMeters = results[0]
-                                            if (distanceInMeters <= 300) {
-                                                locationTourListViewModel.updateVisitStatus(tourInfo.contentId) { success, message ->
-                                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                                val distanceInMeters = results[0]
+                                                if (distanceInMeters <= 300) {
+                                                    locationTourListViewModel.updateVisitStatus(
+                                                        tourInfo.contentId
+                                                    ) { success, message ->
+                                                        Toast.makeText(
+                                                            context,
+                                                            message,
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
 
-                                                    if(success) {
-                                                        navController.popBackStack()
+                                                        if (success) {
+                                                            navController.popBackStack()
+                                                        }
                                                     }
+                                                } else {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "해당 장소와의 거리가 너무 멀어요! (${
+                                                            String.format(
+                                                                "%.1f",
+                                                                distanceInMeters
+                                                            )
+                                                        }m)",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }
-                                            } else {
+                                            } ?: run {
                                                 Toast.makeText(
                                                     context,
-                                                    "해당 장소와의 거리가 너무 멀어요! (${String.format("%.1f", distanceInMeters)}m)",
+                                                    "위치 정보를 가져올 수 없어요.",
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
-                                        } ?: run {
-                                            Toast.makeText(
-                                                context,
-                                                "위치 정보를 가져올 수 없어요.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
                                         }
-                                    }
+                                }
+                            } catch (e: SecurityException) {
+                                Toast.makeText(
+                                    context,
+                                    "위치 권한이 없습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        } catch (e: SecurityException) {
-                            Toast.makeText(
-                                context,
-                                "위치 권한이 없습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        } else {
+                            Toast.makeText(context, "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
                         }
-                    }else {
-                        Toast.makeText(context, "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
                     }
-                }
-        ) {
-            Text(
-                text = "스탬프 찍기",
-                style = AppTypography.fontSize20SemiBold,
-                modifier = Modifier.align(Alignment.Center)
-            )
+            ) {
+                Text(
+                    text = "스탬프 찍기",
+                    style = AppTypography.fontSize20SemiBold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
     }
 }

@@ -153,7 +153,7 @@ fun MyTourListScreen(
                         val gson = Gson()
                         val itemJson = gson.toJson(item)
                         val encodedItem = URLEncoder.encode(itemJson, "UTF-8")
-                        navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem")
+                        navController.navigate("${AppRoutes.MY_TOUR_DETAIL}/$encodedItem/${false}")
                     })
             }
         }

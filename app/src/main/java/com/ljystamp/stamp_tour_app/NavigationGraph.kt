@@ -107,12 +107,14 @@ fun NavigationGraph(navController: NavHostController) {
         }
 
         composable(
-            route = "${AppRoutes.MY_TOUR_DETAIL}/{info}",
+            route = "${AppRoutes.MY_TOUR_DETAIL}/{info}/{complete}",
             arguments = listOf(
-                navArgument("info") { type = NavType.StringType}
+                navArgument("info") { type = NavType.StringType},
+                navArgument("complete") { type = NavType.BoolType}
             )
         ) {
             val info = it.arguments?.getString("info") ?: ""
+            val complete = it.arguments?.getBoolean("complete") ?: false
 
             val decodedJson = URLDecoder.decode(info, "UTF-8")
 
@@ -126,7 +128,8 @@ fun NavigationGraph(navController: NavHostController) {
                 navController = navController,
                 tourDetailViewModel = hiltViewModel(),
                 locationTourListViewModel = hiltViewModel(),
-                tourInfo = tourDetailInfo
+                tourInfo = tourDetailInfo,
+                complete = complete
             )
         }
 
@@ -206,11 +209,12 @@ fun NavigationGraph(navController: NavHostController) {
             }
 
             MyCompleteListScreen(
-                completeTourList,
-                completeCultureList,
-                completeEventList,
-                completeActivityList,
-                completeFoodList
+                navController = navController,
+                completeTourList = completeTourList,
+                completeCultureList = completeCultureList,
+                completeEventList = completeEventList,
+                completeActivityList = completeActivityList,
+                completeFoodList = completeFoodList
             )
         }
 
@@ -276,11 +280,11 @@ fun NavigationGraph(navController: NavHostController) {
             }
 
             MyCertificationScreen(
-                completeTourList,
-                completeCultureList,
-                completeEventList,
-                completeActivityList,
-                completeFoodList
+                completeTourList = completeTourList,
+                completeCultureList = completeCultureList,
+                completeEventList = completeEventList,
+                completeActivityList = completeActivityList,
+                completeFoodList = completeFoodList
             )
         }
 
