@@ -1,9 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application>
-        <activity android:name=".presentation.view.MyCertificationActivity"/>
-        <activity android:name=".presentation.view.MyCompleteListActivity"/>
-        <activity android:name=".presentation.view.PrivacyActivity"/>
-        <activity android:name=".presentation.view.SettingActivity"/>
-    </application>
-</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"/>
