@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
+import com.ljystamp.feature_auth.presentation.view.ResetPasswordScreen
 import com.ljystamp.feature_auth.presentation.view.WithdrawScreen
 import com.ljystamp.feature_home.presentation.view.HomeScreen
 import com.ljystamp.feature_my.presentation.view.MyCertificationScreen
@@ -301,6 +302,12 @@ fun NavigationGraph(navController: NavHostController) {
                 navController = navController,
                 authViewModel = viewModel()
             )
+        }
+
+        composable(
+            route = AppRoutes.RESET_PASSWORD
+        ) {
+            ResetPasswordScreen(navController = navController)
         }
     }
 }

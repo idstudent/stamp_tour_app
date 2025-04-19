@@ -1,11 +1,11 @@
-package com.ljystamp.common.presentation.view
+package com.ljystamp.feature_auth.presentation.view
 
+import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,33 +26,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ljystamp.common.presentation.viewmodel.LoginViewModel
-import com.ljystamp.core_navigation.AppRoutes
+import com.google.firebase.auth.FirebaseAuth
 import com.ljystamp.core_ui.theme.AppColors
 import com.ljystamp.core_ui.theme.AppTypography
 
 @Composable
-fun LoginScreen(
-    navController: NavController,
-    loginViewModel: LoginViewModel
-) {
+fun ResetPasswordScreen(
+    navController: NavController
+){
     val context = LocalContext.current
+
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val auth = FirebaseAuth.getInstance()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = "로그인",
+            text = "비밀번호 찾기",
             style = AppTypography.fontSize20ExtraBold,
-            modifier = Modifier
-                .padding(top = 20.dp, start = 20.dp)
+            modifier = Modifier.padding(top = 20.dp, start = 20.dp)
         )
 
         TextField(
@@ -75,79 +71,42 @@ fun LoginScreen(
                 .padding(top = 16.dp, start = 20.dp, end = 20.dp)
         )
 
-        TextField(
-            value = password,
-            onValueChange = { password = it},
-            placeholder = { Text("비밀번호", color = Color.White.copy(alpha = 0.7f)) },
-            textStyle = AppTypography.fontSize16Regular,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                disabledContainerColor = Color.Transparent,
-                focusedIndicatorColor = Color.White,
-                unfocusedIndicatorColor = Color.White,
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White
-            ),
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, start = 20.dp, end = 20.dp)
-        )
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, top = 24.dp)
+                .padding(top = 24.dp, start = 16.dp, end = 16.dp)
                 .height(48.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(AppColors.ColorFF8C00)
                 .clickable {
-                    if (email.isEmpty() || password.isEmpty()) {
-                        Toast
-                            .makeText(context, "이메일과 비밀번호를 입력해주세요", Toast.LENGTH_SHORT)
-                            .show()
+                   if(email.isEmpty()) {
+                       Toast.makeText(context, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+                       return@clickable
+                   }
+
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        Toast.makeText(context, "유효한 이메일 주소를 입력해주세요", Toast.LENGTH_SHORT).show()
                         return@clickable
                     }
 
-                    loginViewModel.signIn(email, password) { success, message ->
-                        if (success) {
-                            navController.popBackStack()
-                        } else {
-                            Toast
-                                .makeText(context, message, Toast.LENGTH_SHORT)
-                                .show()
+                    auth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context,
+                                    "비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인해주세요.",
+                                    Toast.LENGTH_SHORT).show()
+                                navController.popBackStack()
+                            } else {
+                                Toast.makeText(context, "비밀번호 재설정 이메일 발송에 실패했습니다: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
                 },
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "로그인",
+                text = "비밀번호 재설정 이메일 받기",
                 style = AppTypography.fontSize16Regular,
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 16.dp)
-        ) {
-            Text(
-                text = "회원가입",
-                style = AppTypography.fontSize16Regular,
-                modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center
-            )
-            Text(
-                text = "비밀번호 찾기",
-                style = AppTypography.fontSize16Regular,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        navController.navigate(AppRoutes.RESET_PASSWORD)
-                    }
             )
         }
     }
