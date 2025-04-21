@@ -13,6 +13,7 @@ import com.ljystamp.common.presentation.view.LoginScreen
 import com.ljystamp.core_navigation.AppRoutes
 import com.ljystamp.core_navigation.NaviItem
 import com.ljystamp.feature_auth.presentation.view.ResetPasswordScreen
+import com.ljystamp.feature_auth.presentation.view.SignUpScreen
 import com.ljystamp.feature_auth.presentation.view.WithdrawScreen
 import com.ljystamp.feature_home.presentation.view.HomeScreen
 import com.ljystamp.feature_my.presentation.view.MyCertificationScreen
@@ -308,6 +309,12 @@ fun NavigationGraph(navController: NavHostController) {
             route = AppRoutes.RESET_PASSWORD
         ) {
             ResetPasswordScreen(navController = navController)
+        }
+
+        composable(
+            route = AppRoutes.SIGN_UP
+        ) {
+            SignUpScreen(authViewModel = hiltViewModel())
         }
     }
 }

@@ -13,4 +13,5 @@ object AppRoutes {
     const val PRIVACY = "privacy"
     const val WITHDRAW = "withdraw"
     const val RESET_PASSWORD = "reset_password"
+    const val SIGN_UP = "sign_up"
 }

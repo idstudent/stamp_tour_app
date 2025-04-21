@@ -136,8 +136,12 @@ fun LoginScreen(
             Text(
                 text = "회원가입",
                 style = AppTypography.fontSize16Regular,
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        navController.navigate(AppRoutes.SIGN_UP)
+                    }
             )
             Text(
                 text = "비밀번호 찾기",
