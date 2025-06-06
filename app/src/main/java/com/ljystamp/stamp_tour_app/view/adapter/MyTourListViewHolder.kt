@@ -30,6 +30,8 @@ class MyTourListViewHolder(
                     intent.putExtra("title", it.title)
                     intent.putExtra("addr", it.address)
                     intent.putExtra("url", it.image)
+                    intent.putExtra("latitude", it.latitude)
+                    intent.putExtra("longitude", it.longitude)
                     intent.putExtra("contentId", it.contentId)
                     intent.putExtra("contentTypeId", it.contentTypeId)
                     intent.putExtra("complete",false)

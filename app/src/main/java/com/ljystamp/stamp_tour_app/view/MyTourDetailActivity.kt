@@ -1,11 +1,15 @@
 package com.ljystamp.stamp_tour_app.view
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -13,6 +17,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.ljystamp.stamp_tour_app.R
 import com.ljystamp.stamp_tour_app.databinding.ActivityMyTourDetailBinding
 import com.ljystamp.stamp_tour_app.util.removeHtmlTags
@@ -23,9 +31,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
+class MyTourDetailActivity : BaseActivity<ActivityMyTourDetailBinding>() {
     private val tourDetailViewModel: TourDetailViewModel by viewModels()
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
+    private var isLocationPermissionGranted = false
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(this)
+    }
+    private var latitude = 0.0;
+    private var longitude = 0.0;
 
     private var contentId = -1
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +47,7 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
 
         initView()
         initListener()
+        checkLocationPermission()
     }
 
     private fun initView() {
@@ -40,16 +55,19 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
         val title = intent.getStringExtra("title") ?: ""
         val addr = intent.getStringExtra("addr") ?: ""
         val imgUrl = intent.getStringExtra("url") ?: ""
+        latitude = intent.getDoubleExtra("latitude", 0.0)
+        longitude = intent.getDoubleExtra("longitude", 0.0)
+
         contentId = intent.getIntExtra("contentId", -1)
         val contentTypeId = intent.getIntExtra("contentTypeId", -1)
 
-        if(contentId != -1 && contentTypeId != -1) {
+        if (contentId != -1 && contentTypeId != -1) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     tourDetailViewModel.getTourDetail(contentId, contentTypeId)
                     tourDetailViewModel.tourDetailInfo.collect {
                         binding.run {
-                            if(it.isNotEmpty()) {
+                            if (it.isNotEmpty()) {
                                 it[0].run {
 
                                     Glide.with(binding.root.context)
@@ -59,7 +77,7 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                                     tvTitle.text = title
                                     tvAddr.text = addr
 
-                                    when(contentTypeId) {
+                                    when (contentTypeId) {
                                         12 -> {
                                             gpTourPlace.visibility = View.VISIBLE
                                             gpCulture.visibility = View.GONE
@@ -68,13 +86,16 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                                             gpFood.visibility = View.GONE
 
                                             tvVisible(tvOpenDate, this.openDate)
-                                            tvOpenDate.text = "개장일: ${this.openDate}".removeHtmlTags()
+                                            tvOpenDate.text =
+                                                "개장일: ${this.openDate}".removeHtmlTags()
 
                                             tvVisible(tvRestDate, this.restDate)
-                                            tvRestDate.text = "휴무일: ${this.restDate ?: ""}".removeHtmlTags()
+                                            tvRestDate.text =
+                                                "휴무일: ${this.restDate ?: ""}".removeHtmlTags()
 
                                             tvVisible(tvUseTime, this.useTime)
-                                            tvUseTime.text = "이용 가능 시간: ${this.useTime ?: ""}".removeHtmlTags()
+                                            tvUseTime.text =
+                                                "이용 가능 시간: ${this.useTime ?: ""}".removeHtmlTags()
                                         }
 
                                         14 -> {
@@ -85,22 +106,28 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                                             gpFood.visibility = View.GONE
 
                                             tvVisible(tvCultureRestDate, this.cultureRestDate)
-                                            tvCultureRestDate.text = "휴무일: ${this.cultureRestDate}".removeHtmlTags()
+                                            tvCultureRestDate.text =
+                                                "휴무일: ${this.cultureRestDate}".removeHtmlTags()
 
                                             tvVisible(tvCultureUseDate, this.cultureUseTime)
-                                            tvCultureUseDate.text = "이용 가능 시간: ${this.cultureUseTime}".removeHtmlTags()
+                                            tvCultureUseDate.text =
+                                                "이용 가능 시간: ${this.cultureUseTime}".removeHtmlTags()
 
                                             tvVisible(tvCulturePrice, this.culturePrice)
-                                            tvCulturePrice.text = "이용 요금: ${this.culturePrice}".removeHtmlTags()
+                                            tvCulturePrice.text =
+                                                "이용 요금: ${this.culturePrice}".removeHtmlTags()
 
                                             tvVisible(tvCultureParking, this.cultureParking)
-                                            tvCultureParking.text = "주차: ${this.cultureParking}".removeHtmlTags()
+                                            tvCultureParking.text =
+                                                "주차: ${this.cultureParking}".removeHtmlTags()
 
                                             tvVisible(tvCultureParkingPrice, this.cultureParkingFee)
-                                            tvCultureParkingPrice.text = "주차 요금: ${this.cultureParkingFee}".removeHtmlTags()
+                                            tvCultureParkingPrice.text =
+                                                "주차 요금: ${this.cultureParkingFee}".removeHtmlTags()
 
                                             tvVisible(tvCultureInfo, this.cultureInfoCenter)
-                                            tvCultureInfo.text = "문의: ${this.cultureInfoCenter}".removeHtmlTags()
+                                            tvCultureInfo.text =
+                                                "문의: ${this.cultureInfoCenter}".removeHtmlTags()
                                         }
 
                                         15 -> {
@@ -111,25 +138,32 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                                             gpFood.visibility = View.GONE
 
                                             tvVisible(tvEventStartDate, this.eventStartDate)
-                                            tvEventStartDate.text = "행사 시작일: ${this.eventStartDate}".removeHtmlTags()
+                                            tvEventStartDate.text =
+                                                "행사 시작일: ${this.eventStartDate}".removeHtmlTags()
 
                                             tvVisible(tvEventEndDate, this.eventEndDate)
-                                            tvEventEndDate.text = "행사 종료일: ${this.eventEndDate}".removeHtmlTags()
+                                            tvEventEndDate.text =
+                                                "행사 종료일: ${this.eventEndDate}".removeHtmlTags()
 
                                             tvVisible(tvEventPlayTime, this.eventPlayTime)
-                                            tvEventPlayTime.text = "행사 시간: ${this.eventPlayTime}".removeHtmlTags()
+                                            tvEventPlayTime.text =
+                                                "행사 시간: ${this.eventPlayTime}".removeHtmlTags()
 
                                             tvVisible(tvEventPlace, this.eventPlace)
-                                            tvEventPlace.text = "장소: ${this.eventPlace}".removeHtmlTags()
+                                            tvEventPlace.text =
+                                                "장소: ${this.eventPlace}".removeHtmlTags()
 
                                             tvVisible(tvEventPrice, this.eventUsePrice)
-                                            tvEventPrice.text = "이용 금액: ${this.eventUsePrice}".removeHtmlTags()
+                                            tvEventPrice.text =
+                                                "이용 금액: ${this.eventUsePrice}".removeHtmlTags()
 
                                             tvVisible(tvEventSponsor, this.eventSponsor)
-                                            tvEventSponsor.text = "주최자: ${this.eventSponsor}".removeHtmlTags()
+                                            tvEventSponsor.text =
+                                                "주최자: ${this.eventSponsor}".removeHtmlTags()
 
                                             tvVisible(tvEventSponsorInfo, this.eventSponsorTel)
-                                            tvEventSponsorInfo.text = "주최자 문의: ${this.eventSponsorTel}".removeHtmlTags()
+                                            tvEventSponsorInfo.text =
+                                                "주최자 문의: ${this.eventSponsorTel}".removeHtmlTags()
                                         }
 
                                         28 -> {
@@ -140,22 +174,31 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                                             gpFood.visibility = View.GONE
 
                                             tvVisible(tvActivityEndDate, this.activityRestDate)
-                                            tvActivityEndDate.text = "휴무일: ${this.activityRestDate}".removeHtmlTags()
+                                            tvActivityEndDate.text =
+                                                "휴무일: ${this.activityRestDate}".removeHtmlTags()
 
                                             tvVisible(tvActivityPlayTime, this.activityUseTime)
-                                            tvActivityPlayTime.text = "이용 가능 시간: ${this.activityUseTime}".removeHtmlTags()
+                                            tvActivityPlayTime.text =
+                                                "이용 가능 시간: ${this.activityUseTime}".removeHtmlTags()
 
                                             tvVisible(tvActivityAge, this.activityPossibleAge)
-                                            tvActivityAge.text = "이용 가능 연령: ${this.activityPossibleAge}".removeHtmlTags()
+                                            tvActivityAge.text =
+                                                "이용 가능 연령: ${this.activityPossibleAge}".removeHtmlTags()
 
                                             tvVisible(tvActivityParking, this.activityParking)
-                                            tvActivityParking.text = "주차 및 요금: ${this.activityParking}".removeHtmlTags()
+                                            tvActivityParking.text =
+                                                "주차 및 요금: ${this.activityParking}".removeHtmlTags()
 
-                                            tvVisible(tvActivityReservation, this.activityReservation)
-                                            tvActivityReservation.text = "예약 안내: ${this.activityReservation}".removeHtmlTags()
+                                            tvVisible(
+                                                tvActivityReservation,
+                                                this.activityReservation
+                                            )
+                                            tvActivityReservation.text =
+                                                "예약 안내: ${this.activityReservation}".removeHtmlTags()
 
                                             tvVisible(tvActivityInfo, this.activityInfoCenter)
-                                            tvActivityInfo.text = "문의: ${this.activityInfoCenter}".removeHtmlTags()
+                                            tvActivityInfo.text =
+                                                "문의: ${this.activityInfoCenter}".removeHtmlTags()
                                         }
 
                                         39 -> {
@@ -166,22 +209,28 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
                                             gpFood.visibility = View.VISIBLE
 
                                             tvVisible(tvFoodRestDate, this.foodRestTime)
-                                            tvFoodRestDate.text = "휴무일: ${this.foodRestTime}".removeHtmlTags()
+                                            tvFoodRestDate.text =
+                                                "휴무일: ${this.foodRestTime}".removeHtmlTags()
 
                                             tvVisible(tvFoodOpenDate, this.foodOpenTime)
-                                            tvFoodOpenDate.text = "영업 시간: ${this.foodOpenTime}".removeHtmlTags()
+                                            tvFoodOpenDate.text =
+                                                "영업 시간: ${this.foodOpenTime}".removeHtmlTags()
 
                                             tvVisible(tvFoodFirstMenu, this.foodFirstMenu)
-                                            tvFoodFirstMenu.text = "대표 메뉴: ${this.foodFirstMenu}".removeHtmlTags()
+                                            tvFoodFirstMenu.text =
+                                                "대표 메뉴: ${this.foodFirstMenu}".removeHtmlTags()
 
                                             tvVisible(tvFoodTreatMenu, this.foodTreatMenu)
-                                            tvFoodTreatMenu.text = "메뉴: ${this.foodTreatMenu}".removeHtmlTags()
+                                            tvFoodTreatMenu.text =
+                                                "메뉴: ${this.foodTreatMenu}".removeHtmlTags()
 
                                             tvVisible(tvFoodTakeOut, this.foodTakeOut)
-                                            tvFoodTakeOut.text = "포장: ${this.foodTakeOut}".removeHtmlTags()
+                                            tvFoodTakeOut.text =
+                                                "포장: ${this.foodTakeOut}".removeHtmlTags()
 
                                             tvVisible(tvFoodInfo, this.foodInfoCenter)
-                                            tvFoodInfo.text = "문의: ${this.foodInfoCenter}".removeHtmlTags()
+                                            tvFoodInfo.text =
+                                                "문의: ${this.foodInfoCenter}".removeHtmlTags()
                                         }
                                     }
                                 }
@@ -199,14 +248,92 @@ class MyTourDetailActivity: BaseActivity<ActivityMyTourDetailBinding>() {
 
     private fun initListener() {
         binding.btnComplete.setOnSingleClickListener {
-            locationTourListViewModel.updateVisitStatus(contentId) { success, message ->
-                Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()
-                if (success) {
-                    finish()
+            if (isLocationPermissionGranted) {
+                try {
+                    fusedLocationClient.lastLocation
+                        .addOnSuccessListener { location ->
+                            location?.let {
+                                val results = FloatArray(1)
+                                Location.distanceBetween(
+                                    it.latitude,
+                                    it.longitude,
+                                    latitude,
+                                    longitude,
+                                    results
+                                )
+
+                                val distanceInMeters = results[0]
+                                if (distanceInMeters <= 300) {
+                                    locationTourListViewModel.updateVisitStatus(contentId) { success, message ->
+                                        Toast.makeText(binding.root.context, message, Toast.LENGTH_SHORT).show()
+                                        if (success) {
+                                            finish()
+                                        }
+                                    }
+                                } else {
+                                    Toast.makeText(this, "해당 장소와의 거리가 너무 멀어요! (${String.format("%.1f", distanceInMeters)}m)",Toast.LENGTH_SHORT).show()
+                                }
+                            } ?: run {
+                                Toast.makeText(
+                                    this,
+                                    "위치 정보를 가져올 수 없어요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                } catch (e: SecurityException) {
+                    Toast.makeText(
+                        this,
+                        "위치 권한이 없습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            } else {
+                Toast.makeText(this, "위치 권한이 필요해요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun checkLocationPermission() {
+        TedPermission.create()
+            .setPermissionListener(object : PermissionListener {
+                override fun onPermissionGranted() {
+                    // FINE_LOCATION 권한이 있는지 한번 더 체크
+                    if (ActivityCompat.checkSelfPermission(
+                            this@MyTourDetailActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // 정확한 위치 권한이 있을 때만 허용 처리
+                        isLocationPermissionGranted = true
+                    } else {
+                        // 대략적인 위치만 허용한 경우
+                        isLocationPermissionGranted = false
+                        Toast.makeText(
+                            this@MyTourDetailActivity,
+                            "정확한 위치 확인을 위해 '정확한 위치' 권한을 허용해주세요",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onPermissionDenied(deniedPermissions: List<String>) {
+                    isLocationPermissionGranted = false
+                    Toast.makeText(
+                        this@MyTourDetailActivity,
+                        "위치 권한이 거부되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+            .setDeniedMessage("정확한 위치 권한을 받지 않으면 몇몇 기능을 사용하지 못해요!\n정확한 위치를 켜시려면 설정 > 권한 > 위치 > 정확한 위치사용을 켜주세요")
+            .setPermissions(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            .check()
+    }
+
     override fun getViewBinding(): ActivityMyTourDetailBinding {
         return ActivityMyTourDetailBinding.inflate(layoutInflater)
     }
