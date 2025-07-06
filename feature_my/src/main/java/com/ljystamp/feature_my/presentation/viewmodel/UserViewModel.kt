@@ -167,7 +167,6 @@ class UserViewModel: ViewModel() {
     }
     private fun calculateBadgeCount(visitedCount: Int): Int {
         return when {
-            visitedCount >= 100 -> 4
             visitedCount >= 50 -> 3
             visitedCount >= 30 -> 2
             visitedCount >= 10 -> 1

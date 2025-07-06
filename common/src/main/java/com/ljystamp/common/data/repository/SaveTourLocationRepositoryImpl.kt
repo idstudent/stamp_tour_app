@@ -23,6 +23,7 @@ class SaveTourLocationRepositoryImpl @Inject constructor(
         // 현재 저장된 장소 수 확인
         db.collection("saved_locations")
             .whereEqualTo("userId", userId)
+            .whereEqualTo("isStamped", false)
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.size() >= 30) {
