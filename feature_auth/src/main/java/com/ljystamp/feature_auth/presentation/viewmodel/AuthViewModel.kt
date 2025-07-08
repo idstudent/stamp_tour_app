@@ -38,8 +38,6 @@ class AuthViewModel: ViewModel() {
                 if (task.isSuccessful) {
                     Log.e("SignUpViewModel", "Account created successfully")
 
-                    auth.currentUser?.sendEmailVerification()
-
                     val user = hashMapOf(
                         "uid" to auth.currentUser!!.uid,
                         "email" to email,
@@ -54,7 +52,7 @@ class AuthViewModel: ViewModel() {
                         .addOnSuccessListener {
                             Log.e("SignUpViewModel", "User data saved successfully")
                             auth.signOut()
-                            onComplete(true, null)
+                            onComplete(true, "회원가입이 성공했어요")
                         }
                         .addOnFailureListener { e ->
                             Log.e("SignUpViewModel", "Error saving user data", e)

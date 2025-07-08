@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.ljystamp.core_ui.BaseActivity
@@ -74,9 +75,8 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding>() {
 
                 signUpViewModel.signUp(email, password, nickname) { success, message ->
                     if (success) {
-                        tvCompleteSignup.visibility = View.VISIBLE
-                        tvCompleteSignup.setTextColor(Color.parseColor("#4CAF50"))
-                        tvCompleteSignup.text = "회원가입이 완료되었어요.\n가입하신 이메일로 인증을 완료해야 회원가입이 완료됩니다."
+                        Toast.makeText(this@SignUpActivity, message, Toast.LENGTH_SHORT).show()
+                        finish()
                     } else {
                         tvCompleteSignup.visibility = View.VISIBLE
                         tvCompleteSignup.setTextColor(Color.RED)

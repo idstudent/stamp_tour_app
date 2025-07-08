@@ -12,13 +12,7 @@ class LoginViewModel: ViewModel() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // 이메일 인증 확인
-                    if (auth.currentUser?.isEmailVerified == true) {
-                        onComplete(true, null)
-                    } else {
-                        auth.signOut() // 인증되지 않은 이메일은 로그아웃 처리
-                        onComplete(false, "이메일 인증이 필요합니다. 이메일을 확인해주세요.")
-                    }
+                    onComplete(true, null)
                 } else {
                     val errorMessage = when (task.exception) {
                         is FirebaseAuthInvalidCredentialsException -> "이메일 또는 비밀번호가 일치하지 않습니다"

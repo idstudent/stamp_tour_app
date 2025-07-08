@@ -43,11 +43,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>() {
                 val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
                 startActivity(intent)
             }
-
-            tvFindPassword.setOnSingleClickListener {
-                val intent = Intent(this@LoginActivity, ResetPasswordActivity::class.java)
-                startActivity(intent)
-            }
         }
     }
     override fun getViewBinding(): ActivityLoginBinding {
