@@ -26,7 +26,9 @@ class GetLocationNearTourListRemoteDataSourceImpl @Inject constructor(
             pageNo = pageNo,
             contentTypeId = contentTypeId
         ).onSuccess {
-            tourList.addAll(this.body.toTourMapperList())
+            this.body?.let {
+                tourList.addAll(it.toTourMapperList())
+            }
         }.onFailure {
             Log.e("ljy", "fail")
         }

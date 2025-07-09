@@ -23,7 +23,7 @@ interface ApiService {
         @Query("mapY") latitude: Double,
         @Query("radius") radiusInt: Int = 10000,
         @Query("contentTypeId") contentTypeId: Int
-    ): ApiResponse<TourismResponse>
+    ): ApiResponse<TourismResponse?>
 
     @GET("detailIntro1")
     suspend fun getTourDetail(
