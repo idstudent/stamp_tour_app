@@ -15,9 +15,11 @@ import com.google.android.gms.location.LocationServices
 import com.ljystamp.common.presentation.adapter.NearTourListAdapter
 import com.ljystamp.common.presentation.view.LoginActivity
 import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
+import com.ljystamp.core_navigation.Navigator
 import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_near_place.databinding.ActivityNearPlaceListBinding
 import com.ljystamp.stamp_tour_app.model.TourMapper
+import com.ljystamp.utils.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,6 +43,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
         setupRecyclerView()
         observeNearTourList()
         search()
+        initListener()
     }
 
     private fun search() {
@@ -128,7 +131,12 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
             })
         }
     }
-    
+
+    private fun initListener() {
+        binding.ivMap.setOnSingleClickListener {
+            Navigator.navigateKakaoMap(this@NearPlaceListActivity)
+        }
+    }
     private fun handleLoginRequest() {
         val intent = Intent(this, LoginActivity::class.java)
         activityResultLauncher.launch(intent)

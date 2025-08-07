@@ -13,6 +13,7 @@ object NavigationConstants {
     const val MY_CERTIFICATION_ACTIVITY = "com.ljystamp.feature_my.presentation.view.MyCertificationActivity"
     const val MY_COMPLETE_ACTIVITY = "com.ljystamp.feature_my.presentation.view.MyCompleteListActivity"
     const val SETTING_ACTIVITY = "com.ljystamp.feature_my.presentation.view.SettingActivity"
+    const val KAKAO_MAP_ACTIVITY = "com.ljystamp.feature_kakaomap.presentation.view.KakaoMapActivity"
 }
 
 object Navigator {
@@ -93,4 +94,11 @@ object Navigator {
         context.startActivity(intent)
     }
 
+    fun navigateKakaoMap(context: Context) {
+        val intent = Intent().setClassName(
+            context.packageName,
+            NavigationConstants.KAKAO_MAP_ACTIVITY
+        )
+        context.startActivity(intent)
+    }
 }

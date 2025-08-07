@@ -24,48 +24,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.my.PrivacyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.my.WithdrawActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.my.SettingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.user.ResetPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.search.SearchListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.search.SearchTourDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.my.MyCertificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.my.MyCompleteListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.MyTourDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.TourDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.home.NearPlaceListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.user.LoginActivity"
-            android:exported="true" />
-        <activity
-            android:name=".view.user.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.home.MyTourListActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -78,6 +36,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.kakao.maps.APP_KEY"
+            android:value="cdbb0d92a4d048235c6f68acad13021b" />
     </application>
 
 </manifest>

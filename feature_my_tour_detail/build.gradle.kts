@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ljystamp.feature_my_tour_detail"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ljystamp.feature_near_place"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":core_model"))
     implementation(project(":common"))
     implementation(project(":core_navigation"))
+    implementation(project(":feature_kakaomap"))
 
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
