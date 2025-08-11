@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.ljystamp.core_network"  // network 모듈용 namespace
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24

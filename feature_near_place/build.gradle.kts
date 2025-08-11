@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ljystamp.feature_near_place"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
