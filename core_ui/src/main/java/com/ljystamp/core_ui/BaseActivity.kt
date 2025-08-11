@@ -16,7 +16,6 @@ abstract class BaseActivity<BINDING : ViewBinding> : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Android 15 Edge-to-Edge 대응 (API 35+)
         if (Build.VERSION.SDK_INT >= 35) {
             enableEdgeToEdge()
         }
