@@ -37,6 +37,9 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
 
     private var contentTypeId: Int? = null
 
+    private var latitude = 0.0
+    private var longitude = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,6 +60,9 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.let {
+                        longitude = it.longitude
+                        latitude = it.latitude
+
                         contentTypeId?.let { typeId ->
                             locationTourListViewModel.getLocationTourList(
                                 it.longitude,
@@ -134,7 +140,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
 
     private fun initListener() {
         binding.ivMap.setOnSingleClickListener {
-            Navigator.navigateKakaoMap(this@NearPlaceListActivity)
+            Navigator.navigateKakaoMap(this@NearPlaceListActivity, latitude, longitude)
         }
     }
     private fun handleLoginRequest() {

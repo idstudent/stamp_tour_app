@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/core_utils" />
             <option value="$PROJECT_DIR$/feature_auth" />
             <option value="$PROJECT_DIR$/feature_home" />
+            <option value="$PROJECT_DIR$/feature_kakaomap" />
             <option value="$PROJECT_DIR$/feature_my" />
             <option value="$PROJECT_DIR$/feature_my_tour" />
             <option value="$PROJECT_DIR$/feature_my_tour_detail" />

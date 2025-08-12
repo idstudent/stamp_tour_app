@@ -8,10 +8,10 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        val BASE_URL = "https://apis.data.go.kr/B551011/KorService1/"
+        val BASE_URL = "https://apis.data.go.kr/B551011/KorService2/"
     }
 
-    @GET("locationBasedList1")
+    @GET("locationBasedList2")
     suspend fun getLocationTourList(
         @Query("numOfRows") pageResultCount: Int = 20,
         @Query("pageNo") pageNo: Int = 1,
@@ -36,7 +36,7 @@ interface ApiService {
         @Query("pageNo") pageNo: Int = 1
     ): ApiResponse<TourDetailResponse>
 
-    @GET("searchKeyword1")
+    @GET("searchKeyword2")
     suspend fun getSearchKeyword(
         @Query("numOfRows") pageResultCount: Int = 20,
         @Query("pageNo") pageNo: Int = 1,

@@ -39,7 +39,7 @@
 
         <meta-data
             android:name="com.kakao.maps.APP_KEY"
-            android:value="cdbb0d92a4d048235c6f68acad13021b" />
+            android:value="bf569ce2d2436be3e9d8bb2042af526d" />
     </application>
 
 </manifest>

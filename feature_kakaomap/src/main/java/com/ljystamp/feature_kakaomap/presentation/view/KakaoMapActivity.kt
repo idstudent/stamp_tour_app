@@ -13,12 +13,15 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e("ljy", "onCreate 실행됨")
+
         initKakaoMap()
     }
 
     private fun initKakaoMap() {
-        Log.e("ljy", "initKakaoMap 실행됨")
+        val intent = intent
+        val latitude = intent.getDoubleExtra("latitude", 0.0)
+        val longitude = intent.getDoubleExtra("longitude", 0.0)
+
         binding.mapView.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {
                 Log.e("ljy", "destory")
@@ -30,8 +33,7 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
             }
         }, object : KakaoMapReadyCallback() {
             override fun onMapReady(kakaoMap: KakaoMap) {
-                Log.e("ljy", "맵 준비 완료!")
-                val position = LatLng.from(37.5665, 126.9780)
+                val position = LatLng.from(latitude, longitude)
                 kakaoMap.moveCamera(
                     com.kakao.vectormap.camera.CameraUpdateFactory.newCenterPosition(position)
                 )
