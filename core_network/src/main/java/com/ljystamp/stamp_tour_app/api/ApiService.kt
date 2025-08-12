@@ -25,7 +25,7 @@ interface ApiService {
         @Query("contentTypeId") contentTypeId: Int
     ): ApiResponse<TourismResponse?>
 
-    @GET("detailIntro1")
+    @GET("detailIntro2")
     suspend fun getTourDetail(
         @Query("MobileOS") os: String = "AND",
         @Query("MobileApp") mobileOs: String = "TEST",
@@ -43,7 +43,6 @@ interface ApiService {
         @Query("MobileOS") os: String = "AND",
         @Query("MobileApp") mobileOs: String = "TEST",
         @Query("_type") type: String = "json",
-        @Query("listYN") listYN: String = "Y",
         @Query("arrange") arrange: String = "C",
         @Query("keyword") keyword: String,
         @Query("contentTypeId") contentTypeId: Int
