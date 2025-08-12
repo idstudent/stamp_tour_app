@@ -22,35 +22,35 @@ class MyCompleteListActivity: BaseActivity<ActivityMyCompleteListBinding>() {
     }
     private fun initView() {
         val intent = intent
-        val completeTourList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
+        val completeTourList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("tourList", SavedLocation::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableArrayListExtra("tourList")
         } ?: arrayListOf()
 
-        val completeCultureList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
+        val completeCultureList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("cultureList", SavedLocation::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableArrayListExtra("cultureList")
         } ?: arrayListOf()
 
-        val completeEventList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
+        val completeEventList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("eventList", SavedLocation::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableArrayListExtra("eventList")
         } ?: arrayListOf()
 
-        val completeActivityList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
+        val completeActivityList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("activityList", SavedLocation::class.java)
         } else {
             @Suppress("DEPRECATION")
             intent.getParcelableArrayListExtra("activityList")
         } ?: arrayListOf()
 
-        val completeFoodList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
+        val completeFoodList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("foodList", SavedLocation::class.java)
         } else {
             @Suppress("DEPRECATION")

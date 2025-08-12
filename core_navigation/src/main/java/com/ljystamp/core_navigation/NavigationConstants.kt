@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import com.ljystamp.stamp_tour_app.model.SavedLocation
+import com.ljystamp.stamp_tour_app.model.TourMapper
 
 object NavigationConstants {
     const val TOUR_DETAIL_ACTIVITY = "com.ljystamp.feature_tour_detail.presentation.view.TourDetailActivity"
@@ -94,13 +95,14 @@ object Navigator {
         context.startActivity(intent)
     }
 
-    fun navigateKakaoMap(context: Context, latitude: Double, longitude: Double) {
+    fun navigateKakaoMap(context: Context, latitude: Double, longitude: Double, tourList: ArrayList<TourMapper>) {
         val intent = Intent().setClassName(
             context.packageName,
             NavigationConstants.KAKAO_MAP_ACTIVITY
         )
         intent.putExtra("latitude", latitude)
         intent.putExtra("longitude", longitude)
+        intent.putExtra("tourList", tourList)
         context.startActivity(intent)
     }
 }

@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":core_ui"))
     implementation(project(":core_utils"))
     implementation(project(":core_navigation"))
+    implementation(project(":core_model"))
 
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")

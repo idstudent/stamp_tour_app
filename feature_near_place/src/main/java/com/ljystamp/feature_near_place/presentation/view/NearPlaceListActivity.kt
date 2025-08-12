@@ -40,6 +40,8 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
     private var latitude = 0.0
     private var longitude = 0.0
 
+    private var tourList = ArrayList<TourMapper>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -101,6 +103,8 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 locationTourListViewModel.nearTourList.collect { newTourList ->
+                    tourList.addAll(newTourList.take(30))
+
                     if (page == 1) {
                         currentTourList.clear()
                     }
@@ -140,7 +144,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
 
     private fun initListener() {
         binding.ivMap.setOnSingleClickListener {
-            Navigator.navigateKakaoMap(this@NearPlaceListActivity, latitude, longitude)
+            Navigator.navigateKakaoMap(this@NearPlaceListActivity, latitude, longitude, tourList)
         }
     }
     private fun handleLoginRequest() {
