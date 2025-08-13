@@ -1,8 +1,19 @@
 package com.ljystamp.feature_kakaomap.presentation.view
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.MapLifeCycleCallback
@@ -17,12 +28,17 @@ import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import com.kakao.vectormap.label.LabelTextBuilder
 import com.kakao.vectormap.label.LabelTextStyle
-import com.ljystamp.feature_kakaomap.R
+import com.ljystamp.common.presentation.view.LoginActivity
+import com.ljystamp.common.presentation.viewmodel.LocationTourListViewModel
 import com.ljystamp.stamp_tour_app.model.TourMapper
+import dagger.hilt.android.AndroidEntryPoint
+import com.ljystamp.core_ui.R
+import com.ljystamp.stamp_tour_app.model.SaveResult
 
+@AndroidEntryPoint
 class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
     private var kakaoMap: KakaoMap? = null
-    private val labelManager by lazy { kakaoMap?.labelManager }
+    private val locationTourListViewModel: LocationTourListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +58,9 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
         } ?: arrayListOf()
 
         binding.mapView.start(object : MapLifeCycleCallback() {
-            override fun onMapDestroy() {
-                Log.e("ljy", "destory")
-            }
+            override fun onMapDestroy() {}
 
             override fun onMapError(error: Exception) {
-                Log.e("ljy", "카카오 에러: $error")
                 error.printStackTrace()
             }
         }, object : KakaoMapReadyCallback() {
@@ -56,17 +69,40 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
 
                 val myPosition = LatLng.from(latitude, longitude)
                 kakaoMap?.moveCamera(
-                    CameraUpdateFactory.newCenterPosition(myPosition, 11)
+                    CameraUpdateFactory.newCenterPosition(myPosition, 14)
                 )
 
                 nearTourList.forEach {
-                    Log.e("ljy", "리스트 ${it.title} ${it.mapY} ${it.mapX}")
-                    addTouristMarker(it.title, it.mapY, it.mapX)
+                    addTouristMarker(it.contentId.toString(), it.mapY, it.mapX)
                 }
 
                 kakaoMap?.setOnLabelClickListener { kakaoMap, layer, label ->
                     val labelId = label.labelId
-                    Log.d("ljy", "클릭된 관광지: $labelId")
+
+                    binding.run {
+                        emptyView.visibility = View.GONE
+                        markerItem.visibility = View.VISIBLE
+
+                        val item = nearTourList.find { it.contentId.toString() == labelId }
+
+                        item?.let {
+                            Glide.with(root.context)
+                                .load(it.firstImage)
+                                .transform(MultiTransformation(CenterCrop(), RoundedCorners(12)))
+                                .into(ivPlaceImg)
+
+                            tvPlace.text = it.title
+                            tvAddr.text = it.addr1
+
+                            locationTourListViewModel.checkIfLocationSaved(it.contentId) { isSaved ->
+                                if(isSaved) {
+                                    btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
+                                } else {
+                                    btnAdd.background  = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_ff8c00)
+                                }
+                            }
+                        }
+                    }
 
                     true
                 }
@@ -80,10 +116,8 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
         binding.mapView.resume()
     }
 
-    private fun addTouristMarker(name: String, lat: Double, lng: Double) {
+    private fun addTouristMarker(contentId: String, lat: Double, lng: Double) {
         val position = LatLng.from(lat, lng)
-
-        Log.e("ljy", "마커 추가 시도: $name, 위도: $lat, 경도: $lng")
 
         val touristStyles = kakaoMap?.labelManager?.addLabelStyles(
             LabelStyles.from(
@@ -93,7 +127,7 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
             )
         )
 
-        val options = LabelOptions.from(name, position)
+        val options = LabelOptions.from(contentId, position)
             .setStyles(touristStyles)
             .setTexts(LabelTextBuilder().setTexts("📍"))
 
@@ -101,6 +135,19 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
         layer?.addLabel(options)
     }
 
+    private fun handleLoginRequest() {
+        val intent = Intent(this, LoginActivity::class.java)
+        activityResultLauncher.launch(intent)
+    }
+
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            binding.run {
+                emptyView.visibility = View.VISIBLE
+                markerItem.visibility = View.GONE
+            }
+        }
+    }
     override fun onPause() {
         super.onPause()
 

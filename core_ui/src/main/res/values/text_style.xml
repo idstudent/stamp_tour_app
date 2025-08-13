@@ -3,20 +3,24 @@
     <style name="FontSize24White">
         <item name="android:textSize">24dp</item>
         <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="FontSize20White">
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="FontSize16White">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="FontSize14White">
         <item name="android:textSize">14dp</item>
         <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 </resources>

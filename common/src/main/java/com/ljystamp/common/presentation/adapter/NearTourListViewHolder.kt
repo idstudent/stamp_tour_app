@@ -1,6 +1,5 @@
 package com.ljystamp.common.presentation.adapter
 
-import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
