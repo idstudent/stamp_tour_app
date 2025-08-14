@@ -144,7 +144,7 @@ class NearPlaceListActivity: BaseActivity<ActivityNearPlaceListBinding>() {
 
     private fun initListener() {
         binding.ivMap.setOnSingleClickListener {
-            Navigator.navigateKakaoMap(this@NearPlaceListActivity, latitude, longitude, tourList)
+            Navigator.navigateKakaoMap(this@NearPlaceListActivity, binding.tvTitle.text.toString(), latitude, longitude, tourList)
         }
     }
     private fun handleLoginRequest() {

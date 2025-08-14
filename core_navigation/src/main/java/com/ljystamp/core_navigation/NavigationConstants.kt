@@ -95,11 +95,18 @@ object Navigator {
         context.startActivity(intent)
     }
 
-    fun navigateKakaoMap(context: Context, latitude: Double, longitude: Double, tourList: ArrayList<TourMapper>) {
+    fun navigateKakaoMap(
+        context: Context,
+        title: String,
+        latitude: Double,
+        longitude: Double,
+        tourList: ArrayList<TourMapper>
+    ) {
         val intent = Intent().setClassName(
             context.packageName,
             NavigationConstants.KAKAO_MAP_ACTIVITY
         )
+        intent.putExtra("title", title)
         intent.putExtra("latitude", latitude)
         intent.putExtra("longitude", longitude)
         intent.putExtra("tourList", tourList)

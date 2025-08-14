@@ -21,8 +21,6 @@ import com.ljystamp.core_ui.BaseActivity
 import com.ljystamp.feature_kakaomap.databinding.ActivityKakaoMapBinding
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.camera.CameraUpdateFactory
-import com.kakao.vectormap.label.Label
-import com.kakao.vectormap.label.LabelLayer
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
@@ -34,29 +32,36 @@ import com.ljystamp.stamp_tour_app.model.TourMapper
 import dagger.hilt.android.AndroidEntryPoint
 import com.ljystamp.core_ui.R
 import com.ljystamp.stamp_tour_app.model.SaveResult
+import com.ljystamp.utils.setOnSingleClickListener
 
 @AndroidEntryPoint
-class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
+class KakaoMapActivity : BaseActivity<ActivityKakaoMapBinding>() {
     private var kakaoMap: KakaoMap? = null
     private val locationTourListViewModel: LocationTourListViewModel by viewModels()
+    private var selectedItem: TourMapper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initKakaoMap()
+        initView()
     }
 
-    private fun initKakaoMap() {
+    private fun initView() {
         val intent = intent
+
+        val title = intent.getStringExtra("title") ?: ""
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
-        val nearTourList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
-            intent.getParcelableArrayListExtra("tourList", TourMapper::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getParcelableArrayListExtra("tourList")
-        } ?: arrayListOf()
+        val nearTourList =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33) 이상
+                intent.getParcelableArrayListExtra("tourList", TourMapper::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getParcelableArrayListExtra("tourList")
+            } ?: arrayListOf()
 
+        binding.tvTitle.text = title
+        
         binding.mapView.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {}
 
@@ -84,6 +89,7 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
                         markerItem.visibility = View.VISIBLE
 
                         val item = nearTourList.find { it.contentId.toString() == labelId }
+                        selectedItem = item
 
                         item?.let {
                             Glide.with(root.context)
@@ -95,19 +101,87 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
                             tvAddr.text = it.addr1
 
                             locationTourListViewModel.checkIfLocationSaved(it.contentId) { isSaved ->
-                                if(isSaved) {
-                                    btnAdd.background = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_3d3d3d)
+                                if (isSaved) {
+                                    btnAdd.background = ContextCompat.getDrawable(
+                                        binding.root.context,
+                                        R.drawable.radius_12_3d3d3d
+                                    )
                                 } else {
-                                    btnAdd.background  = ContextCompat.getDrawable(binding.root.context, R.drawable.radius_12_ff8c00)
+                                    btnAdd.background = ContextCompat.getDrawable(
+                                        binding.root.context,
+                                        R.drawable.radius_12_ff8c00
+                                    )
                                 }
                             }
                         }
                     }
-
                     true
                 }
             }
         })
+
+        binding.run {
+            btnAdd.setOnSingleClickListener {
+                selectedItem?.let {
+                    locationTourListViewModel.checkIfLocationSaved(it.contentId) { isSaved ->
+                        if (isSaved) {
+                            btnAdd.background =
+                                ContextCompat.getDrawable(
+                                    binding.root.context,
+                                    R.drawable.radius_12_3d3d3d
+                                )
+                        } else {
+                            btnAdd.background =
+                                ContextCompat.getDrawable(
+                                    binding.root.context,
+                                    R.drawable.radius_12_ff8c00
+                                )
+                            locationTourListViewModel.saveTourLocation(it) { result ->
+                                when (result) {
+                                    is SaveResult.Success -> {
+                                        btnAdd.isEnabled = false
+                                        btnAdd.background = ContextCompat.getDrawable(
+                                            binding.root.context,
+                                            R.drawable.radius_12_3d3d3d
+                                        )
+                                        Toast.makeText(
+                                            this@KakaoMapActivity,
+                                            result.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    is SaveResult.Failure -> {
+                                        Toast.makeText(
+                                            this@KakaoMapActivity,
+                                            result.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    is SaveResult.MaxLimitReached -> {
+                                        Toast.makeText(
+                                            this@KakaoMapActivity,
+                                            result.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    is SaveResult.LoginRequired -> {
+                                        Toast.makeText(
+                                            this@KakaoMapActivity,
+                                            result.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        handleLoginRequest()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -140,14 +214,16 @@ class KakaoMapActivity: BaseActivity<ActivityKakaoMapBinding>() {
         activityResultLauncher.launch(intent)
     }
 
-    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            binding.run {
-                emptyView.visibility = View.VISIBLE
-                markerItem.visibility = View.GONE
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                binding.run {
+                    emptyView.visibility = View.VISIBLE
+                    markerItem.visibility = View.GONE
+                }
             }
         }
-    }
+
     override fun onPause() {
         super.onPause()
 
