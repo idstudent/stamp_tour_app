@@ -1,7 +1,8 @@
 # 스탬프Way - 나만의 스탬프 투어 -> 토이프로젝트 
 
-## 마지막 업데이트 2025.8.11
+## 마지막 업데이트 2025.8.14
 공공데이터 API URL 변경 및 파라미터 변경으로 인한 수정, 안드로이드15 edge to edge 대응 작업
+나의 근처리스트에서 카카오맵 추가 (마커 클릭시 해당 정보 노출 및 등록 가능)
 
 ## 스토어 링크
 https://play.google.com/console/u/0/developers/5528735982804744405/app/4973502058682403497/app-dashboard?timespan=thirtyDays
